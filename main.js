@@ -1,4 +1,4 @@
-// MAIN SCRIPT - render products + flash sale timer
+// MAIN SCRIPT: Render products + Flash sale timer + Dark/Light mode toggle
 
 const productsContainer = document.getElementById('products-container');
 
@@ -38,8 +38,6 @@ function renderProducts() {
 // Flash Sale Countdown Timer
 function startFlashSaleTimer() {
   const countdown = document.getElementById('countdown-timer');
-  // Set deal end date/time (today at 23:59:59)
-  const now = new Date();
   const dealEnd = new Date();
   dealEnd.setHours(23, 59, 59, 999);
 
@@ -48,7 +46,6 @@ function startFlashSaleTimer() {
     if (diff <= 0) {
       countdown.textContent = '00:00:00';
       clearInterval(timerId);
-      // Hide banner or update it
       document.getElementById('flash-sale-banner').style.display = 'none';
       return;
     }
@@ -62,7 +59,23 @@ function startFlashSaleTimer() {
   const timerId = setInterval(updateTimer, 1000);
 }
 
+// Dark/Light mode toggle
+const modeToggleBtn = document.getElementById('mode-toggle');
+modeToggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  if(document.body.classList.contains('light-mode')){
+    localStorage.setItem('shamelessTheme', 'light');
+  } else {
+    localStorage.setItem('shamelessTheme', 'dark');
+  }
+});
+
+// Load saved theme on page load
 document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('shamelessTheme');
+  if(savedTheme === 'light'){
+    document.body.classList.add('light-mode');
+  }
   renderProducts();
   startFlashSaleTimer();
 });
