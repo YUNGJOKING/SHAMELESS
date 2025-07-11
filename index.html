@@ -3,38 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHAMELESS - Fortnite & Games Shop</title>
+  <title>SHAMELESS Online Shop</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>SHAMELESS</h1>
-    <button id="mode-toggle" aria-label="Toggle Dark/Light Mode">🌓</button>
+
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">🌙</button>
+
+    <button id="cart-toggle-btn" aria-label="Toggle Cart">
+      🛒 <span id="cart-count" aria-live="polite" class="cart-count-badge">0</span>
+    </button>
   </header>
 
-  <section id="flash-sale-banner">
-    <h2>Flash Sale! Ends in <span id="countdown-timer">00:00:00</span></h2>
-  </section>
+  <div id="controls" class="controls-container">
+    <input
+      type="search"
+      id="search-input"
+      placeholder="Search products..."
+      aria-label="Search products"
+      autocomplete="off"
+    />
+    <select id="sort-select" aria-label="Sort products">
+      <option value="default">Sort by</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <div id="flash-sale-banner">
+    <p>Deal of the Day ends in <span id="flash-sale-timer">00:00:00</span></p>
+  </div>
 
   <main>
-    <section id="products-section">
-      <h2>Products</h2>
-      <div id="products-container"></div>
-    </section>
-
-    <section id="cart-section">
-      <h2>Your Cart</h2>
-      <div id="cart-items"></div>
-      <div id="cart-footer">
-        <strong>Total: $<span id="cart-total">0.00</span></strong>
-        <button id="clear-cart-btn">Clear Cart</button>
-      </div>
-    </section>
+    <section id="products-container" class="products-grid"></section>
   </main>
 
-  <footer>
-    <p>© 2025 SHAMELESS | Designed with ❤️ by YUNGJOKING</p>
-  </footer>
+  <section id="cart-section" class="cart-section" style="display:none;">
+    <h2>Your Cart</h2>
+
+    <div id="promo-section">
+      <label for="promo-code">Promo Code:</label>
+      <input type="text" id="promo-code" placeholder="Enter promo code" aria-label="Promo code" />
+      <button id="apply-promo-btn">Apply</button>
+      <p id="promo-message" aria-live="polite" role="alert"></p>
+    </div>
+
+    <div id="cart-items"></div>
+
+    <p>Total: $<span id="cart-total">0.00</span></p>
+    <button id="clear-cart-btn">Clear Cart</button>
+  </section>
 
   <script src="products.js"></script>
   <script src="cart.js"></script>
