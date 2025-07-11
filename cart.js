@@ -1,6 +1,4 @@
-// cart.js
-
-// Get cart from localStorage or empty array
+// CART LOGIC
 let cart = JSON.parse(localStorage.getItem('shamelessCart')) || [];
 
 function saveCart() {
@@ -40,22 +38,14 @@ function clearCart() {
   renderCart();
 }
 
-// Render cart items inside #cart-items div
 function renderCart() {
   const cartItemsDiv = document.getElementById('cart-items');
-  const emptyMsg = document.getElementById('empty-cart-msg');
-  const cartTotalEl = document.getElementById('cart-total');
-
   cartItemsDiv.innerHTML = '';
 
   if (cart.length === 0) {
-    emptyMsg.style.display = 'block';
-    cartTotalEl.textContent = '0.00';
-    document.getElementById('checkout').style.display = 'none';
+    cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+    document.getElementById('cart-total').textContent = '0.00';
     return;
-  } else {
-    emptyMsg.style.display = 'none';
-    document.getElementById('checkout').style.display = 'block';
   }
 
   let total = 0;
@@ -72,30 +62,27 @@ function renderCart() {
     div.innerHTML = `
       <img src="${product.image}" alt="${product.name}" class="cart-img" />
       <div class="cart-details">
-        <span class="cart-name">${product.name}</span>
-        <span class="cart-desc">${product.description}</span>
+        <span class="cart-name">${product.name}</span><br/>
+        <small class="cart-desc">${product.description}</small>
       </div>
-      <input type="number" min="1" max="99" value="${cartItem.qty}" class="qty-input" data-id="${product.id}" />
+      <input type="number" min="1" value="${cartItem.qty}" class="qty-input" data-id="${product.id}" />
       <span class="cart-price">$${itemTotal.toFixed(2)}</span>
       <button class="remove-btn" data-id="${product.id}">X</button>
     `;
     cartItemsDiv.appendChild(div);
   });
 
-  cartTotalEl.textContent = total.toFixed(2);
+  document.getElementById('cart-total').textContent = total.toFixed(2);
 
-  // Event listeners for qty inputs
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('change', e => {
       const id = parseInt(e.target.dataset.id);
       let qty = parseInt(e.target.value);
       if (isNaN(qty) || qty < 1) qty = 1;
-      if (qty > 99) qty = 99;
       changeQty(id, qty);
     });
   });
 
-  // Event listeners for remove buttons
   document.querySelectorAll('.remove-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       const id = parseInt(e.target.dataset.id);
@@ -104,7 +91,6 @@ function renderCart() {
   });
 }
 
-// Initial render of cart on page load
 document.addEventListener('DOMContentLoaded', () => {
   renderCart();
 });
