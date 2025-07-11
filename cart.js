@@ -1,4 +1,5 @@
-// CART LOGIC
+// CART FUNCTIONALITY
+
 let cart = JSON.parse(localStorage.getItem('shamelessCart')) || [];
 
 function saveCart() {
@@ -90,6 +91,8 @@ function renderCart() {
     });
   });
 }
+
+document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCart();
