@@ -1,42 +1,44 @@
-// PRODUCTS DATA
-// Add your products here with id, name, price, description, image, and optional dealOfTheDay & dealDiscount
-
 const products = [
   {
     id: 1,
-    name: "V-Bucks Pack",
-    price: 19.99,
-    description: "Buy Fortnite V-Bucks instantly!",
-    image: "https://via.placeholder.com/320x180/6b00ff/fff?text=V-Bucks+Pack",
-    dealOfTheDay: true,
-    dealDiscount: 0.2 // 20% off
+    name: "VBucks Pack",
+    price: 9.99,
+    description: "Get 1000 Fortnite VBucks instantly.",
+    image: "https://via.placeholder.com/320x180/5500aa/fff?text=VBucks+Pack",
+    stock: 10,
+    deal: true,
+    dealPrice: 7.99,
   },
   {
     id: 2,
-    name: "Fortnite Account - Level 50",
-    price: 49.99,
-    description: "High level Fortnite account with skins and emotes.",
-    image: "https://via.placeholder.com/320x180/551a8b/fff?text=Fortnite+Account"
+    name: "Fortnite Account",
+    price: 59.99,
+    description: "Premium Fortnite account with skins and emotes.",
+    image: "https://via.placeholder.com/320x180/5500aa/fff?text=Fortnite+Account",
+    stock: 5,
   },
   {
     id: 3,
     name: "Valorant Points",
-    price: 14.99,
-    description: "Get Valorant Points for skins and battle pass.",
-    image: "https://via.placeholder.com/320x180/aa00ff/fff?text=Valorant+Points"
+    price: 9.99,
+    description: "Instant Valorant Points.",
+    image: "https://via.placeholder.com/320x180/5500aa/fff?text=Valorant+Points",
+    stock: 0,
   },
   {
     id: 4,
     name: "Discord Nitro",
-    price: 9.99,
-    description: "Premium Discord Nitro subscription for 1 month.",
-    image: "https://via.placeholder.com/320x180/6b00ff/fff?text=Discord+Nitro"
+    price: 19.99,
+    description: "1 month Discord Nitro subscription.",
+    image: "https://via.placeholder.com/320x180/5500aa/fff?text=Discord+Nitro",
+    stock: 15,
   },
   {
     id: 5,
     name: "Server Boost",
     price: 4.99,
-    description: "Boost your favorite Discord server.",
-    image: "https://via.placeholder.com/320x180/440066/fff?text=Server+Boost"
-  }
+    description: "1 Server Boost for your favorite Discord server.",
+    image: "https://via.placeholder.com/320x180/5500aa/fff?text=Server+Boost",
+    stock: 20,
+  },
 ];
