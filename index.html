@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SHAMELESS Online Shop</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHAMELESS - Fortnite & Games Shop</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>SHAMELESS</h1>
+    <button id="mode-toggle" aria-label="Toggle Dark/Light Mode">🌓</button>
+  </header>
 
-<!-- Flash Sale Banner -->
-<div id="flash-sale-banner" class="flash-sale-banner">
-  🔥 Flash Sale! Deal of the Day ends in <span id="countdown-timer">00:00:00</span>
-</div>
+  <section id="flash-sale-banner">
+    <h2>Flash Sale! Ends in <span id="countdown-timer">00:00:00</span></h2>
+  </section>
 
-<div class="container">
+  <main>
+    <section id="products-section">
+      <h2>Products</h2>
+      <div id="products-container"></div>
+    </section>
 
-  <!-- Products Grid -->
-  <div class="products" id="products-container"></div>
+    <section id="cart-section">
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <div id="cart-footer">
+        <strong>Total: $<span id="cart-total">0.00</span></strong>
+        <button id="clear-cart-btn">Clear Cart</button>
+      </div>
+    </section>
+  </main>
 
-  <!-- Shopping Cart -->
-  <div id="cart">
-    <h2>Your Cart</h2>
-    <div id="cart-items"></div>
-    <div>Total: $<span id="cart-total">0.00</span></div>
-  </div>
+  <footer>
+    <p>© 2025 SHAMELESS | Designed with ❤️ by YUNGJOKING</p>
+  </footer>
 
-</div>
-
-<script src="products.js"></script>
-<script src="cart.js"></script>
-<script src="main.js"></script>
-
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
