@@ -43,12 +43,19 @@ function clearCart() {
 // Render cart items inside #cart-items div
 function renderCart() {
   const cartItemsDiv = document.getElementById('cart-items');
+  const emptyMsg = document.getElementById('empty-cart-msg');
+  const cartTotalEl = document.getElementById('cart-total');
+
   cartItemsDiv.innerHTML = '';
 
   if (cart.length === 0) {
-    cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
-    document.getElementById('cart-total').textContent = '0.00';
+    emptyMsg.style.display = 'block';
+    cartTotalEl.textContent = '0.00';
+    document.getElementById('checkout').style.display = 'none';
     return;
+  } else {
+    emptyMsg.style.display = 'none';
+    document.getElementById('checkout').style.display = 'block';
   }
 
   let total = 0;
@@ -63,27 +70,32 @@ function renderCart() {
     const div = document.createElement('div');
     div.className = 'cart-item';
     div.innerHTML = `
-      <span class="cart-name">${product.name}</span>
-      <input type="number" min="1" value="${cartItem.qty}" class="qty-input" data-id="${product.id}" />
+      <img src="${product.image}" alt="${product.name}" class="cart-img" />
+      <div class="cart-details">
+        <span class="cart-name">${product.name}</span>
+        <span class="cart-desc">${product.description}</span>
+      </div>
+      <input type="number" min="1" max="99" value="${cartItem.qty}" class="qty-input" data-id="${product.id}" />
       <span class="cart-price">$${itemTotal.toFixed(2)}</span>
       <button class="remove-btn" data-id="${product.id}">X</button>
     `;
     cartItemsDiv.appendChild(div);
   });
 
-  document.getElementById('cart-total').textContent = total.toFixed(2);
+  cartTotalEl.textContent = total.toFixed(2);
 
-  // Attach event listeners for qty inputs
+  // Event listeners for qty inputs
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('change', e => {
       const id = parseInt(e.target.dataset.id);
       let qty = parseInt(e.target.value);
       if (isNaN(qty) || qty < 1) qty = 1;
+      if (qty > 99) qty = 99;
       changeQty(id, qty);
     });
   });
 
-  // Attach event listeners for remove buttons
+  // Event listeners for remove buttons
   document.querySelectorAll('.remove-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       const id = parseInt(e.target.dataset.id);
