@@ -2,148 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SHAMELESS - Online Shop</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    body {
-      background: #fff;
-      color: #333;
-    }
-
-    header {
-      background: #111;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      color: #e91e63;
-    }
-
-    nav a {
-      color: #fff;
-      margin-left: 1.5rem;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .hero {
-      padding: 4rem 2rem;
-      text-align: center;
-      background: linear-gradient(to right, #e91e63, #f06292);
-      color: white;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-    }
-
-    .products {
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .product {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: 0.3s;
-    }
-
-    .product:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .product img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .product h3 {
-      padding: 0.5rem 1rem;
-      font-size: 1.2rem;
-    }
-
-    .product p {
-      padding: 0 1rem 1rem;
-      color: #555;
-    }
-
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHAMELESS - Online Game Shop</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
   <header>
     <h1>SHAMELESS</h1>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="account.html">My Account</a>
     </nav>
+    <button id="toggle-theme" aria-label="Toggle dark/light mode">🌙</button>
   </header>
 
-  <section class="hero">
-    <h2>Welcome to SHAMELESS</h2>
-    <p>Your boldest fashion, accessories, and lifestyle products all in one place.</p>
-  </section>
+  <main>
+    <section class="hero">
+      <h2>Welcome to SHAMELESS</h2>
+      <p>Your one-stop shop for Fortnite, Valorant, Discord cosmetics & more!</p>
+      <a href="shop.html" class="btn-primary">Start Shopping</a>
+    </section>
 
-  <section class="products">
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200?text=Product+1" alt="Product 1">
-      <h3>Statement Hoodie</h3>
-      <p>$39.99</p>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200?text=Product+2" alt="Product 2">
-      <h3>Leather Backpack</h3>
-      <p>$69.99</p>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200?text=Product+3" alt="Product 3">
-      <h3>Chunky Sneakers</h3>
-      <p>$89.99</p>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/300x200?text=Product+4" alt="Product 4">
-      <h3>Oversized Shades</h3>
-      <p>$19.99</p>
-    </div>
-  </section>
+    <section class="features">
+      <div class="feature">
+        <h3>Fortnite Packs</h3>
+        <p>Get VBucks and exclusive skins instantly.</p>
+      </div>
+      <div class="feature">
+        <h3>Valorant Points</h3>
+        <p>Buy Valorant points and unlock the best skins.</p>
+      </div>
+      <div class="feature">
+        <h3>Discord Nitro</h3>
+        <p>Boost your Discord experience with Nitro and Server Boosts.</p>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; 2025 SHAMELESS. All rights reserved.</p>
+    <p>© 2025 SHAMELESS | Ancient Persian style meets modern gaming</p>
   </footer>
 
+  <script>
+    const toggleBtn = document.getElementById('toggle-theme');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      if (document.body.classList.contains('light-mode')) {
+        toggleBtn.textContent = '🌙';
+      } else {
+        toggleBtn.textContent = '☀️';
+      }
+    });
+  </script>
 </body>
 </html>
