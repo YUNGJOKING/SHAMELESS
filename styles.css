@@ -1,0 +1,150 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #d6c1f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  transition: background-color 0.5s, color 0.5s;
+  min-height: 100vh;
+  padding: 0 20px 40px;
+}
+
+/* Light mode */
+body.light-mode {
+  background-color: #f8f8ff;
+  color: #3a0050;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 2px solid #5a2e8a;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+header h1 {
+  font-family: 'Georgia', serif; /* Slight Persian/ancient vibe */
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #c68cff;
+}
+
+nav a {
+  color: #c68cff;
+  text-decoration: none;
+  margin-left: 25px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+nav a.active,
+nav a:hover {
+  color: #f0e5ff;
+  border-bottom: 2px solid #c68cff;
+  padding-bottom: 2px;
+}
+
+/* Dark mode toggle button */
+#toggle-theme {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #c68cff;
+  transition: color 0.3s;
+}
+
+#toggle-theme:hover {
+  color: #f0e5ff;
+}
+
+/* Hero section */
+.hero {
+  margin: 60px auto;
+  max-width: 800px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.hero h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-family: 'Georgia', serif;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  background-color: #7f38f0;
+  color: #fff;
+  padding: 14px 30px;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #a76eff;
+}
+
+/* Features */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.feature {
+  background: rgba(130, 69, 198, 0.3);
+  padding: 30px;
+  border-radius: 25px;
+  max-width: 260px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 0 10px #6c2ddf88;
+  transition: box-shadow 0.3s;
+}
+
+.feature:hover {
+  box-shadow: 0 0 15px #a05cffcc;
+}
+
+.feature h3 {
+  font-family: 'Georgia', serif;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.feature p {
+  font-size: 1rem;
+}
+
+/* Footer */
+footer {
+  margin-top: 80px;
+  text-align: center;
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  color: #c68cffcc;
+  font-size: 0.9rem;
+  border-top: 1px solid #5a2e8a;
+  padding-top: 20px;
+}
