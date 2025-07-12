@@ -1,13 +1,13 @@
 {
   "name": "shameless-chat",
   "version": "1.0.0",
-  "description": "SHAMELESS Chat & Voice App",
+  "description": "Chat & Voice app with auto-generated usernames",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "socket.io": "^4.7.1"
+    "socket.io": "^4.7.2"
   }
 }
