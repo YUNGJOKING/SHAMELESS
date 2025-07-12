@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SHAMELESS - Contact</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
@@ -17,16 +18,30 @@
     <a href="contact.html" class="active">Contact</a>
   </nav>
 
-  <section>
+  <main>
     <h1>Contact Me</h1>
-    <p>If you want to get in touch, feel free to reach out via these channels:</p>
-    <ul>
-      <li>Email: shameless@example.com</li>
-      <li>Twitch: twitch.tv/shameless</li>
-      <li>YouTube: youtube.com/shameless</li>
-      <li>Twitter: @shameless</li>
-    </ul>
-  </section>
+    <p>Feel free to reach out for collaborations, questions, or just to say hi.</p>
+    
+    <form action="mailto:your.email@example.com" method="post" enctype="text/plain">
+      <label for="name">Name</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+      
+      <label for="email">Email</label><br />
+      <input type="email" id="email" name="email" required /><br /><br />
+      
+      <label for="message">Message</label><br />
+      <textarea id="message" name="message" rows="6" required></textarea><br /><br />
+      
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <footer>
+    <a href="https://youtube.com/shameless" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://discord.gg/yourdiscordinvite" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+    <a href="https://twitch.tv/shameless" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+    <a href="https://x.com/shameless" target="_blank" aria-label="X (formerly Twitter)"><i class="fab fa-twitter"></i></a>
+  </footer>
 
 </body>
 </html>
