@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Live Chat + VC (Black & Purple)</title>
+  <title>SHAMELESS - Live Chat + VC</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,6 +12,28 @@
       height: 100vh;
       background: #121014;
       color: #ddd;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: #1e0e3f;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: #bb86fc;
+      letter-spacing: 4px;
+      user-select: none;
+      box-shadow: 0 0 15px #7a2cf4aa;
+      font-family: 'Segoe UI Black', Tahoma, Geneva, Verdana, sans-serif;
+      flex-shrink: 0;
+    }
+    #main-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      height: calc(100vh - 70px);
+      user-select: text;
     }
     #chat {
       width: 320px;
@@ -20,6 +42,7 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 0 15px #7a2cf4aa;
+      overflow: hidden;
     }
     #chat h3 {
       margin: 0 0 15px 0;
@@ -40,6 +63,7 @@
     }
     #messages div {
       margin-bottom: 6px;
+      word-wrap: break-word;
     }
     #msg {
       padding: 10px;
@@ -49,6 +73,8 @@
       outline: none;
       background: #2a1365;
       color: #eee;
+      width: 100%;
+      box-sizing: border-box;
     }
     #msg::placeholder {
       color: #aaa;
@@ -65,6 +91,8 @@
       color: white;
       transition: background 0.3s ease;
       user-select: none;
+      width: 100%;
+      box-sizing: border-box;
     }
     button:hover:not(:disabled) {
       background: #a16eff;
@@ -80,10 +108,12 @@
       background: #0c071a;
       padding: 10px;
       box-shadow: inset 0 0 25px #7a2cf4bb;
+      overflow: hidden;
     }
     #controls {
       padding: 10px 0;
       text-align: center;
+      flex-shrink: 0;
     }
     #video-grid {
       flex: 1;
@@ -103,49 +133,134 @@
       object-fit: cover;
       user-select: none;
     }
+
+    /* Username modal overlay */
+    #username-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 16, 20, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: #ddd;
+      user-select: none;
+    }
+    #username-modal h2 {
+      margin-bottom: 20px;
+      font-weight: 900;
+      color: #bb86fc;
+      letter-spacing: 2px;
+    }
+    #username-modal input {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      width: 280px;
+      margin-bottom: 15px;
+      background: #290f63;
+      color: #eee;
+      text-align: center;
+      user-select: text;
+    }
+    #username-modal button {
+      width: 280px;
+    }
   </style>
 </head>
 <body>
-  <div id="chat">
-    <h3>Live Chat</h3>
-    <div id="messages"></div>
-    <input id="msg" placeholder="Type a message..." autocomplete="off" />
-    <button id="sendBtn" onclick="sendMessage()">Send</button>
+  <header>SHAMELESS</header>
+
+  <div id="username-modal">
+    <h2>Enter Your Username</h2>
+    <input id="username-input" placeholder="Username" autocomplete="off" />
+    <button id="join-btn" disabled>Join Chat</button>
   </div>
 
-  <div id="video-section">
-    <div id="controls">
-      <button id="vcBtn" onclick="toggleVC()">Join Voice/Video Chat</button>
-      <button id="screenBtn" onclick="shareScreen()" disabled>Share Screen</button>
+  <div id="main-content" style="display:none;">
+    <div id="chat">
+      <h3>Live Chat</h3>
+      <div id="messages"></div>
+      <input id="msg" placeholder="Type a message..." autocomplete="off" disabled />
+      <button id="sendBtn" disabled>Send</button>
     </div>
-    <div id="video-grid"></div>
+
+    <div id="video-section">
+      <div id="controls">
+        <button id="vcBtn" disabled>Join Voice/Video Chat</button>
+        <button id="screenBtn" disabled>Share Screen</button>
+      </div>
+      <div id="video-grid"></div>
+    </div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
 
-    // Username prompt & set
-    let username = "";
-    while (!username) {
-      username = prompt("Enter your username:").trim();
-    }
-    socket.emit("set-username", username);
+    // DOM references
+    const usernameModal = document.getElementById('username-modal');
+    const usernameInput = document.getElementById('username-input');
+    const joinBtn = document.getElementById('join-btn');
+    const mainContent = document.getElementById('main-content');
 
-    // Chat logic
-    const messages = document.getElementById("messages");
     const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("sendBtn");
+    const vcBtn = document.getElementById("vcBtn");
+    const screenBtn = document.getElementById("screenBtn");
+    const messages = document.getElementById("messages");
+    const videoGrid = document.getElementById("video-grid");
 
-    socket.on("user-joined", (name) => addMessage(`${name} joined.`));
-    socket.on("chat-message", ({ username, message }) => addMessage(`${username}: ${message}`));
+    let username = "";
+    let joinedVC = false;
+    let localStream = null;
+    let peers = {};
+
+    // Enable Join button if input has valid username (3+ chars, no spaces)
+    usernameInput.addEventListener('input', () => {
+      const val = usernameInput.value.trim();
+      joinBtn.disabled = !(val.length >= 3 && !/\s/.test(val));
+    });
+
+    // On clicking Join Chat
+    joinBtn.addEventListener('click', () => {
+      username = usernameInput.value.trim();
+      if (!username) return;
+
+      // Hide modal, show main UI
+      usernameModal.style.display = 'none';
+      mainContent.style.display = 'flex';
+
+      // Enable chat inputs and buttons
+      msgInput.disabled = false;
+      sendBtn.disabled = false;
+      vcBtn.disabled = false;
+
+      // Tell server username
+      socket.emit("set-username", username);
+      addMessage(`You joined as "${username}".`);
+    });
+
+    // Chat events and UI
+    socket.on("user-joined", (name) => {
+      if (name !== username) addMessage(`${name} joined.`);
+    });
+    socket.on("chat-message", ({ username: user, message }) => addMessage(`${user}: ${message}`));
     socket.on("user-left", (name) => addMessage(`${name} left.`));
+
+    sendBtn.onclick = sendMessage;
+    msgInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") sendMessage();
+    });
 
     function sendMessage() {
       const msg = msgInput.value.trim();
-      if (msg) {
-        socket.emit("chat-message", msg);
-        msgInput.value = "";
-      }
+      if (!msg) return;
+      socket.emit("chat-message", msg);
+      msgInput.value = "";
     }
 
     function addMessage(msg) {
@@ -155,22 +270,12 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
-    msgInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") sendMessage();
-    });
-
     // === WebRTC Voice/Video ===
-    const vcBtn = document.getElementById("vcBtn");
-    const screenBtn = document.getElementById("screenBtn");
-    const videoGrid = document.getElementById("video-grid");
 
-    let peers = {};
-    let localStream = null;
-    let joinedVC = false;
+    vcBtn.onclick = toggleVC;
 
     async function toggleVC() {
       if (!joinedVC) {
-        // Join VC
         try {
           localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
           addVideo(localStream, true);
@@ -183,30 +288,20 @@
           console.error(err);
         }
       } else {
-        // Disconnect VC
         disconnectVC();
       }
     }
 
     function disconnectVC() {
-      // Close all peer connections
       for (let id in peers) {
         peers[id].close();
         delete peers[id];
       }
-
-      // Stop local stream tracks
       if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
         localStream = null;
       }
-
-      // Remove all videos except chat container
       videoGrid.innerHTML = "";
-
-      // Notify server? (Optional)
-      // You could emit a leave-vc event if you implement it server-side
-
       joinedVC = false;
       vcBtn.textContent = "Join Voice/Video Chat";
       screenBtn.disabled = true;
@@ -238,9 +333,7 @@
         peers[from] = pc;
         localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
       }
-
       const pc = peers[from];
-
       if (signal.sdp) {
         await pc.setRemoteDescription(new RTCSessionDescription(signal.sdp));
         if (signal.sdp.type === "offer") {
@@ -271,7 +364,6 @@
           if (peers[id]) {
             delete peers[id];
           }
-          // Optionally remove the video element for this peer
         }
       };
 
@@ -283,32 +375,30 @@
       if (!joinedVC) return alert("Join VC first to share screen.");
       try {
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        screenStream.getTracks().forEach(track => {
-          for (let id in peers) {
-            const sender = peers[id].getSenders().find(s => s.track.kind === track.kind);
-            if (sender) sender.replaceTrack(track);
-          }
-        });
-        // Optional: replace local video with screen share preview
+        const screenTrack = screenStream.getVideoTracks()[0];
+        for (let id in peers) {
+          const sender = peers[id].getSenders().find(s => s.track.kind === "video");
+          if (sender) await sender.replaceTrack(screenTrack);
+        }
+        if (videoGrid.lastChild) videoGrid.removeChild(videoGrid.lastChild);
         addVideo(screenStream, true);
-        // When screen sharing ends, revert back to camera
-        screenStream.getVideoTracks()[0].addEventListener("ended", () => {
-          if (localStream) {
-            for (let id in peers) {
-              const sender = peers[id].getSenders().find(s => s.track.kind === "video");
-              if (sender) sender.replaceTrack(localStream.getVideoTracks()[0]);
-            }
-            // Remove the screen share video added, and add back camera video
-            videoGrid.innerHTML = "";
-            addVideo(localStream, true);
-            // Re-add remote peers videos? They are still added on ontrack event.
+        screenTrack.onended = () => {
+          if (!localStream) return;
+          for (let id in peers) {
+            const sender = peers[id].getSenders().find(s => s.track.kind === "video");
+            if (sender) sender.replaceTrack(localStream.getVideoTracks()[0]);
           }
-        });
+          if (videoGrid.lastChild) videoGrid.removeChild(videoGrid.lastChild);
+          addVideo(localStream, true);
+        };
       } catch (err) {
         alert("Screen sharing failed or was canceled.");
         console.error(err);
       }
     }
+
+    document.getElementById('screenBtn').onclick = shareScreen;
+
   </script>
 </body>
 </html>
