@@ -13,6 +13,9 @@
       --color-nav-hover: #660066;
       --color-card-bg: #1a001a;
       --color-card-shadow: #330033;
+      --input-bg: #330033;
+      --input-border: #660066;
+      --input-text: #c399ff;
     }
 
     * {
@@ -199,6 +202,92 @@
     section.visible .bar {
       width: var(--level);
     }
+
+    /* Trading form and table styles */
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+    form label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      color: var(--color-primary);
+    }
+    form input, form select {
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 6px;
+      color: var(--input-text);
+      padding: 0.4rem 0.6rem;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      transition: border-color 0.3s;
+    }
+    form input:focus,
+    form select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 5px var(--color-primary);
+    }
+    form button {
+      background: var(--color-accent);
+      color: var(--color-primary);
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.3s;
+      justify-self: start;
+      grid-column: auto / span 1;
+    }
+    form button:hover,
+    form button:focus-visible {
+      background: #880088;
+      outline: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--color-primary);
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid var(--color-card-shadow);
+      padding: 0.5rem 0.7rem;
+      text-align: left;
+    }
+    th {
+      background: var(--color-card-bg);
+    }
+    tr:nth-child(even) {
+      background: #240024;
+    }
+    tr:hover {
+      background: #3a003a;
+    }
+    button.action-btn {
+      background: var(--color-nav-hover);
+      border: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-right: 0.3rem;
+      transition: background 0.3s;
+    }
+    button.action-btn:hover,
+    button.action-btn:focus-visible {
+      background: #880088;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -220,112 +309,243 @@
       <a href="#portfolio">Projects</a>
       <a href="#esports">Esports</a>
       <a href="#contact">Contact</a>
+      <a href="#trading">Trading</a>
     </div>
   </nav>
 
   <main>
     <section id="about" role="article">
       <h2>About Me</h2>
-      <div class="card" tabindex="0">
-        <p>Yo! I'm YUNG — a Fortnite pro player dominating the esports scene in Iran & Persia. Off the battlefield, I’m a full-stack developer fluent in Python, CSS, JavaScript, and more. I design and build everything from scratch — backend, frontend, APIs, you name it.</p>
-        <p>When I’m not coding or crushing tournaments, I trade markets with precision. Whether it’s digital arenas or market charts, I’m always on my grind.</p>
+      <div class="card">
+        <p>Hello! I'm YUNG, a professional Fortnite player, full-stack developer, and trader based in Iran. I specialize in creating tools and apps for gaming communities and enjoy sharing my work and knowledge.</p>
       </div>
     </section>
 
-    <section id="skills" role="article">
+    <section id="skills" role="article" aria-label="Skills section">
       <h2>Skills</h2>
       <div class="card">
-        <div class="skill-bar">
-          <div class="skill-label">Python</div>
-          <div class="bar-container">
-            <div class="bar" style="--level: 95%;"></div>
-          </div>
+        <div class="skill-bar" style="--level:90%;">
+          <div class="skill-label">Fortnite & Esports</div>
+          <div class="bar"></div>
         </div>
-        <div class="skill-bar">
-          <div class="skill-label">JavaScript</div>
-          <div class="bar-container">
-            <div class="bar" style="--level: 90%;"></div>
-          </div>
+        <div class="skill-bar" style="--level:85%;">
+          <div class="skill-label">Full-Stack Development</div>
+          <div class="bar"></div>
         </div>
-        <div class="skill-bar">
-          <div class="skill-label">CSS / Design</div>
-          <div class="bar-container">
-            <div class="bar" style="--level: 92%;"></div>
-          </div>
+        <div class="skill-bar" style="--level:80%;">
+          <div class="skill-label">Python & Automation</div>
+          <div class="bar"></div>
         </div>
-        <div class="skill-bar">
-          <div class="skill-label">Backend / API</div>
-          <div class="bar-container">
-            <div class="bar" style="--level: 88%;"></div>
-          </div>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-label">Trading</div>
-          <div class="bar-container">
-            <div class="bar" style="--level: 85%;"></div>
-          </div>
+        <div class="skill-bar" style="--level:70%;">
+          <div class="skill-label">Trading & Analysis</div>
+          <div class="bar"></div>
         </div>
       </div>
     </section>
 
     <section id="portfolio" role="article">
       <h2>Projects</h2>
-      <div class="card" tabindex="0">
-        <p>⚙️ <strong>Shameless AI</strong> — GPT-powered dev tool that builds apps from plain text prompts.</p>
-      </div>
-      <div class="card" tabindex="0">
-        <p>🛠️ <strong>YUNG Optimizer</strong> — Advanced Windows tweak & boost utility for gamers.</p>
-      </div>
-      <div class="card" tabindex="0">
-        <p>🌐 <strong>Persian Game Chat</strong> — Real-time chat/voice platform built for blocked regions.</p>
+      <div class="card">
+        <ul>
+          <li>YUNG Optimizer - Windows PC Booster</li>
+          <li>Shameless AI Assistant</li>
+          <li>Discord Alternative for Iran</li>
+        </ul>
       </div>
     </section>
 
     <section id="esports" role="article">
       <h2>Esports</h2>
-      <div class="card" tabindex="0">
-        <p>I’ve competed at the highest levels in Fortnite — leading the charge in the Iranian scene. Whether solo or squad, my plays speak louder than words. Catch me live or check the leaderboards 👑</p>
+      <div class="card">
+        <p>Top Fortnite competitor with many tournament wins and streams. Strong presence in Persian esports community.</p>
       </div>
     </section>
 
     <section id="contact" role="article">
       <h2>Contact</h2>
-      <div class="card" tabindex="0">
-        <p>📧 Email: <a href="mailto:you@example.com">you@example.com</a></p>
-        <p>🐦 Twitter: <a href="https://twitter.com/yung_esports" target="_blank" rel="noopener noreferrer">@yung_esports</a></p>
-        <p>💻 GitHub: <a href="https://github.com/yung" target="_blank" rel="noopener noreferrer">github.com/yung</a></p>
+      <div class="card">
+        <p>Email: yung@example.com</p>
+        <p>Twitter: @YUNG_pro</p>
+      </div>
+    </section>
+
+    <!-- Trading Section -->
+    <section id="trading" role="article" aria-label="Trading Dashboard">
+      <h2>Trading Dashboard</h2>
+      <div class="card">
+        <form id="trade-form" aria-describedby="trade-form-desc">
+          <p id="trade-form-desc" style="margin-bottom:1rem;">Add or update your trades below:</p>
+          <label for="symbol-input">Symbol (e.g. BTCUSD)
+            <input type="text" id="symbol-input" name="symbol" required aria-required="true" autocomplete="off" />
+          </label>
+
+          <label for="type-input">Type
+            <select id="type-input" name="type" required aria-required="true">
+              <option value="">Select type</option>
+              <option value="Buy">Buy</option>
+              <option value="Sell">Sell</option>
+            </select>
+          </label>
+
+          <label for="entry-input">Entry Price
+            <input type="number" step="any" id="entry-input" name="entry" required aria-required="true" />
+          </label>
+
+          <label for="exit-input">Exit Price
+            <input type="number" step="any" id="exit-input" name="exit" />
+          </label>
+
+          <label for="profit-input">Profit / Loss
+            <input type="number" step="any" id="profit-input" name="profit" />
+          </label>
+
+          <button type="submit" id="submit-btn">Add Trade</button>
+          <button type="button" id="cancel-edit-btn" style="display:none; background:#880088;">Cancel Edit</button>
+        </form>
+
+        <table aria-live="polite" aria-label="List of trades" aria-relevant="additions removals">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Type</th>
+              <th>Entry Price</th>
+              <th>Exit Price</th>
+              <th>Profit / Loss</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="trades-table-body">
+            <!-- trades will go here -->
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 YUNG — All rights reserved.
+    <p>© 2025 YUNG — All rights reserved.</p>
   </footer>
 
   <script>
-    // Scroll reveal animation
-    const sections = document.querySelectorAll("main section");
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target); // Animate only once
+    // Fade in sections on scroll
+    function revealSections() {
+      const sections = document.querySelectorAll('section');
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < triggerBottom) {
+          section.classList.add('visible');
         }
       });
-    }, {
-      threshold: 0.2,
-      // once:true is not a valid option yet, so we unobserve manually
-    });
-    sections.forEach(section => observer.observe(section));
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('load', revealSections);
 
-    // Accessibility: allow toggle menu label to be keyboard accessible
-    const menuIcon = document.querySelector('.menu-icon');
-    menuIcon.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        document.getElementById('menu-toggle').checked = !document.getElementById('menu-toggle').checked;
+    // Trading Dashboard JS
+    const form = document.getElementById('trade-form');
+    const symbolInput = document.getElementById('symbol-input');
+    const typeInput = document.getElementById('type-input');
+    const entryInput = document.getElementById('entry-input');
+    const exitInput = document.getElementById('exit-input');
+    const profitInput = document.getElementById('profit-input');
+    const tradesTableBody = document.getElementById('trades-table-body');
+    const submitBtn = document.getElementById('submit-btn');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+
+    let trades = [];
+    let editIndex = -1;
+
+    function loadTrades() {
+      const storedTrades = localStorage.getItem('yung_trades');
+      trades = storedTrades ? JSON.parse(storedTrades) : [];
+    }
+
+    function saveTrades() {
+      localStorage.setItem('yung_trades', JSON.stringify(trades));
+    }
+
+    function renderTrades() {
+      tradesTableBody.innerHTML = '';
+      trades.forEach((trade, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${trade.symbol}</td>
+          <td>${trade.type}</td>
+          <td>${trade.entry}</td>
+          <td>${trade.exit || '-'}</td>
+          <td>${trade.profit || '-'}</td>
+          <td>
+            <button class="action-btn" aria-label="Edit trade ${trade.symbol}" data-index="${i}">Edit</button>
+            <button class="action-btn" aria-label="Delete trade ${trade.symbol}" data-index="${i}">Delete</button>
+          </td>
+        `;
+        tradesTableBody.appendChild(tr);
+      });
+    }
+
+    function clearForm() {
+      form.reset();
+      editIndex = -1;
+      submitBtn.textContent = 'Add Trade';
+      cancelEditBtn.style.display = 'none';
+    }
+
+    function fillForm(trade) {
+      symbolInput.value = trade.symbol;
+      typeInput.value = trade.type;
+      entryInput.value = trade.entry;
+      exitInput.value = trade.exit || '';
+      profitInput.value = trade.profit || '';
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const newTrade = {
+        symbol: symbolInput.value.trim().toUpperCase(),
+        type: typeInput.value,
+        entry: parseFloat(entryInput.value),
+        exit: exitInput.value ? parseFloat(exitInput.value) : null,
+        profit: profitInput.value ? parseFloat(profitInput.value) : null,
+      };
+
+      if (editIndex > -1) {
+        trades[editIndex] = newTrade;
+      } else {
+        trades.push(newTrade);
+      }
+      saveTrades();
+      renderTrades();
+      clearForm();
+    });
+
+    tradesTableBody.addEventListener('click', e => {
+      if (e.target.matches('button.action-btn')) {
+        const index = parseInt(e.target.dataset.index, 10);
+        if (e.target.textContent === 'Edit') {
+          fillForm(trades[index]);
+          editIndex = index;
+          submitBtn.textContent = 'Update Trade';
+          cancelEditBtn.style.display = 'inline-block';
+          symbolInput.focus();
+        } else if (e.target.textContent === 'Delete') {
+          if (confirm(`Delete trade: ${trades[index].symbol}?`)) {
+            trades.splice(index, 1);
+            saveTrades();
+            renderTrades();
+            clearForm();
+          }
+        }
       }
     });
+
+    cancelEditBtn.addEventListener('click', () => {
+      clearForm();
+    });
+
+    // Initialize
+    loadTrades();
+    renderTrades();
   </script>
 </body>
 </html>
