@@ -16,6 +16,12 @@
       background: #330033; padding: 1em; text-align: center;
       font-size: 1.5em; font-weight: bold;
       border-bottom: 2px solid #c399ff;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #usernameDisplay {
+      font-size: 1em;
+      font-style: italic;
+      color: #d9b3ff;
     }
     #chat {
       flex: 1; overflow-y: auto; padding: 1em;
@@ -62,39 +68,6 @@
       background: #440044;
       cursor: not-allowed;
     }
-    /* Username modal */
-    #usernameModal {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.85);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 1000;
-      flex-direction: column;
-      color: #c399ff;
-    }
-    #usernameModal input {
-      font-size: 1.2em;
-      padding: 0.5em;
-      border: none;
-      border-radius: 4px;
-      margin-bottom: 1em;
-      width: 250px;
-      background: #1a001a;
-      color: #c399ff;
-      text-align: center;
-    }
-    #usernameModal button {
-      padding: 0.6em 2em;
-      font-size: 1.2em;
-      background: #660066;
-      border: none;
-      border-radius: 4px;
-      color: #c399ff;
-      cursor: pointer;
-    }
-    #usernameModal button:disabled {
-      background: #440044;
-      cursor: not-allowed;
-    }
     /* VC controls */
     #vc-controls {
       background: #330033;
@@ -137,12 +110,10 @@
 </head>
 <body>
 
-<header>SHAMELESS Chat & Voice</header>
-
-<div id="usernameModal">
-  <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="off" />
-  <button id="joinBtn" disabled>Join Chat</button>
-</div>
+<header>
+  SHAMELESS Chat & Voice
+  <div id="usernameDisplay">Connecting...</div>
+</header>
 
 <ul id="messages"></ul>
 
@@ -167,9 +138,7 @@
   const socket = io();
 
   // UI Elements
-  const usernameModal = document.getElementById("usernameModal");
-  const usernameInput = document.getElementById("usernameInput");
-  const joinBtn = document.getElementById("joinBtn");
+  const usernameDisplay = document.getElementById("usernameDisplay");
   const messages = document.getElementById("messages");
   const messageInput = document.getElementById("messageInput");
   const sendBtn = document.getElementById("sendBtn");
@@ -187,23 +156,18 @@
   let username = null;
   let inVC = false;
 
-  // Enable join button only if username is valid
-  usernameInput.addEventListener("input", () => {
-    const val = usernameInput.value.trim();
-    joinBtn.disabled = !(val.length >= 3 && !/\s/.test(val));
+  // On connect, request username assigned by server
+  socket.on("connect", () => {
+    socket.emit("request-username");
   });
 
-  joinBtn.onclick = () => {
-    username = usernameInput.value.trim();
-    socket.emit("set-username", username);
-  };
-
-  socket.on("welcome", (msg) => {
-    usernameModal.style.display = "none";
+  socket.on("assign-username", (name) => {
+    username = name;
+    usernameDisplay.textContent = "You are: " + username;
     messageInput.disabled = false;
     sendBtn.disabled = false;
     joinVcBtn.disabled = false;
-    addSystemMessage(msg);
+    addSystemMessage(`Welcome, ${username}!`);
   });
 
   socket.on("error-message", (msg) => {
@@ -252,7 +216,7 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // --- WebRTC & Voice Chat ---
+  // --- WebRTC & Voice Chat --- (same as before)
 
   joinVcBtn.onclick = async () => {
     if (inVC) return;
@@ -325,7 +289,7 @@
       shareScreenBtn.disabled = true;
       stopShareScreenBtn.disabled = false;
 
-      // When user stops sharing from browser UI
+      // When user stops screen sharing (via browser)
       screenStream.getVideoTracks()[0].addEventListener("ended", () => {
         stopScreenShare();
       });
@@ -342,18 +306,9 @@
     if (!screenStream) return;
     screenStream.getTracks().forEach(track => track.stop());
     removeVideoStream("screen");
-
-    // Remove screen tracks from all peers by renegotiation (simple approach: close and rejoin)
-    // For simplicity, we just disconnect and reconnect peers:
-    closeAllPeers();
     screenStream = null;
     shareScreenBtn.disabled = false;
     stopShareScreenBtn.disabled = true;
-
-    // Rejoin VC to renegotiate without screen sharing
-    if (inVC) {
-      socket.emit("join-vc");
-    }
   }
 
   function resetVCControls() {
@@ -363,133 +318,123 @@
     toggleMicBtn.disabled = true;
     shareScreenBtn.disabled = true;
     stopShareScreenBtn.disabled = true;
-    toggleCamBtn.textContent = "Toggle Camera";
-    toggleMicBtn.textContent = "Toggle Mic";
+    toggleCamBtn.textContent = "Turn Camera Off";
+    toggleMicBtn.textContent = "Mute Mic";
   }
 
-  // --- Peer connections ---
+  // Video management
+  function addVideoStream(id, stream, isLocal = false, isScreen = false) {
+    if (document.getElementById(id)) return;
+    const video = document.createElement("video");
+    video.id = id;
+    video.srcObject = stream;
+    video.autoplay = true;
+    video.muted = isLocal; // mute local video
+    if (isScreen) video.style.borderColor = "#ff99cc";
+    videosDiv.appendChild(video);
+  }
 
-  socket.on("new-peer", async (socketId) => {
-    if (!inVC) return;
-    if (peers[socketId]) return; // already connected
+  function removeVideoStream(id) {
+    const video = document.getElementById(id);
+    if (video) {
+      video.srcObject = null;
+      videosDiv.removeChild(video);
+    }
+  }
 
-    const pc = createPeerConnection(socketId);
-    peers[socketId] = pc;
+  // WebRTC signaling
+  socket.on("vc-user-joined", async (peerId) => {
+    if (!inVC || peerId === socket.id) return;
+
+    const pc = createPeerConnection(peerId);
+    peers[peerId] = pc;
 
     // Add local tracks
     if (localStream) {
-      localStream.getTracks().forEach(track => {
-        pc.addTrack(track, localStream);
-      });
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
     }
     if (screenStream) {
-      screenStream.getTracks().forEach(track => {
-        pc.addTrack(track, screenStream);
-      });
+      screenStream.getTracks().forEach(track => pc.addTrack(track, screenStream));
     }
 
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
-
-    socket.emit("signal", { to: socketId, signal: pc.localDescription });
+    socket.emit("vc-signal", { to: peerId, from: socket.id, description: pc.localDescription });
   });
 
-  socket.on("signal", async ({ from, signal }) => {
-    if (!inVC) return;
+  socket.on("vc-signal", async ({ from, description, candidate }) => {
+    if (from === socket.id) return;
     let pc = peers[from];
     if (!pc) {
       pc = createPeerConnection(from);
       peers[from] = pc;
     }
-    await pc.setRemoteDescription(new RTCSessionDescription(signal));
-
-    if (signal.type === "offer") {
-      if (localStream) {
-        localStream.getTracks().forEach(track => {
-          pc.addTrack(track, localStream);
-        });
+    if (description) {
+      const remoteDesc = new RTCSessionDescription(description);
+      await pc.setRemoteDescription(remoteDesc);
+      if (description.type === "offer") {
+        if (localStream) {
+          localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+        }
+        if (screenStream) {
+          screenStream.getTracks().forEach(track => pc.addTrack(track, screenStream));
+        }
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        socket.emit("vc-signal", { to: from, from: socket.id, description: pc.localDescription });
       }
-      if (screenStream) {
-        screenStream.getTracks().forEach(track => {
-          pc.addTrack(track, screenStream);
-        });
+    } else if (candidate) {
+      try {
+        await pc.addIceCandidate(candidate);
+      } catch (e) {
+        console.error("Error adding ICE candidate:", e);
       }
-
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      socket.emit("signal", { to: from, signal: pc.localDescription });
     }
   });
 
-  function createPeerConnection(socketId) {
+  socket.on("vc-user-left", (peerId) => {
+    closePeer(peerId);
+  });
+
+  function createPeerConnection(peerId) {
     const pc = new RTCPeerConnection({
       iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
     });
 
     pc.onicecandidate = (event) => {
-      if (event.candidate) return;
-      socket.emit("signal", { to: socketId, signal: pc.localDescription });
+      if (event.candidate) {
+        socket.emit("vc-signal", { to: peerId, from: socket.id, candidate: event.candidate });
+      }
     };
 
     pc.ontrack = (event) => {
-      const stream = event.streams[0];
-      addVideoStream(socketId, stream);
+      if (!document.getElementById(peerId)) {
+        addVideoStream(peerId, event.streams[0]);
+      }
     };
 
     pc.onconnectionstatechange = () => {
-      if (pc.connectionState === "disconnected" || pc.connectionState === "failed") {
-        removeVideoStream(socketId);
-        pc.close();
-        delete peers[socketId];
+      if (pc.connectionState === "disconnected" || pc.connectionState === "failed" || pc.connectionState === "closed") {
+        closePeer(peerId);
       }
     };
 
     return pc;
   }
 
-  function addVideoStream(id, stream, isLocal = false, isScreen = false) {
-    let video = document.getElementById(`video-${id}`);
-    if (!video) {
-      video = document.createElement("video");
-      video.id = `video-${id}`;
-      video.autoplay = true;
-      video.playsInline = true;
-      if (isLocal) video.muted = true;
-      if (isScreen) {
-        video.style.borderColor = "#ffcc00";
-      }
-      videosDiv.appendChild(video);
+  function closePeer(peerId) {
+    const pc = peers[peerId];
+    if (pc) {
+      pc.close();
+      delete peers[peerId];
     }
-    video.srcObject = stream;
-  }
-
-  function removeVideoStream(id) {
-    const video = document.getElementById(`video-${id}`);
-    if (video) {
-      video.srcObject = null;
-      video.remove();
-    }
+    removeVideoStream(peerId);
   }
 
   function closeAllPeers() {
-    for (const id in peers) {
-      peers[id].close();
-      removeVideoStream(id);
-      delete peers[id];
-    }
+    Object.keys(peers).forEach(closePeer);
   }
 
-  // Handle user leaving VC from other side (optional)
-  socket.on("user-left", (name) => {
-    // Could show a message or remove their video streams if needed
-  });
-
-  // Leave VC if server tells so (optional)
-  socket.on("leave-vc", () => {
-    leaveVcBtn.click();
-  });
-
 </script>
-
 </body>
 </html>
