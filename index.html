@@ -3,402 +3,493 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHAMELESS - Live Chat + VC</title>
+  <title>SHAMELESS Chat & Voice</title>
   <style>
+    /* Black & purple theme */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      display: flex;
-      height: 100vh;
-      background: #121014;
-      color: #ddd;
-      flex-direction: column;
-      overflow: hidden;
+      margin: 0; font-family: Arial, sans-serif;
+      background-color: #1a001a;
+      color: #c399ff;
+      display: flex; flex-direction: column; height: 100vh;
     }
     header {
-      background: #1e0e3f;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 32px;
-      font-weight: 900;
-      color: #bb86fc;
-      letter-spacing: 4px;
-      user-select: none;
-      box-shadow: 0 0 15px #7a2cf4aa;
-      font-family: 'Segoe UI Black', Tahoma, Geneva, Verdana, sans-serif;
-      flex-shrink: 0;
-    }
-    #main-content {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-      height: calc(100vh - 70px);
-      user-select: text;
+      background: #330033; padding: 1em; text-align: center;
+      font-size: 1.5em; font-weight: bold;
+      border-bottom: 2px solid #c399ff;
     }
     #chat {
-      width: 320px;
-      background: #1e0e3f;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 0 15px #7a2cf4aa;
-      overflow: hidden;
-    }
-    #chat h3 {
-      margin: 0 0 15px 0;
-      color: #bb86fc;
-      user-select: none;
+      flex: 1; overflow-y: auto; padding: 1em;
+      background: #2a002a;
     }
     #messages {
-      flex: 1;
+      list-style: none; padding: 0; margin: 0;
+      height: 250px;
       overflow-y: auto;
-      margin-bottom: 10px;
-      border: 1px solid #7a2cf4;
+      border: 1px solid #660066;
       border-radius: 8px;
-      padding: 10px;
-      background: #290f63;
-      color: #eee;
-      font-size: 14px;
-      line-height: 1.3;
+      background: #220022;
     }
-    #messages div {
-      margin-bottom: 6px;
+    #messages li {
+      margin-bottom: 0.5em;
       word-wrap: break-word;
     }
-    #msg {
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      background: #2a1365;
-      color: #eee;
-      width: 100%;
-      box-sizing: border-box;
+    #messages li span.username {
+      font-weight: bold;
+      color: #d9b3ff;
     }
-    #msg::placeholder {
-      color: #aaa;
+    #chat-input {
+      display: flex; background: #330033; padding: 0.5em;
+      border-top: 2px solid #c399ff;
     }
-    button {
-      margin-top: 8px;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 600;
+    #chat-input input[type="text"] {
+      flex: 1;
+      padding: 0.5em;
       border: none;
-      border-radius: 8px;
+      background: #1a001a;
+      color: #c399ff;
+      font-size: 1em;
+    }
+    #chat-input button {
+      background: #660066;
+      border: none;
+      color: #c399ff;
+      padding: 0 1em;
+      font-size: 1em;
       cursor: pointer;
-      background: #7a2cf4;
-      color: white;
-      transition: background 0.3s ease;
-      user-select: none;
-      width: 100%;
-      box-sizing: border-box;
+      border-radius: 4px;
     }
-    button:hover:not(:disabled) {
-      background: #a16eff;
-    }
-    button:disabled {
-      background: #5a1ecc;
+    #chat-input button:disabled {
+      background: #440044;
       cursor: not-allowed;
     }
-    #video-section {
-      flex: 1;
-      display: flex;
+    /* Username modal */
+    #usernameModal {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
       flex-direction: column;
-      background: #0c071a;
-      padding: 10px;
-      box-shadow: inset 0 0 25px #7a2cf4bb;
-      overflow: hidden;
+      color: #c399ff;
     }
-    #controls {
-      padding: 10px 0;
+    #usernameModal input {
+      font-size: 1.2em;
+      padding: 0.5em;
+      border: none;
+      border-radius: 4px;
+      margin-bottom: 1em;
+      width: 250px;
+      background: #1a001a;
+      color: #c399ff;
       text-align: center;
-      flex-shrink: 0;
     }
-    #video-grid {
-      flex: 1;
+    #usernameModal button {
+      padding: 0.6em 2em;
+      font-size: 1.2em;
+      background: #660066;
+      border: none;
+      border-radius: 4px;
+      color: #c399ff;
+      cursor: pointer;
+    }
+    #usernameModal button:disabled {
+      background: #440044;
+      cursor: not-allowed;
+    }
+    /* VC controls */
+    #vc-controls {
+      background: #330033;
+      padding: 0.5em;
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      border-top: 2px solid #c399ff;
+    }
+    #vc-controls button {
+      background: #660066;
+      border: none;
+      color: #c399ff;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #vc-controls button:disabled {
+      background: #440044;
+      cursor: not-allowed;
+    }
+    video {
+      max-width: 150px;
+      border: 2px solid #c399ff;
+      border-radius: 8px;
+      margin: 0.5em;
+      background: black;
+    }
+    #videos {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
-      gap: 10px;
-      overflow-y: auto;
-    }
-    video {
-      width: 300px;
-      max-height: 200px;
-      border-radius: 12px;
-      background: black;
-      box-shadow: 0 0 10px #7a2cf4bb;
-      object-fit: cover;
-      user-select: none;
-    }
-
-    /* Username modal overlay */
-    #username-modal {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(18, 16, 20, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      flex-direction: column;
-      color: #ddd;
-      user-select: none;
-    }
-    #username-modal h2 {
-      margin-bottom: 20px;
-      font-weight: 900;
-      color: #bb86fc;
-      letter-spacing: 2px;
-    }
-    #username-modal input {
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      width: 280px;
-      margin-bottom: 15px;
-      background: #290f63;
-      color: #eee;
-      text-align: center;
-      user-select: text;
-    }
-    #username-modal button {
-      width: 280px;
+      padding: 0.5em;
+      background: #220022;
+      border-top: 2px solid #c399ff;
+      min-height: 160px;
     }
   </style>
 </head>
 <body>
-  <header>SHAMELESS</header>
 
-  <div id="username-modal">
-    <h2>Enter Your Username</h2>
-    <input id="username-input" placeholder="Username" autocomplete="off" />
-    <button id="join-btn" disabled>Join Chat</button>
-  </div>
+<header>SHAMELESS Chat & Voice</header>
 
-  <div id="main-content" style="display:none;">
-    <div id="chat">
-      <h3>Live Chat</h3>
-      <div id="messages"></div>
-      <input id="msg" placeholder="Type a message..." autocomplete="off" disabled />
-      <button id="sendBtn" disabled>Send</button>
-    </div>
+<div id="usernameModal">
+  <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="off" />
+  <button id="joinBtn" disabled>Join Chat</button>
+</div>
 
-    <div id="video-section">
-      <div id="controls">
-        <button id="vcBtn" disabled>Join Voice/Video Chat</button>
-        <button id="screenBtn" disabled>Share Screen</button>
-      </div>
-      <div id="video-grid"></div>
-    </div>
-  </div>
+<ul id="messages"></ul>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
+<div id="chat-input">
+  <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" disabled />
+  <button id="sendBtn" disabled>Send</button>
+</div>
 
-    // DOM references
-    const usernameModal = document.getElementById('username-modal');
-    const usernameInput = document.getElementById('username-input');
-    const joinBtn = document.getElementById('join-btn');
-    const mainContent = document.getElementById('main-content');
+<div id="vc-controls">
+  <button id="joinVcBtn" disabled>Join Voice Chat</button>
+  <button id="leaveVcBtn" disabled>Leave Voice Chat</button>
+  <button id="toggleCamBtn" disabled>Toggle Camera</button>
+  <button id="toggleMicBtn" disabled>Toggle Mic</button>
+  <button id="shareScreenBtn" disabled>Share Screen</button>
+  <button id="stopShareScreenBtn" disabled>Stop Screen Share</button>
+</div>
 
-    const msgInput = document.getElementById("msg");
-    const sendBtn = document.getElementById("sendBtn");
-    const vcBtn = document.getElementById("vcBtn");
-    const screenBtn = document.getElementById("screenBtn");
-    const messages = document.getElementById("messages");
-    const videoGrid = document.getElementById("video-grid");
+<div id="videos"></div>
 
-    let username = "";
-    let joinedVC = false;
-    let localStream = null;
-    let peers = {};
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
 
-    // Enable Join button if input has valid username (3+ chars, no spaces)
-    usernameInput.addEventListener('input', () => {
-      const val = usernameInput.value.trim();
-      joinBtn.disabled = !(val.length >= 3 && !/\s/.test(val));
-    });
+  // UI Elements
+  const usernameModal = document.getElementById("usernameModal");
+  const usernameInput = document.getElementById("usernameInput");
+  const joinBtn = document.getElementById("joinBtn");
+  const messages = document.getElementById("messages");
+  const messageInput = document.getElementById("messageInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const joinVcBtn = document.getElementById("joinVcBtn");
+  const leaveVcBtn = document.getElementById("leaveVcBtn");
+  const toggleCamBtn = document.getElementById("toggleCamBtn");
+  const toggleMicBtn = document.getElementById("toggleMicBtn");
+  const shareScreenBtn = document.getElementById("shareScreenBtn");
+  const stopShareScreenBtn = document.getElementById("stopShareScreenBtn");
+  const videosDiv = document.getElementById("videos");
 
-    // On clicking Join Chat
-    joinBtn.addEventListener('click', () => {
-      username = usernameInput.value.trim();
-      if (!username) return;
+  let localStream = null;
+  let screenStream = null;
+  let peers = {}; // socketId => RTCPeerConnection
+  let username = null;
+  let inVC = false;
 
-      // Hide modal, show main UI
-      usernameModal.style.display = 'none';
-      mainContent.style.display = 'flex';
+  // Enable join button only if username is valid
+  usernameInput.addEventListener("input", () => {
+    const val = usernameInput.value.trim();
+    joinBtn.disabled = !(val.length >= 3 && !/\s/.test(val));
+  });
 
-      // Enable chat inputs and buttons
-      msgInput.disabled = false;
-      sendBtn.disabled = false;
-      vcBtn.disabled = false;
+  joinBtn.onclick = () => {
+    username = usernameInput.value.trim();
+    socket.emit("set-username", username);
+  };
 
-      // Tell server username
-      socket.emit("set-username", username);
-      addMessage(`You joined as "${username}".`);
-    });
+  socket.on("welcome", (msg) => {
+    usernameModal.style.display = "none";
+    messageInput.disabled = false;
+    sendBtn.disabled = false;
+    joinVcBtn.disabled = false;
+    addSystemMessage(msg);
+  });
 
-    // Chat events and UI
-    socket.on("user-joined", (name) => {
-      if (name !== username) addMessage(`${name} joined.`);
-    });
-    socket.on("chat-message", ({ username: user, message }) => addMessage(`${user}: ${message}`));
-    socket.on("user-left", (name) => addMessage(`${name} left.`));
+  socket.on("error-message", (msg) => {
+    alert(msg);
+  });
 
-    sendBtn.onclick = sendMessage;
-    msgInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") sendMessage();
-    });
+  socket.on("user-joined", (name) => {
+    addSystemMessage(`${name} joined the chat.`);
+  });
 
-    function sendMessage() {
-      const msg = msgInput.value.trim();
-      if (!msg) return;
-      socket.emit("chat-message", msg);
-      msgInput.value = "";
+  socket.on("user-left", (name) => {
+    addSystemMessage(`${name} left the chat.`);
+  });
+
+  socket.on("chat-message", ({ username: user, message }) => {
+    addChatMessage(user, message);
+  });
+
+  sendBtn.onclick = () => {
+    const msg = messageInput.value.trim();
+    if (!msg) return;
+    socket.emit("chat-message", msg);
+    messageInput.value = "";
+  };
+
+  messageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !sendBtn.disabled) sendBtn.click();
+  });
+
+  function addChatMessage(user, message) {
+    const li = document.createElement("li");
+    const userSpan = document.createElement("span");
+    userSpan.classList.add("username");
+    userSpan.textContent = user + ": ";
+    li.appendChild(userSpan);
+    li.appendChild(document.createTextNode(message));
+    messages.appendChild(li);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function addSystemMessage(message) {
+    const li = document.createElement("li");
+    li.style.fontStyle = "italic";
+    li.textContent = message;
+    messages.appendChild(li);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // --- WebRTC & Voice Chat ---
+
+  joinVcBtn.onclick = async () => {
+    if (inVC) return;
+    inVC = true;
+    joinVcBtn.disabled = true;
+    leaveVcBtn.disabled = false;
+    toggleCamBtn.disabled = false;
+    toggleMicBtn.disabled = false;
+    shareScreenBtn.disabled = false;
+    stopShareScreenBtn.disabled = true;
+
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      addVideoStream("local", localStream, true);
+      socket.emit("join-vc");
+    } catch (err) {
+      alert("Could not get camera/microphone: " + err.message);
+      resetVCControls();
+      return;
     }
+  };
 
-    function addMessage(msg) {
-      const div = document.createElement("div");
-      div.textContent = msg;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
+  leaveVcBtn.onclick = () => {
+    if (!inVC) return;
+    inVC = false;
+    resetVCControls();
+    closeAllPeers();
+    removeVideoStream("local");
+    removeVideoStream("screen");
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+      localStream = null;
     }
+    if (screenStream) {
+      screenStream.getTracks().forEach(track => track.stop());
+      screenStream = null;
+    }
+    socket.emit("leave-vc");
+  };
 
-    // === WebRTC Voice/Video ===
+  toggleCamBtn.onclick = () => {
+    if (!localStream) return;
+    const videoTrack = localStream.getVideoTracks()[0];
+    if (!videoTrack) return;
+    videoTrack.enabled = !videoTrack.enabled;
+    toggleCamBtn.textContent = videoTrack.enabled ? "Turn Camera Off" : "Turn Camera On";
+  };
 
-    vcBtn.onclick = toggleVC;
+  toggleMicBtn.onclick = () => {
+    if (!localStream) return;
+    const audioTrack = localStream.getAudioTracks()[0];
+    if (!audioTrack) return;
+    audioTrack.enabled = !audioTrack.enabled;
+    toggleMicBtn.textContent = audioTrack.enabled ? "Mute Mic" : "Unmute Mic";
+  };
 
-    async function toggleVC() {
-      if (!joinedVC) {
-        try {
-          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-          addVideo(localStream, true);
-          socket.emit("join-vc");
-          joinedVC = true;
-          vcBtn.textContent = "Disconnect VC";
-          screenBtn.disabled = false;
-        } catch (err) {
-          alert("Could not access camera/microphone.");
-          console.error(err);
-        }
-      } else {
-        disconnectVC();
+  shareScreenBtn.onclick = async () => {
+    if (screenStream) return; // Already sharing
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      addVideoStream("screen", screenStream, true, true);
+
+      // Add screen tracks to all peers
+      for (const peerId in peers) {
+        const pc = peers[peerId];
+        screenStream.getTracks().forEach(track => {
+          pc.addTrack(track, screenStream);
+        });
       }
+      shareScreenBtn.disabled = true;
+      stopShareScreenBtn.disabled = false;
+
+      // When user stops sharing from browser UI
+      screenStream.getVideoTracks()[0].addEventListener("ended", () => {
+        stopScreenShare();
+      });
+    } catch (err) {
+      alert("Could not share screen: " + err.message);
+    }
+  };
+
+  stopShareScreenBtn.onclick = () => {
+    stopScreenShare();
+  };
+
+  function stopScreenShare() {
+    if (!screenStream) return;
+    screenStream.getTracks().forEach(track => track.stop());
+    removeVideoStream("screen");
+
+    // Remove screen tracks from all peers by renegotiation (simple approach: close and rejoin)
+    // For simplicity, we just disconnect and reconnect peers:
+    closeAllPeers();
+    screenStream = null;
+    shareScreenBtn.disabled = false;
+    stopShareScreenBtn.disabled = true;
+
+    // Rejoin VC to renegotiate without screen sharing
+    if (inVC) {
+      socket.emit("join-vc");
+    }
+  }
+
+  function resetVCControls() {
+    joinVcBtn.disabled = false;
+    leaveVcBtn.disabled = true;
+    toggleCamBtn.disabled = true;
+    toggleMicBtn.disabled = true;
+    shareScreenBtn.disabled = true;
+    stopShareScreenBtn.disabled = true;
+    toggleCamBtn.textContent = "Toggle Camera";
+    toggleMicBtn.textContent = "Toggle Mic";
+  }
+
+  // --- Peer connections ---
+
+  socket.on("new-peer", async (socketId) => {
+    if (!inVC) return;
+    if (peers[socketId]) return; // already connected
+
+    const pc = createPeerConnection(socketId);
+    peers[socketId] = pc;
+
+    // Add local tracks
+    if (localStream) {
+      localStream.getTracks().forEach(track => {
+        pc.addTrack(track, localStream);
+      });
+    }
+    if (screenStream) {
+      screenStream.getTracks().forEach(track => {
+        pc.addTrack(track, screenStream);
+      });
     }
 
-    function disconnectVC() {
-      for (let id in peers) {
-        peers[id].close();
-        delete peers[id];
-      }
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    socket.emit("signal", { to: socketId, signal: pc.localDescription });
+  });
+
+  socket.on("signal", async ({ from, signal }) => {
+    if (!inVC) return;
+    let pc = peers[from];
+    if (!pc) {
+      pc = createPeerConnection(from);
+      peers[from] = pc;
+    }
+    await pc.setRemoteDescription(new RTCSessionDescription(signal));
+
+    if (signal.type === "offer") {
       if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
-        localStream = null;
+        localStream.getTracks().forEach(track => {
+          pc.addTrack(track, localStream);
+        });
       }
-      videoGrid.innerHTML = "";
-      joinedVC = false;
-      vcBtn.textContent = "Join Voice/Video Chat";
-      screenBtn.disabled = true;
-    }
+      if (screenStream) {
+        screenStream.getTracks().forEach(track => {
+          pc.addTrack(track, screenStream);
+        });
+      }
 
-    function addVideo(stream, self = false) {
-      const video = document.createElement("video");
-      video.srcObject = stream;
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      socket.emit("signal", { to: from, signal: pc.localDescription });
+    }
+  });
+
+  function createPeerConnection(socketId) {
+    const pc = new RTCPeerConnection({
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+    });
+
+    pc.onicecandidate = (event) => {
+      if (event.candidate) return;
+      socket.emit("signal", { to: socketId, signal: pc.localDescription });
+    };
+
+    pc.ontrack = (event) => {
+      const stream = event.streams[0];
+      addVideoStream(socketId, stream);
+    };
+
+    pc.onconnectionstatechange = () => {
+      if (pc.connectionState === "disconnected" || pc.connectionState === "failed") {
+        removeVideoStream(socketId);
+        pc.close();
+        delete peers[socketId];
+      }
+    };
+
+    return pc;
+  }
+
+  function addVideoStream(id, stream, isLocal = false, isScreen = false) {
+    let video = document.getElementById(`video-${id}`);
+    if (!video) {
+      video = document.createElement("video");
+      video.id = `video-${id}`;
       video.autoplay = true;
-      video.muted = self;
       video.playsInline = true;
-      videoGrid.appendChild(video);
-    }
-
-    socket.on("new-peer", async (id) => {
-      if (!joinedVC) return;
-      const pc = createPeerConnection(id);
-      peers[id] = pc;
-      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      socket.emit("signal", { to: id, signal: { sdp: offer } });
-    });
-
-    socket.on("signal", async ({ from, signal }) => {
-      if (!joinedVC) return;
-      if (!peers[from]) {
-        const pc = createPeerConnection(from);
-        peers[from] = pc;
-        localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+      if (isLocal) video.muted = true;
+      if (isScreen) {
+        video.style.borderColor = "#ffcc00";
       }
-      const pc = peers[from];
-      if (signal.sdp) {
-        await pc.setRemoteDescription(new RTCSessionDescription(signal.sdp));
-        if (signal.sdp.type === "offer") {
-          const answer = await pc.createAnswer();
-          await pc.setLocalDescription(answer);
-          socket.emit("signal", { to: from, signal: { sdp: answer } });
-        }
-      } else if (signal.candidate) {
-        await pc.addIceCandidate(new RTCIceCandidate(signal.candidate));
-      }
-    });
-
-    function createPeerConnection(id) {
-      const pc = new RTCPeerConnection();
-
-      pc.onicecandidate = (e) => {
-        if (e.candidate) {
-          socket.emit("signal", { to: id, signal: { candidate: e.candidate } });
-        }
-      };
-
-      pc.ontrack = (e) => {
-        addVideo(e.streams[0]);
-      };
-
-      pc.onconnectionstatechange = () => {
-        if (pc.connectionState === "disconnected" || pc.connectionState === "failed" || pc.connectionState === "closed") {
-          if (peers[id]) {
-            delete peers[id];
-          }
-        }
-      };
-
-      return pc;
+      videosDiv.appendChild(video);
     }
+    video.srcObject = stream;
+  }
 
-    // Screen sharing
-    async function shareScreen() {
-      if (!joinedVC) return alert("Join VC first to share screen.");
-      try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        const screenTrack = screenStream.getVideoTracks()[0];
-        for (let id in peers) {
-          const sender = peers[id].getSenders().find(s => s.track.kind === "video");
-          if (sender) await sender.replaceTrack(screenTrack);
-        }
-        if (videoGrid.lastChild) videoGrid.removeChild(videoGrid.lastChild);
-        addVideo(screenStream, true);
-        screenTrack.onended = () => {
-          if (!localStream) return;
-          for (let id in peers) {
-            const sender = peers[id].getSenders().find(s => s.track.kind === "video");
-            if (sender) sender.replaceTrack(localStream.getVideoTracks()[0]);
-          }
-          if (videoGrid.lastChild) videoGrid.removeChild(videoGrid.lastChild);
-          addVideo(localStream, true);
-        };
-      } catch (err) {
-        alert("Screen sharing failed or was canceled.");
-        console.error(err);
-      }
+  function removeVideoStream(id) {
+    const video = document.getElementById(`video-${id}`);
+    if (video) {
+      video.srcObject = null;
+      video.remove();
     }
+  }
 
-    document.getElementById('screenBtn').onclick = shareScreen;
+  function closeAllPeers() {
+    for (const id in peers) {
+      peers[id].close();
+      removeVideoStream(id);
+      delete peers[id];
+    }
+  }
 
-  </script>
+  // Handle user leaving VC from other side (optional)
+  socket.on("user-left", (name) => {
+    // Could show a message or remove their video streams if needed
+  });
+
+  // Leave VC if server tells so (optional)
+  socket.on("leave-vc", () => {
+    leaveVcBtn.click();
+  });
+
+</script>
+
 </body>
 </html>
