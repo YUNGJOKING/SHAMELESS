@@ -1,452 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SHAMELESS — Dark King of Games & Code</title>
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  rel="stylesheet"
-/>
-<style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
-    margin: 0; padding: 0;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0b0015;
-    color: #d0c9ff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    scroll-behavior: smooth;
-    user-select: none;
-  }
-  a {
-    color: inherit;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  a:hover, a:focus {
-    color: #b468ff;
-    outline: none;
-  }
-  /* Navbar */
-  nav {
-    position: sticky;
-    top: 0;
-    background: rgba(15, 0, 30, 0.95);
-    backdrop-filter: saturate(180%) blur(10px);
-    border-bottom: 1px solid #440088;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 2.5rem;
-    z-index: 100;
-    box-shadow: 0 2px 8px #5500aa88;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    user-select: none;
-  }
-  nav a {
-    font-weight: 700;
-    font-size: 1.1rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    transition: color 0.3s, background-color 0.3s;
-  }
-  nav a.active,
-  nav a:hover,
-  nav a:focus {
-    color: #b468ff;
-    background-color: rgba(180, 104, 255, 0.2);
-    box-shadow: 0 0 8px #b468ffaa;
-  }
-  /* Main */
-  main {
-    flex: 1;
-    max-width: 900px;
-    margin: 3rem auto 4rem;
-    padding: 0 1.5rem;
-    background: #1b003d;
-    border-radius: 14px;
-    box-shadow: 0 0 40px #8000ff77;
-    min-height: 60vh;
-  }
-  h1 {
-    font-weight: 900;
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #b468ff;
-    text-align: center;
-    text-shadow: 0 0 12px #9e4fffdd;
-    user-select: text;
-    animation: glowPulse 3s ease-in-out infinite alternate;
-  }
-  h2 {
-    font-weight: 800;
-    font-size: 2.2rem;
-    margin-bottom: 1.3rem;
-    border-left: 6px solid #b468ff;
-    padding-left: 1rem;
-    color: #b468ff;
-    text-shadow: 0 0 6px #7d32ffcc;
-    user-select: text;
-  }
-  /* Paragraph */
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 1.4rem;
-    color: #d0c9ffcc;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    user-select: text;
-    line-height: 1.8;
-  }
-  /* Card */
-  .card {
-    background: #35005c;
-    padding: 1.5rem 2rem;
-    border-radius: 16px;
-    margin-bottom: 2.5rem;
-    box-shadow: inset 0 0 20px #7a33ffcc;
-    transition: background-color 0.4s ease;
-    user-select: none;
-  }
-  .card:hover {
-    background-color: #4a1a9f;
-    box-shadow: 0 0 30px #b468ffdd;
-  }
-  /* List */
-  ul {
-    list-style: none;
-    max-width: 700px;
-    margin: 0 auto 2rem;
-    padding: 0;
-    user-select: text;
-  }
-  ul li {
-    background: #4a1a9f;
-    padding: 1rem 1.2rem;
-    margin-bottom: 1rem;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 1.2rem;
-    box-shadow: inset 0 0 12px #b468ffcc;
-    transition: background-color 0.3s;
-  }
-  ul li:hover {
-    background: #6f39ff;
-    box-shadow: 0 0 18px #b468ffcc;
-  }
-  /* Table */
-  table {
-    width: 100%;
-    max-width: 900px;
-    margin: 1rem auto 0;
-    border-collapse: separate;
-    border-spacing: 0 0.7rem;
-    font-size: 1.05rem;
-    color: #d0c9ffcc;
-    user-select: text;
-  }
-  thead th {
-    color: #b468ff;
-    font-weight: 800;
-    padding: 1rem 1.2rem;
-    text-align: left;
-    border-bottom: 3px solid #b468ffcc;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    user-select: text;
-  }
-  tbody tr {
-    background: #5b1edc;
-    box-shadow: 0 2px 10px #7d32ffcc;
-    border-radius: 14px;
-    transition: transform 0.3s;
-    user-select: none;
-  }
-  tbody tr:hover {
-    transform: translateY(-5px);
-    background: #883aff;
-    box-shadow: 0 0 20px #d1a7ffdd;
-  }
-  tbody td {
-    padding: 1rem 1.2rem;
-    border: none;
-    font-weight: 600;
-    user-select: text;
-  }
-  /* Form */
-  form {
-    max-width: 520px;
-    margin: 1rem auto 2rem;
-    user-select: none;
-  }
-  label {
-    display: block;
-    font-weight: 800;
-    margin-bottom: 0.6rem;
-    color: #b468ff;
-    user-select: text;
-  }
-  input,
-  textarea,
-  select {
-    width: 100%;
-    padding: 0.85rem 1.2rem;
-    margin-bottom: 1.4rem;
-    border-radius: 14px;
-    border: none;
-    background: #4a1a9f;
-    color: #ddd;
-    font-size: 1.1rem;
-    box-shadow: inset 0 0 12px #7a33ffcc;
-    transition: box-shadow 0.4s;
-    font-family: inherit;
-    user-select: text;
-  }
-  input:focus,
-  textarea:focus,
-  select:focus {
-    outline: none;
-    box-shadow: 0 0 20px #b468ffdd;
-    background: #6827ff;
-  }
-  button {
-    display: block;
-    width: 100%;
-    padding: 1rem 0;
-    background-color: #b468ff;
-    border: none;
-    border-radius: 16px;
-    font-weight: 900;
-    font-size: 1.3rem;
-    color: #0b0015;
-    cursor: pointer;
-    transition: background-color 0.4s, box-shadow 0.4s;
-    box-shadow: 0 0 20px #b468ffdd;
-    user-select: none;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  button:hover,
-  button:focus {
-    background-color: #7d32ff;
-    box-shadow: 0 0 30px #7d32ffcc;
-    outline: none;
-  }
-  /* Footer */
-  footer {
-    background: #15002a;
-    padding: 1.5rem 0;
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    border-top: 1px solid #440088;
-    box-shadow: inset 0 1px 6px #000000dd;
-    flex-wrap: wrap;
-    user-select: none;
-  }
-  footer a {
-    font-size: 2rem;
-    color: #b468ffcc;
-    transition: color 0.4s, transform 0.3s;
-  }
-  footer a:hover,
-  footer a:focus {
-    color: #d1a7ff;
-    transform: scale(1.3);
-    outline: none;
-  }
-  /* Animations */
-  @keyframes glowPulse {
-    0% { text-shadow: 0 0 10px #b468ff, 0 0 20px #7d32ff; }
-    100% { text-shadow: 0 0 25px #d1a7ff, 0 0 50px #b468ff; }
-  }
-  /* Responsive */
-  @media (max-width: 600px) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHAMELESS — Digital Demon of Games & Code</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Reset & base */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: radial-gradient(ellipse at bottom, #0a0011 0%, #1a001f 100%);
+      color: #dcb0ff;
+      scroll-behavior: smooth;
+      padding-bottom: 100px;
+      background-attachment: fixed;
+      background-size: cover;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><circle cx="12" cy="12" r="3" fill="purple"/></svg>') 12 12, auto;
+      transition: background-color 0.5s ease;
+    }
+    body.darkmode {
+      background: radial-gradient(ellipse at bottom, #000 0%, #110022 100%);
+      color: #c486ff;
+    }
     nav {
-      gap: 1rem;
-      padding: 0.8rem 1rem;
-      flex-wrap: wrap;
+      background: #1a001f;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1.2rem;
+      box-shadow: 0 0 25px #990099;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      user-select: none;
     }
     nav a {
+      color: #dcb0ff;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: #ff00ff;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #fff;
+    }
+    nav a.active::after,
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Dark mode toggle button */
+    #darkToggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #330033;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 25px;
+      color: #ff99ff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff00ff;
+      user-select: none;
+      transition: background-color 0.4s ease;
+      z-index: 1000;
+    }
+    #darkToggle:hover {
+      background: #990099;
+    }
+
+    main {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+      animation: fadein 1.5s ease;
+      min-height: 80vh;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glitch effect on SHAMELESS */
+    main h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #ff44ff;
+      position: relative;
+      user-select: none;
+      overflow: visible;
+      animation: glitch-flicker 2s infinite;
+    }
+    main h1::before,
+    main h1::after {
+      content: "SHAMELESS";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      overflow: hidden;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitch-anim 2s infinite;
+    }
+    main h1::before {
+      left: 2px;
+      text-shadow: -2px 0 #ff00ff;
+      animation-delay: 0.2s;
+    }
+    main h1::after {
+      left: -2px;
+      text-shadow: -2px 0 #990099;
+      animation-delay: 0.4s;
+    }
+    @keyframes glitch-flicker {
+      0%, 100% { opacity: 1; }
+      20%, 80% { opacity: 0.8; }
+      40%, 60% { opacity: 1; }
+    }
+    @keyframes glitch-anim {
+      0% {
+        clip: rect(42px, 9999px, 44px, 0);
+        transform: translate(0);
+      }
+      10% {
+        clip: rect(12px, 9999px, 14px, 0);
+        transform: translate(-2px, -2px);
+      }
+      20% {
+        clip: rect(82px, 9999px, 85px, 0);
+        transform: translate(2px, 2px);
+      }
+      30% {
+        clip: rect(42px, 9999px, 44px, 0);
+        transform: translate(0);
+      }
+      40% {
+        clip: rect(12px, 9999px, 14px, 0);
+        transform: translate(-2px, 2px);
+      }
+      50% {
+        clip: rect(82px, 9999px, 85px, 0);
+        transform: translate(2px, -2px);
+      }
+      60% {
+        clip: rect(42px, 9999px, 44px, 0);
+        transform: translate(0);
+      }
+      70% {
+        clip: rect(12px, 9999px, 14px, 0);
+        transform: translate(-2px, 2px);
+      }
+      80% {
+        clip: rect(82px, 9999px, 85px, 0);
+        transform: translate(2px, -2px);
+      }
+      90% {
+        clip: rect(42px, 9999px, 44px, 0);
+        transform: translate(0);
+      }
+      100% {
+        clip: rect(12px, 9999px, 14px, 0);
+        transform: translate(-2px, -2px);
+      }
+    }
+
+    main p {
+      font-size: 1.4rem;
+      color: #ccc;
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.7;
+      animation: fadein 1.5s ease 0.5s both;
+      user-select: none;
+    }
+
+    /* Card and trade table */
+    .card {
+      background: #1a001f;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #660066;
+      max-width: 1000px;
+      color: #e5ccff;
+      transition: transform 0.3s;
+      user-select: none;
+    }
+    .card:hover {
+      transform: scale(1.01);
+    }
+    table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+      color: #fff;
       font-size: 1rem;
     }
-    main {
-      margin: 2rem 1rem 3rem;
-      padding: 1rem;
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #444;
+      text-align: center;
     }
-    h1 {
-      font-size: 2.2rem;
+    th {
+      background: #330033;
+      color: #ff99ff;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    th .sort-arrow {
+      margin-left: 6px;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      user-select: none;
+      transition: opacity 0.3s ease;
+    }
+    th:hover .sort-arrow {
+      opacity: 1;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+      border-bottom: 1px dotted #ff99ff;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 180px;
+      background-color: #330033;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 6px;
+      position: absolute;
+      z-index: 100;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -90px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.9rem;
+      user-select: none;
+      box-shadow: 0 0 8px #cc00cc;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Input and form */
+    #trade-form {
+      display: none;
+      margin-top: 2rem;
+      user-select: none;
+    }
+    input[type="text"], input[type="number"] {
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      margin: 0.4rem;
+      background: #330033;
+      color: #fff;
+      font-size: 1rem;
+      width: 130px;
+      transition: background-color 0.3s;
+    }
+    input[type="text"]:focus, input[type="number"]:focus {
+      background: #440044;
+      outline: none;
+    }
+    input[type="submit"] {
+      background: #990099;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      user-select: none;
+      box-shadow: 0 0 12px #cc00cc;
+    }
+    input[type="submit"]:hover {
+      background: #cc00cc;
+      box-shadow: 0 0 18px #ff00ff;
+    }
+    .error {
+      border: 2px solid #ff3333 !important;
+      background-color: #440000 !important;
+      color: #ff6666 !important;
+    }
+
+    /* Section styles */
+    section {
+      padding: 3rem 2rem;
     }
     h2 {
-      font-size: 1.6rem;
-      padding-left: 0.6rem;
-      border-left-width: 4px;
+      font-size: 2.3rem;
+      color: #ff66cc;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px #ff00ff;
+      user-select: none;
     }
+
+    /* Social icons */
+    ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      user-select: none;
+    }
+    ul li a {
+      color: #ffb3ff;
+      font-size: 1.8rem;
+      transition: transform 0.4s, color 0.4s, text-shadow 0.4s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    ul li a:hover {
+      transform: scale(1.3) rotate(-7deg);
+      color: #ffffff;
+      text-shadow: 0 0 18px #ff00ff;
+      animation: pulse-glow 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulse-glow {
+      from {
+        text-shadow: 0 0 10px #ff00ff;
+      }
+      to {
+        text-shadow: 0 0 20px #ff66ff;
+      }
+    }
+
+    /* Footer */
     footer {
-      gap: 2rem;
+      background: #110011;
+      padding: 2rem;
+      text-align: center;
+      color: #888;
+      border-top: 2px solid #550055;
+      user-select: none;
     }
-  }
-</style>
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+      main h1 {
+        font-size: 3rem;
+      }
+      input[type="text"], input[type="number"] {
+        width: 100%;
+        max-width: 250px;
+      }
+      ul {
+        gap: 1.5rem;
+      }
+    }
+
+    /* Animated starfield background */
+    #starfield {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
 </head>
 <body>
+  <button id="darkToggle" title="Toggle Dark Mode">🖤 Purple Mode</button>
 
-<nav>
-  <a href="#about" class="active">About</a>
-  <a href="#skills">Skills</a>
-  <a href="#portfolio">Portfolio</a>
-  <a href="#esports">Esports</a>
-  <a href="#trading">Trading</a>
-  <a href="#contact">Contact</a>
-</nav>
+  <nav>
+    <a href="#home" class="nav-link active">Home</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#trades" class="nav-link">Trades</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </nav>
 
-<main>
-  <!-- About -->
-  <section id="about" tabindex="-1">
-    <h1>SHAMELESS — The Dark King of Games & Code</h1>
-    <div class="card">
-      <p>I’m SHAMELESS — the Fortnite nightmare haunting Iran’s esports. If you think you can outplay me, keep dreaming. Off the grind, I code ruthless scripts, bending Python, CSS, and JS to my will. I don’t build apps — I craft weapons.</p>
-      <p>Markets fear me too. I don’t just trade — I devour the weak and leave nothing but wreckage. If you’re not winning, you’re just prey. Stay toxic, stay sharp, or get wrecked.</p>
+  <canvas id="starfield"></canvas>
+
+  <main id="home">
+    <h1>SHAMELESS</h1>
+    <p>I’m the corrupted save file you can't delete, the nightmare inside your firewall. From code chaos to market slayage — I own it all. I am SHAMELESS — the one your system fears most.</p>
+    
+    <div class="card" id="trades">
+      <h2>Recent Executions</h2>
+      <input type="text" id="searchTrades" placeholder="Search trades..." style="margin-bottom: 10px; padding: 0.5rem 1rem; border-radius: 8px; border: none; max-width: 300px; background: #330033; color: #fff; font-size: 1rem; user-select:none;" title="Search by Asset or Direction" />
+      <table id="trade-table" aria-label="Trades Table">
+        <thead>
+          <tr>
+            <th data-key="asset">Asset <span class="sort-arrow">⇅</span></th>
+            <th data-key="direction">Direction <span class="sort-arrow">⇅</span></th>
+            <th data-key="entry">Entry Price <span class="sort-arrow">⇅</span></th>
+            <th data-key="exit">Exit Price <span class="sort-arrow">⇅</span></th>
+            <th data-key="pnl">PnL <span class="sort-arrow">⇅</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>BTCUSDT</td><td>Long</td><td>27,000</td><td>27,300</td><td>+1.11%</td></tr>
+          <tr><td>ETHUSDT</td><td>Short</td><td>1,800</td><td>1,740</td><td>+3.33%</td></tr>
+          <tr><td>ADAUSDT</td><td>Long</td><td>0.45</td><td>0.48</td><td>+6.66%</td></tr>
+          <tr><td>XRPUSDT</td><td>Short</td><td>0.35</td><td>0.32</td><td>+8.57%</td></tr>
+          <tr><td>DOTUSDT</td><td>Long</td><td>6.5</td><td>6.7</td><td>+3.07%</td></tr>
+        </tbody>
+      </table>
     </div>
-  </section>
 
-  <!-- Skills -->
-  <section id="skills" tabindex="-1">
-    <h2>Deadly Skills</h2>
-    <ul>
-      <li>Fortnite pro: outbuild, outfight, outlast — every damn time</li>
-      <li>Master of Python, JavaScript, CSS — code so slick it hacks reality</li>
-      <li>Esports strategist — win rates that crush dreams</li>
-      <li>Market predator — crypto & forex with savage precision</li>
-    </ul>
-  </section>
+    <section id="about">
+      <h2>About SHAMELESS</h2>
+      <p>Veteran Fortnite pro player, digital demon coder, and fearless trader. I live for the chaos and craft every line of code like a weapon. This site is my digital playground — welcome to my lair.</p>
+    </section>
 
-  <!-- Portfolio -->
-  <section id="portfolio" tabindex="-1">
-    <h2>Portfolio of Carnage</h2>
-    <div class="card">
-      <p>From gaming bots to trading dashboards, I build the tools that dominate. Peek behind the curtain and witness code that leaves no mercy:</p>
+    <section id="contact">
+      <h2>Contact & Socials</h2>
       <ul>
-        <li>SHAMELESS Gaming Toolkit — cheat codes for the elite</li>
-        <li>Dark Market Dashboard — tracking trades with cold precision</li>
-        <li>Esports Insight API — know your enemy, then crush them</li>
+        <li><a href="https://twitter.com/shameless" target="_blank" rel="noopener" title="Twitter"><i class="fab fa-twitter"></i>Twitter</a></li>
+        <li><a href="https://twitch.tv/shameless" target="_blank" rel="noopener" title="Twitch"><i class="fab fa-twitch"></i>Twitch</a></li>
+        <li><a href="https://github.com/shameless" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i>GitHub</a></li>
+        <li><a href="https://youtube.com/shameless" target="_blank" rel="noopener" title="YouTube"><i class="fab fa-youtube"></i>YouTube</a></li>
       </ul>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Esports -->
-  <section id="esports" tabindex="-1">
-    <h2>Esports Legacy</h2>
-    <div class="card">
-      <p>Top ranks in Iran’s brutal Fortnite scene. A reputation carved in sweat and blood. If you want to learn how I wreck opponents or challenge me to a duel, step up — or stay irrelevant.</p>
-    </div>
-  </section>
+  <footer>
+    &copy; 2025 SHAMELESS — All Rights Reserved.
+  </footer>
 
-  <!-- Trading -->
-  <section id="trading" tabindex="-1">
-    <h2>Market Carnage</h2>
-    <div class="card">
-      <p>I don’t trade like a man — I hunt like a beast. Crypto, Forex — I bleed the market dry and leave the weak scrambling for scraps.</p>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Instrument</th>
-          <th>Strategy</th>
-          <th>Win Rate</th>
-          <th>Average ROI</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Bitcoin (BTC)</td>
-          <td>Trend Hunting</td>
-          <td>78%</td>
-          <td>15%</td>
-        </tr>
-        <tr>
-          <td>Ethereum (ETH)</td>
-          <td>Savage Swing</td>
-          <td>72%</td>
-          <td>12%</td>
-        </tr>
-        <tr>
-          <td>Forex EUR/USD</td>
-          <td>Scalping Blood</td>
-          <td>65%</td>
-          <td>8%</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <!-- Hover sound -->
+  <audio id="hoverSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
 
-  <!-- Contact -->
-  <section id="contact" tabindex="-1">
-    <h2>Reach Out... If You Dare</h2>
-    <div class="card">
-      <p>Think you can handle me? Hit me up. Collaboration, coaching, or just to confess defeat.</p>
-      <form id="contactForm" action="#" method="POST" onsubmit="return handleSubmit(event)">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required placeholder="Your name" />
+  <script>
+    // ScrollSpy for nav active state
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 100;
+      navLinks.forEach((link, idx) => {
+        let section = sections[idx];
+        if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required placeholder="your@email.com" />
+    // Sorting trades table
+    const table = document.getElementById('trade-table');
+    const tbody = table.querySelector('tbody');
+    const headers = table.querySelectorAll('th');
+    let sortDirection = 1;
+    let sortedColumn = null;
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const key = header.getAttribute('data-key');
+        if (sortedColumn === key) {
+          sortDirection = -sortDirection;
+        } else {
+          sortedColumn = key;
+          sortDirection = 1;
+        }
+        sortTableBy(key, sortDirection);
+        updateSortArrows();
+      });
+    });
 
-        <button type="submit">Send</button>
-      </form>
-    </div>
-  </section>
-</main>
+    function sortTableBy(key, direction) {
+      const rows = [...tbody.rows];
+      rows.sort((a, b) => {
+        let valA = a.querySelector(`td:nth-child(${getColumnIndex(key) + 1})`).textContent.trim();
+        let valB = b.querySelector(`td:nth-child(${getColumnIndex(key) + 1})`).textContent.trim();
 
-<footer>
-  <a href="https://www.youtube.com/shameless" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
-    <i class="fab fa-youtube"></i>
-  </a>
-  <a href="https://discord.gg/shameless" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
-    <i class="fab fa-discord"></i>
-  </a>
-  <a href="https://twitch.tv/shameless" target="_blank" rel="noopener" aria-label="Twitch" title="Twitch">
-    <i class="fab fa-twitch"></i>
-  </a>
-  <a href="https://twitter.com/shameless" target="_blank" rel="noopener" aria-label="X" title="X">
-    <i class="fab fa-twitter"></i>
-  </a>
-</footer>
+        // Normalize for numeric and percentage fields
+        if (key === 'entry' || key === 'exit') {
+          valA = parseFloat(valA.replace(/,/g, '')) || 0;
+          valB = parseFloat(valB.replace(/,/g, '')) || 0;
+        } else if (key === 'pnl') {
+          valA = parseFloat(valA.replace('%', '').replace('+', '')) || 0;
+          valB = parseFloat(valB.replace('%', '').replace('+', '')) || 0;
+        } else {
+          valA = valA.toLowerCase();
+          valB = valB.toLowerCase();
+        }
 
-<script>
-  // Highlight nav link on scroll
-  const sections = document.querySelectorAll('section');
-  const navLinks = document.querySelectorAll('nav a');
+        if (valA < valB) return -direction;
+        if (valA > valB) return direction;
+        return 0;
+      });
+      rows.forEach(row => tbody.appendChild(row));
+    }
 
-  function activateNavLink() {
-    let index = sections.length;
+    function getColumnIndex(key) {
+      switch(key) {
+        case 'asset': return 0;
+        case 'direction': return 1;
+        case 'entry': return 2;
+        case 'exit': return 3;
+        case 'pnl': return 4;
+      }
+    }
 
-    while (--index && window.scrollY + 150 < sections[index].offsetTop) {}
+    function updateSortArrows() {
+      headers.forEach(h => {
+        const arrow = h.querySelector('.sort-arrow');
+        if (h.getAttribute('data-key') === sortedColumn) {
+          arrow.textContent = sortDirection === 1 ? '⬆' : '⬇';
+        } else {
+          arrow.textContent = '⇅';
+        }
+      });
+    }
 
-    navLinks.forEach(link => link.classList.remove('active'));
-    navLinks[index].classList.add('active');
-  }
+    // Search trades filter
+    document.getElementById('searchTrades').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      [...tbody.rows].forEach(row => {
+        const asset = row.cells[0].textContent.toLowerCase();
+        const direction = row.cells[1].textContent.toLowerCase();
+        if (asset.includes(filter) || direction.includes(filter)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
 
-  activateNavLink();
-  window.addEventListener('scroll', activateNavLink);
+    // Hover sound effect on nav & buttons
+    const hoverSound = document.getElementById('hoverSound');
+    document.querySelectorAll('nav a, button, input[type="submit"], ul li a').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+      });
+    });
 
-  // Contact form handler stub
-  function handleSubmit(event) {
-    event.preventDefault();
-    alert('Message received. SHAMELESS will consider whether to reply.');
-    event.target.reset();
-    return false;
-  }
-</script>
+    // Dark mode toggle
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('darkmode');
+      if (document.body.classList.contains('darkmode')) {
+        darkToggle.textContent = '🖤 Classic Mode';
+      } else {
+        darkToggle.textContent = '🖤 Purple Mode';
+      }
+    });
+
+    // Starfield background animation
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let w, h;
+    function initStars() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+      stars = [];
+      for (let i = 0; i < 150; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          radius: Math.random() * 1.2 + 0.3,
+          speed: Math.random() * 0.4 + 0.05,
+          opacity: Math.random(),
+          flicker: Math.random() * 0.05,
+        });
+      }
+    }
+    function drawStars() {
+      ctx.clearRect(0, 0, w, h);
+      stars.forEach(s => {
+        s.opacity += s.flicker;
+        if (s.opacity > 1 || s.opacity < 0.2) s.flicker = -s.flicker;
+        s.x -= s.speed;
+        if (s.x < 0) s.x = w;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 0, 255, ${s.opacity.toFixed(2)})`;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = '#ff00ff';
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    window.addEventListener('resize', initStars);
+    initStars();
+    drawStars();
+
+  </script>
 </body>
 </html>
