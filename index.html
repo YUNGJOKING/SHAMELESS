@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Chat + VC</title>
+  <style>
+    body { font-family: Arial; margin: 0; display: flex; height: 100vh; }
+    #chat { width: 300px; background: #f0f0f0; padding: 10px; overflow-y: auto; }
+    #video-grid { flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; background: #111; }
+    video { width: 300px; margin: 5px; border-radius: 10px; }
+    #controls { padding: 10px; background: #222; color: #fff; text-align: center; }
+    #controls button { margin: 5px; }
+  </style>
+</head>
+<body>
+  <div id="chat">
+    <h3>Live Chat</h3>
+    <div id="messages"></div>
+    <input id="msg" placeholder="Type a message..." autocomplete="off" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+  <div style="flex: 1; display: flex; flex-direction: column;">
+    <div id="controls">
+      <button onclick="joinVC()">Join Voice/Video Chat</button>
+      <button onclick="shareScreen()">Share Screen</button>
+    </div>
+    <div id="video-grid"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let username = prompt("Enter your username:");
+    socket.emit("set-username", username);
+
+    socket.on("user-joined", (name) => addMessage(`${name} joined.`));
+    socket.on("chat-message", ({ username, message }) => addMessage(`${username}: ${message}`));
+    socket.on("user-left", (name) => addMessage(`${name} left.`));
+
+    function sendMessage() {
+      const input = document.getElementById("msg");
+      if (input.value.trim()) {
+        socket.emit("chat-message", input.value);
+        input.value = "";
+      }
+    }
+
+    function addMessage(msg) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.textContent = msg;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // === WebRTC Voice/Video ===
+    let peers = {};
+    let localStream;
+
+    async function joinVC() {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      addVideo(localStream, true);
+      socket.emit("join-vc");
+    }
+
+    function addVideo(stream, self = false) {
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.muted = self;
+      document.getElementById("video-grid").appendChild(video);
+    }
+
+    socket.on("new-peer", async (id) => {
+      const pc = createPeerConnection(id);
+      peers[id] = pc;
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socket.emit("signal", { to: id, signal: { sdp: offer } });
+    });
+
+    socket.on("signal", async ({ from, signal }) => {
+      if (!peers[from]) {
+        const pc = createPeerConnection(from);
+        peers[from] = pc;
+        localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+      }
+
+      const pc = peers[from];
+
+      if (signal.sdp) {
+        await pc.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+        if (signal.sdp.type === "offer") {
+          const answer = await pc.createAnswer();
+          await pc.setLocalDescription(answer);
+          socket.emit("signal", { to: from, signal: { sdp: answer } });
+        }
+      } else if (signal.candidate) {
+        await pc.addIceCandidate(new RTCIceCandidate(signal.candidate));
+      }
+    });
+
+    function createPeerConnection(id) {
+      const pc = new RTCPeerConnection();
+      pc.onicecandidate = (e) => {
+        if (e.candidate) {
+          socket.emit("signal", { to: id, signal: { candidate: e.candidate } });
+        }
+      };
+      pc.ontrack = (e) => addVideo(e.streams[0]);
+      return pc;
+    }
+
+    async function shareScreen() {
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      screenStream.getTracks().forEach(track => {
+        for (let id in peers) {
+          const sender = peers[id].getSenders().find(s => s.track.kind === track.kind);
+          if (sender) sender.replaceTrack(track);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
