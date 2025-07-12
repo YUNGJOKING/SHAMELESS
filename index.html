@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHAMELESS — Pro Gamer, Developer & Trader</title>
+  <title>SHAMELESS — Pro Gamer, Dev & Market Predator</title>
   <link
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     rel="stylesheet"
@@ -18,23 +18,25 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #e0e0e0;
-      line-height: 1.5;
+      background: #0b0015;
+      color: #d0c9ff;
+      line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
+      user-select: none;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      cursor: pointer;
     }
 
     a:hover,
     a:focus {
-      color: #f39c12;
+      color: #b468ff;
       outline: none;
     }
 
@@ -42,19 +44,21 @@
     nav {
       position: sticky;
       top: 0;
-      background: rgba(20, 20, 20, 0.9);
+      background: rgba(15, 0, 30, 0.95);
       backdrop-filter: saturate(180%) blur(10px);
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #440088;
       padding: 1rem 2rem;
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 2.5rem;
       z-index: 100;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 2px 8px #5500aa88;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
     nav a {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.1rem;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
@@ -64,8 +68,9 @@
     nav a.active,
     nav a:hover,
     nav a:focus {
-      color: #f39c12;
-      background-color: rgba(243, 156, 18, 0.15);
+      color: #b468ff;
+      background-color: rgba(180, 104, 255, 0.2);
+      box-shadow: 0 0 8px #b468ffaa;
     }
 
     /* Main content */
@@ -74,52 +79,59 @@
       max-width: 900px;
       margin: 3rem auto 4rem;
       padding: 0 1.5rem;
-      background: #1f1f1f;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(243, 156, 18, 0.2);
+      background: #1b003d;
+      border-radius: 14px;
+      box-shadow: 0 0 40px #8000ff77;
       min-height: 60vh;
     }
 
     h1 {
-      font-weight: 800;
-      font-size: 2.8rem;
+      font-weight: 900;
+      font-size: 3rem;
       margin-bottom: 1rem;
-      color: #f39c12;
+      color: #b468ff;
       text-align: center;
-      text-shadow: 0 0 8px #f39c12aa;
+      text-shadow: 0 0 12px #9e4fffdd;
+      user-select: text;
     }
 
     h2 {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      border-left: 5px solid #f39c12;
-      padding-left: 0.8rem;
-      color: #f39c12;
+      font-weight: 800;
+      font-size: 2.2rem;
+      margin-bottom: 1.3rem;
+      border-left: 6px solid #b468ff;
+      padding-left: 1rem;
+      color: #b468ff;
+      text-shadow: 0 0 6px #7d32ffcc;
+      user-select: text;
     }
 
     /* Paragraphs */
     p {
-      font-size: 1.15rem;
-      margin-bottom: 1.2rem;
-      color: #ccc;
+      font-size: 1.2rem;
+      margin-bottom: 1.4rem;
+      color: #d0c9ffcc;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
+      user-select: text;
+      line-height: 1.8;
     }
 
     /* Cards */
     .card {
-      background: #292929;
-      padding: 1.2rem 1.5rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: inset 0 0 10px #f39c12aa;
-      transition: background-color 0.3s ease;
+      background: #35005c;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2.5rem;
+      box-shadow: inset 0 0 20px #7a33ffcc;
+      transition: background-color 0.4s ease;
+      user-select: none;
     }
 
     .card:hover {
-      background-color: #3a3a3a;
+      background-color: #4a1a9f;
+      box-shadow: 0 0 30px #b468ffdd;
     }
 
     /* Lists */
@@ -128,21 +140,23 @@
       max-width: 700px;
       margin: 0 auto 2rem;
       padding: 0;
+      user-select: text;
     }
 
     ul li {
-      background: #3a3a3a;
-      padding: 0.8rem 1rem;
-      margin-bottom: 0.8rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      box-shadow: inset 0 0 5px #f39c12aa;
+      background: #4a1a9f;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      box-shadow: inset 0 0 12px #b468ffcc;
       transition: background-color 0.3s;
     }
 
     ul li:hover {
-      background: #4a4a4a;
+      background: #6f39ff;
+      box-shadow: 0 0 18px #b468ffcc;
     }
 
     /* Table styling for trading */
@@ -151,117 +165,132 @@
       max-width: 900px;
       margin: 1rem auto 0;
       border-collapse: separate;
-      border-spacing: 0 0.5rem;
-      font-size: 1rem;
-      color: #ddd;
+      border-spacing: 0 0.7rem;
+      font-size: 1.05rem;
+      color: #d0c9ffcc;
+      user-select: text;
     }
 
     thead th {
-      color: #f39c12;
-      font-weight: 700;
-      padding: 0.8rem 1rem;
+      color: #b468ff;
+      font-weight: 800;
+      padding: 1rem 1.2rem;
       text-align: left;
-      border-bottom: 2px solid #f39c12;
+      border-bottom: 3px solid #b468ffcc;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      user-select: text;
     }
 
     tbody tr {
-      background: #3a3a3a;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-      border-radius: 8px;
+      background: #5b1edc;
+      box-shadow: 0 2px 10px #7d32ffcc;
+      border-radius: 14px;
       transition: transform 0.3s;
+      user-select: none;
     }
 
     tbody tr:hover {
-      transform: translateY(-3px);
-      background: #4a4a4a;
+      transform: translateY(-5px);
+      background: #883aff;
+      box-shadow: 0 0 20px #d1a7ffdd;
     }
 
     tbody td {
-      padding: 0.9rem 1rem;
+      padding: 1rem 1.2rem;
       border: none;
-      font-weight: 500;
+      font-weight: 600;
+      user-select: text;
     }
 
     /* Forms */
     form {
-      max-width: 500px;
+      max-width: 520px;
       margin: 1rem auto 2rem;
+      user-select: none;
     }
 
     label {
       display: block;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #f39c12;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      color: #b468ff;
+      user-select: text;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1.2rem;
-      border-radius: 10px;
+      padding: 0.85rem 1.2rem;
+      margin-bottom: 1.4rem;
+      border-radius: 14px;
       border: none;
-      background: #2c2c2c;
-      color: #eee;
-      font-size: 1rem;
-      box-shadow: inset 0 0 6px #f39c12aa;
-      transition: box-shadow 0.3s;
+      background: #4a1a9f;
+      color: #ddd;
+      font-size: 1.1rem;
+      box-shadow: inset 0 0 12px #7a33ffcc;
+      transition: box-shadow 0.4s;
       font-family: inherit;
+      user-select: text;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
       outline: none;
-      box-shadow: 0 0 12px #f39c12cc;
+      box-shadow: 0 0 20px #b468ffdd;
+      background: #6827ff;
     }
 
     button {
       display: block;
       width: 100%;
-      padding: 0.9rem 0;
-      background-color: #f39c12;
+      padding: 1rem 0;
+      background-color: #b468ff;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       font-weight: 900;
-      font-size: 1.2rem;
-      color: #121212;
+      font-size: 1.3rem;
+      color: #0b0015;
       cursor: pointer;
-      transition: background-color 0.3s;
-      box-shadow: 0 0 10px #f39c12cc;
+      transition: background-color 0.4s, box-shadow 0.4s;
+      box-shadow: 0 0 20px #b468ffdd;
+      user-select: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
     button:hover,
     button:focus {
-      background-color: #d17e00;
-      box-shadow: 0 0 20px #d17e00cc;
+      background-color: #7d32ff;
+      box-shadow: 0 0 30px #7d32ffcc;
       outline: none;
     }
 
     /* Footer */
     footer {
-      background: #1e1e1e;
-      padding: 1.2rem 0;
+      background: #15002a;
+      padding: 1.5rem 0;
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      border-top: 1px solid #333;
-      box-shadow: inset 0 1px 3px #000000bb;
+      gap: 3rem;
+      border-top: 1px solid #440088;
+      box-shadow: inset 0 1px 6px #000000dd;
       flex-wrap: wrap;
+      user-select: none;
     }
 
     footer a {
-      font-size: 1.8rem;
-      color: #aaa;
-      transition: color 0.3s, transform 0.2s;
+      font-size: 2rem;
+      color: #b468ffcc;
+      transition: color 0.4s, transform 0.3s;
     }
 
     footer a:hover,
     footer a:focus {
-      color: #f39c12;
-      transform: scale(1.2);
+      color: #d1a7ff;
+      transform: scale(1.3);
       outline: none;
     }
 
@@ -283,11 +312,17 @@
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+        padding-left: 0.6rem;
+        border-left-width: 4px;
       }
 
       footer {
-        gap: 1.5rem;
+        gap: 2rem;
       }
     }
   </style>
@@ -306,59 +341,59 @@
   <main>
     <!-- About -->
     <section id="about" tabindex="-1">
-      <h1>SHAMELESS — Pro Gamer, Developer & Trader</h1>
+      <h1>SHAMELESS — The Dark King of Games & Code</h1>
       <div class="card">
-        <p>Yo! I'm SHAMELESS — a Fortnite pro player dominating the esports scene in Iran & Persia. Off the battlefield, I’m a full-stack developer fluent in Python, CSS, JavaScript, and more. I design and build everything from scratch — backend, frontend, APIs, you name it.</p>
-        <p>When I’m not coding or crushing tournaments, I trade markets with precision. Whether it’s digital arenas or market charts, I’m always on my grind.</p>
+        <p>I’m SHAMELESS — the Fortnite nightmare haunting Iran’s esports. If you think you can outplay me, keep dreaming. Off the grind, I code ruthless scripts, bending Python, CSS, and JS to my will. I don’t build apps — I craft weapons.</p>
+        <p>Markets fear me too. I don’t just trade — I devour the weak and leave nothing but wreckage. If you’re not winning, you’re just prey. Stay toxic, stay sharp, or get wrecked.</p>
       </div>
     </section>
 
     <!-- Skills -->
     <section id="skills" tabindex="-1">
-      <h2>Skills</h2>
+      <h2>Skills That Kill</h2>
       <div class="card">
         <ul>
-          <li>Python — 95%</li>
-          <li>JavaScript — 90%</li>
-          <li>CSS / Design — 92%</li>
-          <li>Backend / API — 88%</li>
-          <li>Trading — 85%</li>
+          <li>Python — 95% lethal precision</li>
+          <li>JavaScript — 90% savage</li>
+          <li>CSS / Design — 92% venomous style</li>
+          <li>Backend / API — 88% hacker elite</li>
+          <li>Trading — 85% market predator</li>
         </ul>
       </div>
     </section>
 
     <!-- Portfolio -->
     <section id="portfolio" tabindex="-1">
-      <h2>Portfolio</h2>
+      <h2>Deadly Creations</h2>
       <div class="card">
-        <p>⚙️ <strong>Shameless AI</strong> — GPT-powered dev tool that builds apps from plain text prompts.</p>
+        <p>⚙️ <strong>Shameless AI</strong> — An AI dev beast that spits out full projects from savage text commands.</p>
       </div>
       <div class="card">
-        <p>🎮 <strong>YUNG Windows Optimizer</strong> — Tweaking utility designed for gamers to boost PC performance.</p>
+        <p>🎮 <strong>YUNG Windows Optimizer</strong> — Squeezes every ounce of juice from your rig, kills lag before it spawns.</p>
       </div>
       <div class="card">
-        <p>🤖 <strong>Jarvis AI Assistant</strong> — Multi-platform assistant with online/offline modes, voice, and long-term memory.</p>
+        <p>🤖 <strong>Jarvis AI Assistant</strong> — Your personal dark AI companion, online/offline, ruthless and loyal.</p>
       </div>
     </section>
 
     <!-- Esports -->
     <section id="esports" tabindex="-1">
-      <h2>Esports</h2>
+      <h2>Esports Dominance</h2>
       <div class="card">
-        <p>As a Fortnite pro, I’ve competed in major tournaments and streamed to thousands daily. My channel is where gaming passion meets pro-level skills.</p>
+        <p>Fortnite is my battlefield. I don’t play to win — I play to annihilate. Streaming to thousands, coaching the next generation of killers.</p>
       </div>
       <ul>
-        <li>Top 1% Fortnite Global Ranking</li>
-        <li>3x Regional Tournament Champion</li>
-        <li>Streamer & Coach for Persian gamers</li>
+        <li>Top 1% global conqueror</li>
+        <li>3x regional champion, zero mercy</li>
+        <li>Streaming & coaching Persia’s fiercest</li>
       </ul>
     </section>
 
     <!-- Trading -->
     <section id="trading" tabindex="-1">
-      <h2>Trading</h2>
+      <h2>Market Carnage</h2>
       <div class="card">
-        <p>I analyze market trends and execute trades with precision. I focus on crypto and forex, blending technical analysis with data-driven strategies.</p>
+        <p>I don’t trade like a man — I hunt like a beast. Crypto, Forex — I bleed the market dry and leave the weak scrambling for scraps.</p>
       </div>
 
       <table>
@@ -373,19 +408,19 @@
         <tbody>
           <tr>
             <td>Bitcoin (BTC)</td>
-            <td>Trend Following</td>
+            <td>Trend Hunting</td>
             <td>78%</td>
             <td>15%</td>
           </tr>
           <tr>
             <td>Ethereum (ETH)</td>
-            <td>Swing Trading</td>
+            <td>Savage Swing</td>
             <td>72%</td>
             <td>12%</td>
           </tr>
           <tr>
             <td>Forex EUR/USD</td>
-            <td>Scalping</td>
+            <td>Scalping Blood</td>
             <td>65%</td>
             <td>8%</td>
           </tr>
@@ -395,9 +430,9 @@
 
     <!-- Contact -->
     <section id="contact" tabindex="-1">
-      <h2>Contact Me</h2>
+      <h2>Reach Out... If You Dare</h2>
       <div class="card">
-        <p>Want to collaborate, stream, or just say hi? Drop me a message.</p>
+        <p>Think you can handle me? Hit me up. Collaboration, coaching, or just to confess defeat.</p>
         <form id="contactForm" action="#" method="POST" onsubmit="return handleSubmit(event)">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required placeholder="Your name" />
@@ -415,10 +450,18 @@
   </main>
 
   <footer>
-    <a href="https://github.com/shameless" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-    <a href="https://twitter.com/shameless" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://twitch.tv/shameless" target="_blank" rel="noopener" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-    <a href="mailto:shameless@example.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.youtube.com/shameless" target="_blank" rel="noopener" aria-label="YouTube">
+      <i class="fab fa-youtube"></i>
+    </a>
+    <a href="https://discord.gg/shameless" target="_blank" rel="noopener" aria-label="Discord">
+      <i class="fab fa-discord"></i>
+    </a>
+    <a href="https://twitch.tv/shameless" target="_blank" rel="noopener" aria-label="Twitch">
+      <i class="fab fa-twitch"></i>
+    </a>
+    <a href="https://twitter.com/shameless" target="_blank" rel="noopener" aria-label="X">
+      <i class="fab fa-twitter"></i>
+    </a>
   </footer>
 
   <script>
@@ -438,10 +481,10 @@
     activateNavLink();
     window.addEventListener('scroll', activateNavLink);
 
-    // Simple contact form handler (stub)
+    // Contact form handler stub
     function handleSubmit(event) {
       event.preventDefault();
-      alert('Thanks for reaching out! I will get back to you soon.');
+      alert('Message received. SHAMELESS will consider whether to reply.');
       event.target.reset();
       return false;
     }
