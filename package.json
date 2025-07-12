@@ -1,0 +1,22 @@
+{
+  "name": "live-chat-vc-app",
+  "version": "1.0.0",
+  "description": "A real-time chat and video call web app with username set on join, voice chat, screen sharing, and camera support.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
