@@ -1,64 +1,83 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const server = http.createServer(app);
+const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static("public"));
+const allowedNames = ["shameless", "yung", "atishness"];
 
-const users = {}; // socket.id => username
+let users = {}; // socket.id => { username, inVC }
+
+function generateRandomUsername() {
+  // Choose a random name + a random number suffix to avoid clashes
+  const name = allowedNames[Math.floor(Math.random() * allowedNames.length)];
+  const suffix = Math.floor(Math.random() * 1000);
+  return `${name}${suffix}`;
+}
 
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  console.log("User connected:", socket.id);
 
-  socket.on("set-username", (name) => {
-    if (typeof name !== "string" || name.trim().length < 3) {
-      socket.emit("error-message", "Username must be at least 3 characters");
-      return;
+  // Assign username when requested
+  socket.on("request-username", () => {
+    let username = generateRandomUsername();
+    // Ensure uniqueness in current users:
+    while (Object.values(users).some(u => u.username === username)) {
+      username = generateRandomUsername();
     }
-    const username = name.trim();
-    users[socket.id] = username;
-    console.log(`User set username: ${username}`);
-
+    users[socket.id] = { username, inVC: false };
+    socket.emit("assign-username", username);
     socket.broadcast.emit("user-joined", username);
-    socket.emit("welcome", `Welcome ${username}!`);
   });
 
   socket.on("chat-message", (msg) => {
-    const username = users[socket.id];
-    if (!username) {
-      socket.emit("error-message", "Set username first");
+    const user = users[socket.id];
+    if (!user) {
+      socket.emit("error-message", "Username not assigned yet.");
       return;
     }
-    if (typeof msg !== "string" || msg.trim().length === 0) return;
-
-    const message = msg.trim();
-    io.emit("chat-message", { username, message });
+    io.emit("chat-message", { username: user.username, message: msg });
   });
 
+  // Voice Chat signaling
   socket.on("join-vc", () => {
-    const username = users[socket.id];
-    if (!username) return;
-    socket.broadcast.emit("new-peer", socket.id);
+    if (!users[socket.id]) return;
+    users[socket.id].inVC = true;
+    // Notify others about new VC user
+    socket.broadcast.emit("vc-user-joined", socket.id);
   });
 
-  socket.on("signal", ({ to, signal }) => {
-    if (users[to]) {
-      io.to(to).emit("signal", { from: socket.id, signal });
+  socket.on("leave-vc", () => {
+    if (!users[socket.id]) return;
+    users[socket.id].inVC = false;
+    socket.broadcast.emit("vc-user-left", socket.id);
+  });
+
+  socket.on("vc-signal", ({ to, from, description, candidate }) => {
+    if (to && io.sockets.sockets.has(to)) {
+      io.to(to).emit("vc-signal", { from, description, candidate });
     }
   });
 
   socket.on("disconnect", () => {
-    const username = users[socket.id];
-    if (username) {
-      console.log(`User disconnected: ${username}`);
-      socket.broadcast.emit("user-left", username);
+    const user = users[socket.id];
+    if (user) {
+      socket.broadcast.emit("user-left", user.username);
+      if (user.inVC) {
+        socket.broadcast.emit("vc-user-left", socket.id);
+      }
       delete users[socket.id];
     }
+    console.log("User disconnected:", socket.id);
   });
 });
 
-http.listen(PORT, () => {
+app.use(express.static("public")); // serve index.html and socket.io client
+
+server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
