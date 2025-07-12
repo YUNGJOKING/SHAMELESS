@@ -1,493 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHAMELESS — Pro Gamer, Dev & Market Predator</title>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    rel="stylesheet"
-  />
-  <style>
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0b0015;
-      color: #d0c9ff;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      scroll-behavior: smooth;
-      user-select: none;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    a:hover,
-    a:focus {
-      color: #b468ff;
-      outline: none;
-    }
-
-    /* Sticky Navbar */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SHAMELESS — Dark King of Games & Code</title>
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<style>
+  /* Reset */
+  * {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0b0015;
+    color: #d0c9ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+    user-select: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  a:hover, a:focus {
+    color: #b468ff;
+    outline: none;
+  }
+  /* Navbar */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(15, 0, 30, 0.95);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid #440088;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    z-index: 100;
+    box-shadow: 0 2px 8px #5500aa88;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    user-select: none;
+  }
+  nav a {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.3s, background-color 0.3s;
+  }
+  nav a.active,
+  nav a:hover,
+  nav a:focus {
+    color: #b468ff;
+    background-color: rgba(180, 104, 255, 0.2);
+    box-shadow: 0 0 8px #b468ffaa;
+  }
+  /* Main */
+  main {
+    flex: 1;
+    max-width: 900px;
+    margin: 3rem auto 4rem;
+    padding: 0 1.5rem;
+    background: #1b003d;
+    border-radius: 14px;
+    box-shadow: 0 0 40px #8000ff77;
+    min-height: 60vh;
+  }
+  h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #b468ff;
+    text-align: center;
+    text-shadow: 0 0 12px #9e4fffdd;
+    user-select: text;
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+  h2 {
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 1.3rem;
+    border-left: 6px solid #b468ff;
+    padding-left: 1rem;
+    color: #b468ff;
+    text-shadow: 0 0 6px #7d32ffcc;
+    user-select: text;
+  }
+  /* Paragraph */
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 1.4rem;
+    color: #d0c9ffcc;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    user-select: text;
+    line-height: 1.8;
+  }
+  /* Card */
+  .card {
+    background: #35005c;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 2.5rem;
+    box-shadow: inset 0 0 20px #7a33ffcc;
+    transition: background-color 0.4s ease;
+    user-select: none;
+  }
+  .card:hover {
+    background-color: #4a1a9f;
+    box-shadow: 0 0 30px #b468ffdd;
+  }
+  /* List */
+  ul {
+    list-style: none;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    padding: 0;
+    user-select: text;
+  }
+  ul li {
+    background: #4a1a9f;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: inset 0 0 12px #b468ffcc;
+    transition: background-color 0.3s;
+  }
+  ul li:hover {
+    background: #6f39ff;
+    box-shadow: 0 0 18px #b468ffcc;
+  }
+  /* Table */
+  table {
+    width: 100%;
+    max-width: 900px;
+    margin: 1rem auto 0;
+    border-collapse: separate;
+    border-spacing: 0 0.7rem;
+    font-size: 1.05rem;
+    color: #d0c9ffcc;
+    user-select: text;
+  }
+  thead th {
+    color: #b468ff;
+    font-weight: 800;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    border-bottom: 3px solid #b468ffcc;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    user-select: text;
+  }
+  tbody tr {
+    background: #5b1edc;
+    box-shadow: 0 2px 10px #7d32ffcc;
+    border-radius: 14px;
+    transition: transform 0.3s;
+    user-select: none;
+  }
+  tbody tr:hover {
+    transform: translateY(-5px);
+    background: #883aff;
+    box-shadow: 0 0 20px #d1a7ffdd;
+  }
+  tbody td {
+    padding: 1rem 1.2rem;
+    border: none;
+    font-weight: 600;
+    user-select: text;
+  }
+  /* Form */
+  form {
+    max-width: 520px;
+    margin: 1rem auto 2rem;
+    user-select: none;
+  }
+  label {
+    display: block;
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    color: #b468ff;
+    user-select: text;
+  }
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    margin-bottom: 1.4rem;
+    border-radius: 14px;
+    border: none;
+    background: #4a1a9f;
+    color: #ddd;
+    font-size: 1.1rem;
+    box-shadow: inset 0 0 12px #7a33ffcc;
+    transition: box-shadow 0.4s;
+    font-family: inherit;
+    user-select: text;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 20px #b468ffdd;
+    background: #6827ff;
+  }
+  button {
+    display: block;
+    width: 100%;
+    padding: 1rem 0;
+    background-color: #b468ff;
+    border: none;
+    border-radius: 16px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: #0b0015;
+    cursor: pointer;
+    transition: background-color 0.4s, box-shadow 0.4s;
+    box-shadow: 0 0 20px #b468ffdd;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  button:hover,
+  button:focus {
+    background-color: #7d32ff;
+    box-shadow: 0 0 30px #7d32ffcc;
+    outline: none;
+  }
+  /* Footer */
+  footer {
+    background: #15002a;
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    border-top: 1px solid #440088;
+    box-shadow: inset 0 1px 6px #000000dd;
+    flex-wrap: wrap;
+    user-select: none;
+  }
+  footer a {
+    font-size: 2rem;
+    color: #b468ffcc;
+    transition: color 0.4s, transform 0.3s;
+  }
+  footer a:hover,
+  footer a:focus {
+    color: #d1a7ff;
+    transform: scale(1.3);
+    outline: none;
+  }
+  /* Animations */
+  @keyframes glowPulse {
+    0% { text-shadow: 0 0 10px #b468ff, 0 0 20px #7d32ff; }
+    100% { text-shadow: 0 0 25px #d1a7ff, 0 0 50px #b468ff; }
+  }
+  /* Responsive */
+  @media (max-width: 600px) {
     nav {
-      position: sticky;
-      top: 0;
-      background: rgba(15, 0, 30, 0.95);
-      backdrop-filter: saturate(180%) blur(10px);
-      border-bottom: 1px solid #440088;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: center;
-      gap: 2.5rem;
-      z-index: 100;
-      box-shadow: 0 2px 8px #5500aa88;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    nav a {
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: color 0.3s, background-color 0.3s;
-    }
-
-    nav a.active,
-    nav a:hover,
-    nav a:focus {
-      color: #b468ff;
-      background-color: rgba(180, 104, 255, 0.2);
-      box-shadow: 0 0 8px #b468ffaa;
-    }
-
-    /* Main content */
-    main {
-      flex: 1;
-      max-width: 900px;
-      margin: 3rem auto 4rem;
-      padding: 0 1.5rem;
-      background: #1b003d;
-      border-radius: 14px;
-      box-shadow: 0 0 40px #8000ff77;
-      min-height: 60vh;
-    }
-
-    h1 {
-      font-weight: 900;
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #b468ff;
-      text-align: center;
-      text-shadow: 0 0 12px #9e4fffdd;
-      user-select: text;
-    }
-
-    h2 {
-      font-weight: 800;
-      font-size: 2.2rem;
-      margin-bottom: 1.3rem;
-      border-left: 6px solid #b468ff;
-      padding-left: 1rem;
-      color: #b468ff;
-      text-shadow: 0 0 6px #7d32ffcc;
-      user-select: text;
-    }
-
-    /* Paragraphs */
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 1.4rem;
-      color: #d0c9ffcc;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      user-select: text;
-      line-height: 1.8;
-    }
-
-    /* Cards */
-    .card {
-      background: #35005c;
-      padding: 1.5rem 2rem;
-      border-radius: 16px;
-      margin-bottom: 2.5rem;
-      box-shadow: inset 0 0 20px #7a33ffcc;
-      transition: background-color 0.4s ease;
-      user-select: none;
-    }
-
-    .card:hover {
-      background-color: #4a1a9f;
-      box-shadow: 0 0 30px #b468ffdd;
-    }
-
-    /* Lists */
-    ul {
-      list-style: none;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      padding: 0;
-      user-select: text;
-    }
-
-    ul li {
-      background: #4a1a9f;
-      padding: 1rem 1.2rem;
-      margin-bottom: 1rem;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      box-shadow: inset 0 0 12px #b468ffcc;
-      transition: background-color 0.3s;
-    }
-
-    ul li:hover {
-      background: #6f39ff;
-      box-shadow: 0 0 18px #b468ffcc;
-    }
-
-    /* Table styling for trading */
-    table {
-      width: 100%;
-      max-width: 900px;
-      margin: 1rem auto 0;
-      border-collapse: separate;
-      border-spacing: 0 0.7rem;
-      font-size: 1.05rem;
-      color: #d0c9ffcc;
-      user-select: text;
-    }
-
-    thead th {
-      color: #b468ff;
-      font-weight: 800;
-      padding: 1rem 1.2rem;
-      text-align: left;
-      border-bottom: 3px solid #b468ffcc;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      user-select: text;
-    }
-
-    tbody tr {
-      background: #5b1edc;
-      box-shadow: 0 2px 10px #7d32ffcc;
-      border-radius: 14px;
-      transition: transform 0.3s;
-      user-select: none;
-    }
-
-    tbody tr:hover {
-      transform: translateY(-5px);
-      background: #883aff;
-      box-shadow: 0 0 20px #d1a7ffdd;
-    }
-
-    tbody td {
-      padding: 1rem 1.2rem;
-      border: none;
-      font-weight: 600;
-      user-select: text;
-    }
-
-    /* Forms */
-    form {
-      max-width: 520px;
-      margin: 1rem auto 2rem;
-      user-select: none;
-    }
-
-    label {
-      display: block;
-      font-weight: 800;
-      margin-bottom: 0.6rem;
-      color: #b468ff;
-      user-select: text;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 0.85rem 1.2rem;
-      margin-bottom: 1.4rem;
-      border-radius: 14px;
-      border: none;
-      background: #4a1a9f;
-      color: #ddd;
-      font-size: 1.1rem;
-      box-shadow: inset 0 0 12px #7a33ffcc;
-      transition: box-shadow 0.4s;
-      font-family: inherit;
-      user-select: text;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      box-shadow: 0 0 20px #b468ffdd;
-      background: #6827ff;
-    }
-
-    button {
-      display: block;
-      width: 100%;
-      padding: 1rem 0;
-      background-color: #b468ff;
-      border: none;
-      border-radius: 16px;
-      font-weight: 900;
-      font-size: 1.3rem;
-      color: #0b0015;
-      cursor: pointer;
-      transition: background-color 0.4s, box-shadow 0.4s;
-      box-shadow: 0 0 20px #b468ffdd;
-      user-select: none;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    button:hover,
-    button:focus {
-      background-color: #7d32ff;
-      box-shadow: 0 0 30px #7d32ffcc;
-      outline: none;
-    }
-
-    /* Footer */
-    footer {
-      background: #15002a;
-      padding: 1.5rem 0;
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      border-top: 1px solid #440088;
-      box-shadow: inset 0 1px 6px #000000dd;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
       flex-wrap: wrap;
-      user-select: none;
     }
-
-    footer a {
-      font-size: 2rem;
-      color: #b468ffcc;
-      transition: color 0.4s, transform 0.3s;
+    nav a {
+      font-size: 1rem;
     }
-
-    footer a:hover,
-    footer a:focus {
-      color: #d1a7ff;
-      transform: scale(1.3);
-      outline: none;
+    main {
+      margin: 2rem 1rem 3rem;
+      padding: 1rem;
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      nav {
-        gap: 1rem;
-        padding: 0.8rem 1rem;
-        flex-wrap: wrap;
-      }
-
-      nav a {
-        font-size: 1rem;
-      }
-
-      main {
-        margin: 2rem 1rem 3rem;
-        padding: 1rem;
-      }
-
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      h2 {
-        font-size: 1.6rem;
-        padding-left: 0.6rem;
-        border-left-width: 4px;
-      }
-
-      footer {
-        gap: 2rem;
-      }
+    h1 {
+      font-size: 2.2rem;
     }
-  </style>
+    h2 {
+      font-size: 1.6rem;
+      padding-left: 0.6rem;
+      border-left-width: 4px;
+    }
+    footer {
+      gap: 2rem;
+    }
+  }
+</style>
 </head>
 <body>
 
-  <nav>
-    <a href="#about" class="active">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#esports">Esports</a>
-    <a href="#trading">Trading</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<nav>
+  <a href="#about" class="active">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#esports">Esports</a>
+  <a href="#trading">Trading</a>
+  <a href="#contact">Contact</a>
+</nav>
 
-  <main>
-    <!-- About -->
-    <section id="about" tabindex="-1">
-      <h1>SHAMELESS — The Dark King of Games & Code</h1>
-      <div class="card">
-        <p>I’m SHAMELESS — the Fortnite nightmare haunting Iran’s esports. If you think you can outplay me, keep dreaming. Off the grind, I code ruthless scripts, bending Python, CSS, and JS to my will. I don’t build apps — I craft weapons.</p>
-        <p>Markets fear me too. I don’t just trade — I devour the weak and leave nothing but wreckage. If you’re not winning, you’re just prey. Stay toxic, stay sharp, or get wrecked.</p>
-      </div>
-    </section>
+<main>
+  <!-- About -->
+  <section id="about" tabindex="-1">
+    <h1>SHAMELESS — The Dark King of Games & Code</h1>
+    <div class="card">
+      <p>I’m SHAMELESS — the Fortnite nightmare haunting Iran’s esports. If you think you can outplay me, keep dreaming. Off the grind, I code ruthless scripts, bending Python, CSS, and JS to my will. I don’t build apps — I craft weapons.</p>
+      <p>Markets fear me too. I don’t just trade — I devour the weak and leave nothing but wreckage. If you’re not winning, you’re just prey. Stay toxic, stay sharp, or get wrecked.</p>
+    </div>
+  </section>
 
-    <!-- Skills -->
-    <section id="skills" tabindex="-1">
-      <h2>Skills That Kill</h2>
-      <div class="card">
-        <ul>
-          <li>Python — 95% lethal precision</li>
-          <li>JavaScript — 90% savage</li>
-          <li>CSS / Design — 92% venomous style</li>
-          <li>Backend / API — 88% hacker elite</li>
-          <li>Trading — 85% market predator</li>
-        </ul>
-      </div>
-    </section>
+  <!-- Skills -->
+  <section id="skills" tabindex="-1">
+    <h2>Deadly Skills</h2>
+    <ul>
+      <li>Fortnite pro: outbuild, outfight, outlast — every damn time</li>
+      <li>Master of Python, JavaScript, CSS — code so slick it hacks reality</li>
+      <li>Esports strategist — win rates that crush dreams</li>
+      <li>Market predator — crypto & forex with savage precision</li>
+    </ul>
+  </section>
 
-    <!-- Portfolio -->
-    <section id="portfolio" tabindex="-1">
-      <h2>Deadly Creations</h2>
-      <div class="card">
-        <p>⚙️ <strong>Shameless AI</strong> — An AI dev beast that spits out full projects from savage text commands.</p>
-      </div>
-      <div class="card">
-        <p>🎮 <strong>YUNG Windows Optimizer</strong> — Squeezes every ounce of juice from your rig, kills lag before it spawns.</p>
-      </div>
-      <div class="card">
-        <p>🤖 <strong>Jarvis AI Assistant</strong> — Your personal dark AI companion, online/offline, ruthless and loyal.</p>
-      </div>
-    </section>
-
-    <!-- Esports -->
-    <section id="esports" tabindex="-1">
-      <h2>Esports Dominance</h2>
-      <div class="card">
-        <p>Fortnite is my battlefield. I don’t play to win — I play to annihilate. Streaming to thousands, coaching the next generation of killers.</p>
-      </div>
+  <!-- Portfolio -->
+  <section id="portfolio" tabindex="-1">
+    <h2>Portfolio of Carnage</h2>
+    <div class="card">
+      <p>From gaming bots to trading dashboards, I build the tools that dominate. Peek behind the curtain and witness code that leaves no mercy:</p>
       <ul>
-        <li>Top 1% global conqueror</li>
-        <li>3x regional champion, zero mercy</li>
-        <li>Streaming & coaching Persia’s fiercest</li>
+        <li>SHAMELESS Gaming Toolkit — cheat codes for the elite</li>
+        <li>Dark Market Dashboard — tracking trades with cold precision</li>
+        <li>Esports Insight API — know your enemy, then crush them</li>
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- Trading -->
-    <section id="trading" tabindex="-1">
-      <h2>Market Carnage</h2>
-      <div class="card">
-        <p>I don’t trade like a man — I hunt like a beast. Crypto, Forex — I bleed the market dry and leave the weak scrambling for scraps.</p>
-      </div>
+  <!-- Esports -->
+  <section id="esports" tabindex="-1">
+    <h2>Esports Legacy</h2>
+    <div class="card">
+      <p>Top ranks in Iran’s brutal Fortnite scene. A reputation carved in sweat and blood. If you want to learn how I wreck opponents or challenge me to a duel, step up — or stay irrelevant.</p>
+    </div>
+  </section>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Instrument</th>
-            <th>Strategy</th>
-            <th>Win Rate</th>
-            <th>Average ROI</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Bitcoin (BTC)</td>
-            <td>Trend Hunting</td>
-            <td>78%</td>
-            <td>15%</td>
-          </tr>
-          <tr>
-            <td>Ethereum (ETH)</td>
-            <td>Savage Swing</td>
-            <td>72%</td>
-            <td>12%</td>
-          </tr>
-          <tr>
-            <td>Forex EUR/USD</td>
-            <td>Scalping Blood</td>
-            <td>65%</td>
-            <td>8%</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+  <!-- Trading -->
+  <section id="trading" tabindex="-1">
+    <h2>Market Carnage</h2>
+    <div class="card">
+      <p>I don’t trade like a man — I hunt like a beast. Crypto, Forex — I bleed the market dry and leave the weak scrambling for scraps.</p>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Instrument</th>
+          <th>Strategy</th>
+          <th>Win Rate</th>
+          <th>Average ROI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bitcoin (BTC)</td>
+          <td>Trend Hunting</td>
+          <td>78%</td>
+          <td>15%</td>
+        </tr>
+        <tr>
+          <td>Ethereum (ETH)</td>
+          <td>Savage Swing</td>
+          <td>72%</td>
+          <td>12%</td>
+        </tr>
+        <tr>
+          <td>Forex EUR/USD</td>
+          <td>Scalping Blood</td>
+          <td>65%</td>
+          <td>8%</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <!-- Contact -->
-    <section id="contact" tabindex="-1">
-      <h2>Reach Out... If You Dare</h2>
-      <div class="card">
-        <p>Think you can handle me? Hit me up. Collaboration, coaching, or just to confess defeat.</p>
-        <form id="contactForm" action="#" method="POST" onsubmit="return handleSubmit(event)">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required placeholder="Your name" />
+  <!-- Contact -->
+  <section id="contact" tabindex="-1">
+    <h2>Reach Out... If You Dare</h2>
+    <div class="card">
+      <p>Think you can handle me? Hit me up. Collaboration, coaching, or just to confess defeat.</p>
+      <form id="contactForm" action="#" method="POST" onsubmit="return handleSubmit(event)">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your name" />
 
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required placeholder="your@email.com" />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="your@email.com" />
 
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
 
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </section>
-  </main>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </section>
+</main>
 
-  <footer>
-    <a href="https://www.youtube.com/shameless" target="_blank" rel="noopener" aria-label="YouTube">
-      <i class="fab fa-youtube"></i>
-    </a>
-    <a href="https://discord.gg/shameless" target="_blank" rel="noopener" aria-label="Discord">
-      <i class="fab fa-discord"></i>
-    </a>
-    <a href="https://twitch.tv/shameless" target="_blank" rel="noopener" aria-label="Twitch">
-      <i class="fab fa-twitch"></i>
-    </a>
-    <a href="https://twitter.com/shameless" target="_blank" rel="noopener" aria-label="X">
-      <i class="fab fa-twitter"></i>
-    </a>
-  </footer>
+<footer>
+  <a href="https://www.youtube.com/shameless" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+    <i class="fab fa-youtube"></i>
+  </a>
+  <a href="https://discord.gg/shameless" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
+    <i class="fab fa-discord"></i>
+  </a>
+  <a href="https://twitch.tv/shameless" target="_blank" rel="noopener" aria-label="Twitch" title="Twitch">
+    <i class="fab fa-twitch"></i>
+  </a>
+  <a href="https://twitter.com/shameless" target="_blank" rel="noopener" aria-label="X" title="X">
+    <i class="fab fa-twitter"></i>
+  </a>
+</footer>
 
-  <script>
-    // Highlight nav link on scroll
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
+<script>
+  // Highlight nav link on scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav a');
 
-    function activateNavLink() {
-      let index = sections.length;
+  function activateNavLink() {
+    let index = sections.length;
 
-      while (--index && window.scrollY + 150 < sections[index].offsetTop) {}
+    while (--index && window.scrollY + 150 < sections[index].offsetTop) {}
 
-      navLinks.forEach(link => link.classList.remove('active'));
-      navLinks[index].classList.add('active');
-    }
+    navLinks.forEach(link => link.classList.remove('active'));
+    navLinks[index].classList.add('active');
+  }
 
-    activateNavLink();
-    window.addEventListener('scroll', activateNavLink);
+  activateNavLink();
+  window.addEventListener('scroll', activateNavLink);
 
-    // Contact form handler stub
-    function handleSubmit(event) {
-      event.preventDefault();
-      alert('Message received. SHAMELESS will consider whether to reply.');
-      event.target.reset();
-      return false;
-    }
-  </script>
+  // Contact form handler stub
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('Message received. SHAMELESS will consider whether to reply.');
+    event.target.reset();
+    return false;
+  }
+</script>
 </body>
 </html>
