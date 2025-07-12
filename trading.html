@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHAMELESS - Trading Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Some additional styles for trading dashboard */
+    #trade-form { display: none; margin-top: 1rem; }
+    #trade-form.visible { display: block; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    button { padding: 0.3rem 0.6rem; margin: 0 0.2rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">About</a>
+    <a href="skills.html">Skills</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="esports.html">Esports</a>
+    <a href="trading.html" class="active">Trading</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <section>
+    <h1>Trading Dashboard</h1>
+    <p>Admin login required to add or modify trades.</p>
+
+    <div id="login-section">
+      <input type="password" id="admin-password" placeholder="Admin password" />
+      <button id="login-btn">Login</button>
+      <p id="login-msg" style="color:red;"></p>
+    </div>
+
+    <form id="trade-form">
+      <input type="text" id="symbol" placeholder="Symbol (e.g. BTCUSD)" required />
+      <input type="number" id="entry" step="0.01" placeholder="Entry Price" required />
+      <input type="number" id="exit" step="0.01" placeholder="Exit Price" required />
+      <input type="date" id="date" required />
+      <button type="submit">Save Trade</button>
+      <button type="button" id="cancel-edit-btn" style="display:none;">Cancel</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Entry</th>
+          <th>Exit</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="trades-table-body"></tbody>
+    </table>
+  </section>
+
+  <script>
+    const ADMIN_PASSWORD = "shameless123"; // Change your admin password here!
+
+    const loginSection = document.getElementById("login-section");
+    const loginBtn = document.getElementById("login-btn");
+    const loginMsg = document.getElementById("login-msg");
+    const tradeForm = document.getElementById("trade-form");
+    const cancelEditBtn = document.getElementById("cancel-edit-btn");
+    const tradesTableBody = document.getElementById("trades-table-body");
+
+    let isLoggedIn = false;
+    let trades = JSON.parse(localStorage.getItem("trades") || "[]");
+    let editingTradeIndex = null;
+
+    function renderTrades() {
+      tradesTableBody.innerHTML = "";
+      trades.forEach((trade, i) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${trade.symbol}</td>
+          <td>${trade.entry}</td>
+          <td>${trade.exit}</td>
+          <td>${trade.date}</td>
+          <td>
+            <button ${!isLoggedIn ? "disabled" : ""} data-edit="${i}">Edit</button>
+            <button ${!isLoggedIn ? "disabled" : ""} data-delete="${i}">Delete</button>
+          </td>
+        `;
+        tradesTableBody.appendChild(row);
+      });
+    }
+
+    function toggleForm(show) {
+      if (show) {
+        tradeForm.classList.add("visible");
+      } else {
+        tradeForm.classList.remove("visible");
+        tradeForm.reset();
+        editingTradeIndex = null;
+        cancelEditBtn.style.display = "none";
+      }
+    }
+
+    loginBtn.addEventListener("click", () => {
+      const pass = document.getElementById("admin-password").value;
+      if (pass === ADMIN_PASSWORD) {
+        isLoggedIn = true;
+        loginMsg.textContent = "Logged in successfully.";
+        loginSection.style.display = "none";
+        toggleForm(true);
+        renderTrades();
+      } else {
+        loginMsg.textContent = "Incorrect password!";
+      }
+    });
+
+    tradeForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const symbol = document.getElementById("symbol").value.trim();
+      const entry = parseFloat(document.getElementById("entry").value);
+      const exit = parseFloat(document.getElementById("exit").value);
+      const date = document.getElementById("date").value;
+
+      if (!symbol || isNaN(entry) || isNaN(exit) || !date) {
+        alert("Please fill all fields correctly.");
+        return;
+      }
+
+      const tradeData = { symbol, entry, exit, date };
+
+      if (editingTradeIndex === null) {
+        trades.push(tradeData);
+      } else {
+        trades[editingTradeIndex] = tradeData;
+      }
+
+      localStorage.setItem("trades", JSON.stringify(trades));
+      renderTrades();
+      toggleForm(true);
+    });
+
+    tradesTableBody.addEventListener("click", (e) => {
+      if (!isLoggedIn) return;
+
+      if (e.target.dataset.edit !== undefined) {
+        editingTradeIndex = Number(e.target.dataset.edit);
+        const trade = trades[editingTradeIndex];
+        document.getElementById("symbol").value = trade.symbol;
+        document.getElementById("entry").value = trade.entry;
+        document.getElementById("exit").value = trade.exit;
+        document.getElementById("date").value = trade.date;
+        toggleForm(true);
+        cancelEditBtn.style.display = "inline-block";
+      }
+
+      if (e.target.dataset.delete !== undefined) {
+        const index = Number(e.target.dataset.delete);
+        if (confirm("Delete this trade?")) {
+          trades.splice(index, 1);
+          localStorage.setItem("trades", JSON.stringify(trades));
+          renderTrades();
+        }
+      }
+    });
+
+    cancelEditBtn.addEventListener("click", () => {
+      toggleForm(true);
+      cancelEditBtn.style.display = "none";
+      editingTradeIndex = null;
+    });
+
+    // Initial render (no login yet, so disable buttons)
+    renderTrades();
+  </script>
+
+</body>
+</html>
