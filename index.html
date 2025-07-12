@@ -16,12 +16,6 @@
       background: #330033; padding: 1em; text-align: center;
       font-size: 1.5em; font-weight: bold;
       border-bottom: 2px solid #c399ff;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    #usernameDisplay {
-      font-size: 1em;
-      font-style: italic;
-      color: #d9b3ff;
     }
     #chat {
       flex: 1; overflow-y: auto; padding: 1em;
@@ -110,20 +104,17 @@
 </head>
 <body>
 
-<header>
-  SHAMELESS Chat & Voice
-  <div id="usernameDisplay">Connecting...</div>
-</header>
+<header>SHAMELESS Chat & Voice</header>
 
 <ul id="messages"></ul>
 
 <div id="chat-input">
-  <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" disabled />
-  <button id="sendBtn" disabled>Send</button>
+  <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" />
+  <button id="sendBtn">Send</button>
 </div>
 
 <div id="vc-controls">
-  <button id="joinVcBtn" disabled>Join Voice Chat</button>
+  <button id="joinVcBtn">Join Voice Chat</button>
   <button id="leaveVcBtn" disabled>Leave Voice Chat</button>
   <button id="toggleCamBtn" disabled>Toggle Camera</button>
   <button id="toggleMicBtn" disabled>Toggle Mic</button>
@@ -137,8 +128,6 @@
 <script>
   const socket = io();
 
-  // UI Elements
-  const usernameDisplay = document.getElementById("usernameDisplay");
   const messages = document.getElementById("messages");
   const messageInput = document.getElementById("messageInput");
   const sendBtn = document.getElementById("sendBtn");
@@ -156,36 +145,7 @@
   let username = null;
   let inVC = false;
 
-  // On connect, request username assigned by server
-  socket.on("connect", () => {
-    socket.emit("request-username");
-  });
-
-  socket.on("assign-username", (name) => {
-    username = name;
-    usernameDisplay.textContent = "You are: " + username;
-    messageInput.disabled = false;
-    sendBtn.disabled = false;
-    joinVcBtn.disabled = false;
-    addSystemMessage(`Welcome, ${username}!`);
-  });
-
-  socket.on("error-message", (msg) => {
-    alert(msg);
-  });
-
-  socket.on("user-joined", (name) => {
-    addSystemMessage(`${name} joined the chat.`);
-  });
-
-  socket.on("user-left", (name) => {
-    addSystemMessage(`${name} left the chat.`);
-  });
-
-  socket.on("chat-message", ({ username: user, message }) => {
-    addChatMessage(user, message);
-  });
-
+  // Send message
   sendBtn.onclick = () => {
     const msg = messageInput.value.trim();
     if (!msg) return;
@@ -194,7 +154,7 @@
   };
 
   messageInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !sendBtn.disabled) sendBtn.click();
+    if (e.key === "Enter") sendBtn.click();
   });
 
   function addChatMessage(user, message) {
@@ -216,7 +176,30 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // --- WebRTC & Voice Chat --- (same as before)
+  // Handle server sending your assigned username
+  socket.on("set-username", (name) => {
+    username = name;
+    addSystemMessage(`You joined as "${username}"`);
+  });
+
+  socket.on("user-joined", (name) => {
+    addSystemMessage(`${name} joined the chat.`);
+  });
+
+  socket.on("user-left", (name) => {
+    addSystemMessage(`${name} left the chat.`);
+  });
+
+  socket.on("chat-message", ({ username: user, message }) => {
+    addChatMessage(user, message);
+  });
+
+  // Automatically join on page load
+  window.onload = () => {
+    socket.emit("join");
+  };
+
+  // --- WebRTC & Voice Chat ---
 
   joinVcBtn.onclick = async () => {
     if (inVC) return;
@@ -279,7 +262,6 @@
       screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
       addVideoStream("screen", screenStream, true, true);
 
-      // Add screen tracks to all peers
       for (const peerId in peers) {
         const pc = peers[peerId];
         screenStream.getTracks().forEach(track => {
@@ -289,7 +271,6 @@
       shareScreenBtn.disabled = true;
       stopShareScreenBtn.disabled = false;
 
-      // When user stops screen sharing (via browser)
       screenStream.getVideoTracks()[0].addEventListener("ended", () => {
         stopScreenShare();
       });
@@ -306,9 +287,14 @@
     if (!screenStream) return;
     screenStream.getTracks().forEach(track => track.stop());
     removeVideoStream("screen");
+    closeAllPeers();
     screenStream = null;
     shareScreenBtn.disabled = false;
     stopShareScreenBtn.disabled = true;
+
+    if (inVC) {
+      socket.emit("join-vc");
+    }
   }
 
   function resetVCControls() {
@@ -318,122 +304,128 @@
     toggleMicBtn.disabled = true;
     shareScreenBtn.disabled = true;
     stopShareScreenBtn.disabled = true;
-    toggleCamBtn.textContent = "Turn Camera Off";
-    toggleMicBtn.textContent = "Mute Mic";
   }
 
-  // Video management
-  function addVideoStream(id, stream, isLocal = false, isScreen = false) {
-    if (document.getElementById(id)) return;
-    const video = document.createElement("video");
-    video.id = id;
+  function addVideoStream(id, stream, muted = false, isScreen = false) {
+    let video = document.getElementById(id);
+    if (!video) {
+      video = document.createElement("video");
+      video.id = id;
+      video.autoplay = true;
+      video.playsInline = true;
+      videosDiv.appendChild(video);
+    }
     video.srcObject = stream;
-    video.autoplay = true;
-    video.muted = isLocal; // mute local video
-    if (isScreen) video.style.borderColor = "#ff99cc";
-    videosDiv.appendChild(video);
+    video.muted = muted;
+    if (isScreen) video.style.borderColor = "#ffa500";
   }
 
   function removeVideoStream(id) {
     const video = document.getElementById(id);
     if (video) {
       video.srcObject = null;
-      videosDiv.removeChild(video);
+      video.remove();
     }
   }
 
-  // WebRTC signaling
-  socket.on("vc-user-joined", async (peerId) => {
-    if (!inVC || peerId === socket.id) return;
-
-    const pc = createPeerConnection(peerId);
-    peers[peerId] = pc;
-
-    // Add local tracks
-    if (localStream) {
-      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+  function closeAllPeers() {
+    for (const peerId in peers) {
+      peers[peerId].close();
+      delete peers[peerId];
     }
-    if (screenStream) {
-      screenStream.getTracks().forEach(track => pc.addTrack(track, screenStream));
-    }
+  }
 
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
-    socket.emit("vc-signal", { to: peerId, from: socket.id, description: pc.localDescription });
-  });
+  // --- WebRTC signaling ---
 
-  socket.on("vc-signal", async ({ from, description, candidate }) => {
-    if (from === socket.id) return;
-    let pc = peers[from];
-    if (!pc) {
-      pc = createPeerConnection(from);
-      peers[from] = pc;
-    }
-    if (description) {
-      const remoteDesc = new RTCSessionDescription(description);
-      await pc.setRemoteDescription(remoteDesc);
-      if (description.type === "offer") {
-        if (localStream) {
-          localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+  socket.on("vc-users", (users) => {
+    // users = array of socket IDs
+    users.forEach(async (peerId) => {
+      if (peerId === socket.id || peers[peerId]) return;
+
+      const pc = new RTCPeerConnection();
+
+      localStream.getTracks().forEach(track => {
+        pc.addTrack(track, localStream);
+      });
+
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          socket.emit("ice-candidate", { to: peerId, candidate: event.candidate });
         }
-        if (screenStream) {
-          screenStream.getTracks().forEach(track => pc.addTrack(track, screenStream));
+      };
+
+      pc.ontrack = (event) => {
+        if (!document.getElementById(peerId)) {
+          const remoteVideo = document.createElement("video");
+          remoteVideo.id = peerId;
+          remoteVideo.autoplay = true;
+          remoteVideo.playsInline = true;
+          remoteVideo.srcObject = event.streams[0];
+          videosDiv.appendChild(remoteVideo);
         }
-        const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
-        socket.emit("vc-signal", { to: from, from: socket.id, description: pc.localDescription });
-      }
-    } else if (candidate) {
-      try {
-        await pc.addIceCandidate(candidate);
-      } catch (e) {
-        console.error("Error adding ICE candidate:", e);
-      }
-    }
+      };
+
+      peers[peerId] = pc;
+
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socket.emit("offer", { to: peerId, sdp: pc.localDescription });
+    });
   });
 
-  socket.on("vc-user-left", (peerId) => {
-    closePeer(peerId);
-  });
+  socket.on("offer", async ({ from, sdp }) => {
+    if (peers[from]) return; // Already connected
 
-  function createPeerConnection(peerId) {
-    const pc = new RTCPeerConnection({
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+    const pc = new RTCPeerConnection();
+
+    localStream.getTracks().forEach(track => {
+      pc.addTrack(track, localStream);
     });
 
     pc.onicecandidate = (event) => {
       if (event.candidate) {
-        socket.emit("vc-signal", { to: peerId, from: socket.id, candidate: event.candidate });
+        socket.emit("ice-candidate", { to: from, candidate: event.candidate });
       }
     };
 
     pc.ontrack = (event) => {
-      if (!document.getElementById(peerId)) {
-        addVideoStream(peerId, event.streams[0]);
+      if (!document.getElementById(from)) {
+        const remoteVideo = document.createElement("video");
+        remoteVideo.id = from;
+        remoteVideo.autoplay = true;
+        remoteVideo.playsInline = true;
+        remoteVideo.srcObject = event.streams[0];
+        videosDiv.appendChild(remoteVideo);
       }
     };
 
-    pc.onconnectionstatechange = () => {
-      if (pc.connectionState === "disconnected" || pc.connectionState === "failed" || pc.connectionState === "closed") {
-        closePeer(peerId);
-      }
-    };
+    peers[from] = pc;
 
-    return pc;
-  }
+    await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+    const answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
+    socket.emit("answer", { to: from, sdp: pc.localDescription });
+  });
 
-  function closePeer(peerId) {
-    const pc = peers[peerId];
-    if (pc) {
-      pc.close();
+  socket.on("answer", async ({ from, sdp }) => {
+    const pc = peers[from];
+    if (!pc) return;
+    await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+  });
+
+  socket.on("ice-candidate", ({ from, candidate }) => {
+    const pc = peers[from];
+    if (!pc) return;
+    pc.addIceCandidate(new RTCIceCandidate(candidate));
+  });
+
+  socket.on("user-left-vc", (peerId) => {
+    if (peers[peerId]) {
+      peers[peerId].close();
       delete peers[peerId];
     }
     removeVideoStream(peerId);
-  }
-
-  function closeAllPeers() {
-    Object.keys(peers).forEach(closePeer);
-  }
+  });
 
 </script>
 </body>
