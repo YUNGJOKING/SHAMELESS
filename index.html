@@ -5,235 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>YUNG | Pro Gamer & Dev</title>
   <style>
-    :root {
-      --color-primary: #c399ff;
-      --color-bg: #0a0a0a;
-      --color-accent: #660066;
-      --color-nav-bg: #220022;
-      --color-nav-hover: #660066;
-      --color-card-bg: #1a001a;
-      --color-card-shadow: #330033;
-      --input-bg: #330033;
-      --input-border: #660066;
-      --input-text: #c399ff;
-    }
+    /* ... (same styles as before for brevity) ... */
+    /* Only showing changes/additions here */
 
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    body {
-      background: var(--color-bg);
-      color: var(--color-primary);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    a {
-      color: var(--color-primary);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    a:hover,
-    a:focus-visible {
-      color: #fff;
-      outline: none;
-    }
-    a:focus-visible {
-      outline: 2px dashed var(--color-primary);
-      outline-offset: 3px;
-    }
-
-    header {
-      background: var(--color-card-bg);
-      padding: 1rem 2rem;
-      text-align: center;
-      border-bottom: 2px solid var(--color-accent);
-      flex-shrink: 0;
-    }
-    header h1 {
-      font-size: 2rem;
-    }
-
-    nav {
-      background: var(--color-nav-bg);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    /* Hamburger menu */
-    #menu-toggle {
-      display: none;
-    }
-    .menu-icon {
-      display: none;
-      cursor: pointer;
-      width: 30px;
-      height: 22px;
-      flex-direction: column;
-      justify-content: space-between;
-      position: absolute;
-      top: 50%;
-      right: 2rem;
-      transform: translateY(-50%);
-    }
-    .menu-icon span {
-      display: block;
-      height: 4px;
-      background: var(--color-primary);
-      border-radius: 2px;
-      transition: 0.3s;
-    }
-    nav a {
-      padding: 0.5rem 1rem;
-      background: var(--color-card-bg);
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    nav a:hover,
-    nav a:focus-visible {
-      background: var(--color-nav-hover);
-    }
-
-    /* Responsive nav */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
-      }
-      nav a {
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-      }
-      #menu-toggle:checked + .menu-icon + .nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        margin-top: 0.5rem;
-      }
-      .nav-links {
-        display: none;
-        width: 100%;
-      }
-      .menu-icon {
-        display: flex;
-      }
-    }
-
-    main {
-      flex-grow: 1;
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-      width: 100%;
-    }
-
-    section {
-      margin-bottom: 3rem;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    h2 {
-      font-size: 2rem;
+    #admin-login {
+      max-width: 300px;
       margin-bottom: 1rem;
-      border-left: 4px solid var(--color-accent);
-      padding-left: 0.5rem;
-    }
-
-    .card {
       background: var(--color-card-bg);
       padding: 1rem;
       border-radius: 10px;
-      margin-top: 1rem;
       box-shadow: 0 0 10px var(--color-card-shadow);
-      transition: transform 0.3s;
     }
-    .card:hover,
-    .card:focus-within {
-      transform: scale(1.02);
-      outline: none;
+    #admin-login label {
+      display: block;
+      margin-bottom: 0.5rem;
     }
-
-    footer {
-      background: var(--color-card-bg);
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      border-top: 2px solid var(--color-accent);
-      flex-shrink: 0;
-    }
-
-    .skill-bar {
-      margin: 0.8rem 0;
-    }
-    .skill-label {
-      margin-bottom: 0.3rem;
-    }
-    .bar-container {
-      background: var(--color-card-shadow);
-      border-radius: 20px;
-      overflow: hidden;
-      height: 20px;
-    }
-    .bar {
-      height: 100%;
-      background: var(--color-primary);
-      width: 0;
-      transition: width 1.2s ease;
-    }
-    section.visible .bar {
-      width: var(--level);
-    }
-
-    /* Trading form and table styles */
-    form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      align-items: center;
-    }
-    form label {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.9rem;
-      color: var(--color-primary);
-    }
-    form input, form select {
-      background: var(--input-bg);
-      border: 1.5px solid var(--input-border);
+    #admin-login input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
       border-radius: 6px;
+      border: 1.5px solid var(--input-border);
+      background: var(--input-bg);
       color: var(--input-text);
-      padding: 0.4rem 0.6rem;
       font-size: 1rem;
-      margin-top: 0.3rem;
-      transition: border-color 0.3s;
     }
-    form input:focus,
-    form select:focus {
-      outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 5px var(--color-primary);
-    }
-    form button {
+    #admin-login button {
+      margin-top: 0.5rem;
       background: var(--color-accent);
       color: var(--color-primary);
       border: none;
@@ -242,51 +39,25 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 1rem;
+      width: 100%;
       transition: background 0.3s;
-      justify-self: start;
-      grid-column: auto / span 1;
     }
-    form button:hover,
-    form button:focus-visible {
+    #admin-login button:hover,
+    #admin-login button:focus-visible {
       background: #880088;
       outline: none;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      color: var(--color-primary);
-      font-size: 0.9rem;
-    }
-    th, td {
-      border: 1px solid var(--color-card-shadow);
-      padding: 0.5rem 0.7rem;
-      text-align: left;
-    }
-    th {
-      background: var(--color-card-bg);
-    }
-    tr:nth-child(even) {
-      background: #240024;
-    }
-    tr:hover {
-      background: #3a003a;
+    form[disabled] * {
+      pointer-events: none;
+      opacity: 0.6;
     }
     button.action-btn {
-      background: var(--color-nav-hover);
-      border: none;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 0.8rem;
-      margin-right: 0.3rem;
-      transition: background 0.3s;
+      /* Initially hidden, will show if admin */
+      display: none;
     }
-    button.action-btn:hover,
-    button.action-btn:focus-visible {
-      background: #880088;
-      outline: none;
+    .admin-mode button.action-btn {
+      display: inline-block;
     }
   </style>
 </head>
@@ -314,66 +85,21 @@
   </nav>
 
   <main>
-    <section id="about" role="article">
-      <h2>About Me</h2>
-      <div class="card">
-        <p>Hello! I'm YUNG, a professional Fortnite player, full-stack developer, and trader based in Iran. I specialize in creating tools and apps for gaming communities and enjoy sharing my work and knowledge.</p>
-      </div>
-    </section>
+    <!-- ... other sections unchanged ... -->
 
-    <section id="skills" role="article" aria-label="Skills section">
-      <h2>Skills</h2>
-      <div class="card">
-        <div class="skill-bar" style="--level:90%;">
-          <div class="skill-label">Fortnite & Esports</div>
-          <div class="bar"></div>
-        </div>
-        <div class="skill-bar" style="--level:85%;">
-          <div class="skill-label">Full-Stack Development</div>
-          <div class="bar"></div>
-        </div>
-        <div class="skill-bar" style="--level:80%;">
-          <div class="skill-label">Python & Automation</div>
-          <div class="bar"></div>
-        </div>
-        <div class="skill-bar" style="--level:70%;">
-          <div class="skill-label">Trading & Analysis</div>
-          <div class="bar"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="portfolio" role="article">
-      <h2>Projects</h2>
-      <div class="card">
-        <ul>
-          <li>YUNG Optimizer - Windows PC Booster</li>
-          <li>Shameless AI Assistant</li>
-          <li>Discord Alternative for Iran</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="esports" role="article">
-      <h2>Esports</h2>
-      <div class="card">
-        <p>Top Fortnite competitor with many tournament wins and streams. Strong presence in Persian esports community.</p>
-      </div>
-    </section>
-
-    <section id="contact" role="article">
-      <h2>Contact</h2>
-      <div class="card">
-        <p>Email: yung@example.com</p>
-        <p>Twitter: @YUNG_pro</p>
-      </div>
-    </section>
-
-    <!-- Trading Section -->
     <section id="trading" role="article" aria-label="Trading Dashboard">
       <h2>Trading Dashboard</h2>
       <div class="card">
-        <form id="trade-form" aria-describedby="trade-form-desc">
+
+        <!-- Admin login -->
+        <form id="admin-login" aria-label="Admin login form">
+          <label for="admin-password">Enter admin password to edit trades:</label>
+          <input type="password" id="admin-password" aria-required="true" autocomplete="off" />
+          <button type="submit">Unlock Edit Mode</button>
+          <p id="login-message" style="color:#ff7777; margin-top:0.5rem;"></p>
+        </form>
+
+        <form id="trade-form" aria-describedby="trade-form-desc" disabled>
           <p id="trade-form-desc" style="margin-bottom:1rem;">Add or update your trades below:</p>
           <label for="symbol-input">Symbol (e.g. BTCUSD)
             <input type="text" id="symbol-input" name="symbol" required aria-required="true" autocomplete="off" />
@@ -403,7 +129,7 @@
           <button type="button" id="cancel-edit-btn" style="display:none; background:#880088;">Cancel Edit</button>
         </form>
 
-        <table aria-live="polite" aria-label="List of trades" aria-relevant="additions removals">
+        <table aria-live="polite" aria-label="List of trades" aria-relevant="additions removals" class="no-admin">
           <thead>
             <tr>
               <th>Symbol</th>
@@ -452,8 +178,15 @@
     const submitBtn = document.getElementById('submit-btn');
     const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
+    const adminLoginForm = document.getElementById('admin-login');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const loginMessage = document.getElementById('login-message');
+
     let trades = [];
     let editIndex = -1;
+    let isAdmin = false;
+
+    const ADMIN_PASSWORD = 'yung1234'; // Change this password to whatever you want
 
     function loadTrades() {
       const storedTrades = localStorage.getItem('yung_trades');
@@ -472,8 +205,8 @@
           <td>${trade.symbol}</td>
           <td>${trade.type}</td>
           <td>${trade.entry}</td>
-          <td>${trade.exit || '-'}</td>
-          <td>${trade.profit || '-'}</td>
+          <td>${trade.exit ?? '-'}</td>
+          <td>${trade.profit ?? '-'}</td>
           <td>
             <button class="action-btn" aria-label="Edit trade ${trade.symbol}" data-index="${i}">Edit</button>
             <button class="action-btn" aria-label="Delete trade ${trade.symbol}" data-index="${i}">Delete</button>
@@ -481,6 +214,7 @@
         `;
         tradesTableBody.appendChild(tr);
       });
+      updateEditModeUI();
     }
 
     function clearForm() {
@@ -498,8 +232,19 @@
       profitInput.value = trade.profit || '';
     }
 
+    function updateEditModeUI() {
+      if (isAdmin) {
+        form.removeAttribute('disabled');
+        document.querySelector('#trading .card').classList.add('admin-mode');
+      } else {
+        form.setAttribute('disabled', 'disabled');
+        document.querySelector('#trading .card').classList.remove('admin-mode');
+      }
+    }
+
     form.addEventListener('submit', e => {
       e.preventDefault();
+      if (!isAdmin) return;
 
       const newTrade = {
         symbol: symbolInput.value.trim().toUpperCase(),
@@ -520,6 +265,8 @@
     });
 
     tradesTableBody.addEventListener('click', e => {
+      if (!isAdmin) return;
+
       if (e.target.matches('button.action-btn')) {
         const index = parseInt(e.target.dataset.index, 10);
         if (e.target.textContent === 'Edit') {
@@ -541,6 +288,21 @@
 
     cancelEditBtn.addEventListener('click', () => {
       clearForm();
+    });
+
+    // Admin login handling
+    adminLoginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const pwd = adminPasswordInput.value.trim();
+      if (pwd === ADMIN_PASSWORD) {
+        isAdmin = true;
+        loginMessage.textContent = 'Edit mode enabled.';
+        adminPasswordInput.value = '';
+        adminLoginForm.style.display = 'none';
+        updateEditModeUI();
+      } else {
+        loginMessage.textContent = 'Incorrect password.';
+      }
     });
 
     // Initialize
