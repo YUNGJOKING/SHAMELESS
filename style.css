@@ -1,196 +1,114 @@
 /* styles.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: #121212;
   color: #eee;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  line-height: 1.6;
 }
 
 nav {
-  background: #1e1e1e;
-  padding: 1rem 2rem;
+  background: #1f1f1f;
+  padding: 1em;
   display: flex;
-  gap: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  gap: 15px;
   justify-content: center;
-  flex-wrap: wrap;
+  border-bottom: 1px solid #333;
 }
 
 nav a {
-  color: #bbb;
+  color: #aaa;
   text-decoration: none;
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  transition: background 0.3s ease, color 0.3s ease;
+  font-weight: bold;
   font-size: 1rem;
-  white-space: nowrap;
 }
 
-nav a:hover,
-nav a.active {
-  background: #ff4444;
-  color: white;
-  box-shadow: 0 0 10px #ff4444aa;
+nav a.active,
+nav a:hover {
+  color: #f39c12;
+  text-decoration: underline;
 }
 
 main {
-  flex-grow: 1;
   max-width: 900px;
-  margin: 2.5rem auto 3rem;
-  padding: 0 1rem;
-  word-wrap: break-word;
+  margin: 2em auto;
+  padding: 0 1em;
 }
 
-h1 {
-  color: #ff4444;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  font-size: 2.5rem;
+footer {
+  background: #1f1f1f;
+  padding: 1em;
   text-align: center;
+  border-top: 1px solid #333;
 }
 
-p,
-ul {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+footer a {
+  color: #aaa;
+  margin: 0 10px;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #f39c12;
 }
 
 ul {
-  list-style-type: disc;
-  padding-left: 1.6rem;
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 0.5em 0;
+  border-bottom: 1px solid #333;
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
-  margin-top: 1rem;
-  box-shadow: 0 0 20px #222;
-  border-radius: 8px;
-  overflow: hidden;
+  border-collapse: collapse;
+  margin-top: 1em;
 }
 
 th,
 td {
+  padding: 0.75em;
   border: 1px solid #333;
-  padding: 12px 15px;
-  text-align: center;
-  font-size: 1rem;
-}
-
-th {
-  background-color: #2a2a2a;
-  color: #ff4444;
-  font-weight: 700;
+  text-align: left;
 }
 
 button {
-  background-color: #ff4444;
+  background-color: #f39c12;
   border: none;
-  color: white;
+  color: #121212;
+  padding: 10px 20px;
+  font-weight: bold;
   cursor: pointer;
-  border-radius: 6px;
-  padding: 0.6rem 1.4rem;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  display: inline-block;
+  border-radius: 4px;
 }
 
-button:hover:not(:disabled) {
-  background-color: #cc3333;
-}
-
-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
+button:hover {
+  background-color: #d17e00;
 }
 
 input,
-select,
 textarea {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #444;
-  margin-right: 0.7rem;
+  width: 100%;
+  padding: 0.75em;
+  border-radius: 4px;
+  border: 1px solid #333;
   background: #222;
   color: #eee;
   font-size: 1rem;
-  min-width: 150px;
-  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
-textarea {
-  resize: vertical;
-  min-width: 100%;
-  max-width: 100%;
-  margin-top: 0.3rem;
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #f39c12;
 }
 
 label {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-footer {
-  background: #1e1e1e;
-  padding: 1.5rem 2rem;
-  color: #bbb;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: auto;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  flex-wrap: wrap;
-}
-
-footer a {
-  color: #bbb;
-  text-decoration: none;
-  font-size: 1.6rem;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: #ff4444;
-}
-
-/* Responsive */
-
-@media (max-width: 600px) {
-  nav {
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  nav a {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
-
-  main {
-    max-width: 95%;
-    margin: 1.5rem auto 2rem;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
+  font-weight: bold;
 }
