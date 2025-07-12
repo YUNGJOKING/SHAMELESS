@@ -2,6 +2,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -18,26 +22,26 @@ nav {
   padding: 1rem 2rem;
   display: flex;
   gap: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   position: sticky;
   top: 0;
   z-index: 1000;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav a {
   color: #bbb;
   text-decoration: none;
   font-weight: 600;
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 6px;
   transition: background 0.3s ease, color 0.3s ease;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
-nav a:hover {
-  background: #ff4444;
-  color: white;
-}
-
+nav a:hover,
 nav a.active {
   background: #ff4444;
   color: white;
@@ -47,68 +51,42 @@ nav a.active {
 main {
   flex-grow: 1;
   max-width: 900px;
-  margin: 2rem auto;
+  margin: 2.5rem auto 3rem;
   padding: 0 1rem;
+  word-wrap: break-word;
 }
 
 h1 {
   color: #ff4444;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 700;
   font-size: 2.5rem;
+  text-align: center;
 }
 
-p, ul {
+p,
+ul {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 ul {
   list-style-type: disc;
-  padding-left: 1.5rem;
-}
-
-button {
-  background-color: #ff4444;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-button:hover:not(:disabled) {
-  background-color: #cc3333;
-}
-
-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-input, select {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #444;
-  margin-right: 0.7rem;
-  background: #222;
-  color: #eee;
-  font-size: 1rem;
-  min-width: 150px;
+  padding-left: 1.6rem;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 1rem;
-  box-shadow: 0 0 15px #222;
+  box-shadow: 0 0 20px #222;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #333;
   padding: 12px 15px;
   text-align: center;
@@ -121,26 +99,98 @@ th {
   font-weight: 700;
 }
 
+button {
+  background-color: #ff4444;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+button:hover:not(:disabled) {
+  background-color: #cc3333;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  margin-right: 0.7rem;
+  background: #222;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 150px;
+  font-family: 'Poppins', sans-serif;
+}
+
+textarea {
+  resize: vertical;
+  min-width: 100%;
+  max-width: 100%;
+  margin-top: 0.3rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
 footer {
   background: #1e1e1e;
-  padding: 1.2rem 2rem;
+  padding: 1.5rem 2rem;
   color: #bbb;
   text-align: center;
   font-size: 0.9rem;
   margin-top: auto;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.6);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
+  flex-wrap: wrap;
 }
 
 footer a {
   color: #bbb;
   text-decoration: none;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   transition: color 0.3s ease;
 }
 
 footer a:hover {
   color: #ff4444;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  nav {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  main {
+    max-width: 95%;
+    margin: 1.5rem auto 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
 }
