@@ -2,615 +2,274 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHAMELESS — Digital Demon of Games & Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SHAMELESS Clan Camera Control Room</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
-    /* Reset & base */
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
     body {
-      background: radial-gradient(ellipse at bottom, #0a0011 0%, #1a001f 100%);
-      color: #dcb0ff;
-      scroll-behavior: smooth;
-      padding-bottom: 100px;
-      background-attachment: fixed;
-      background-size: cover;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><circle cx="12" cy="12" r="3" fill="purple"/></svg>') 12 12, auto;
-      transition: background-color 0.5s ease;
-    }
-    body.darkmode {
-      background: radial-gradient(ellipse at bottom, #000 0%, #110022 100%);
-      color: #c486ff;
-    }
-    nav {
-      background: #1a001f;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 1.2rem;
-      box-shadow: 0 0 25px #990099;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      user-select: none;
-    }
-    nav a {
-      color: #dcb0ff;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
-      position: relative;
-      padding-bottom: 3px;
-    }
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: #ff00ff;
-      border-radius: 2px;
-      transition: width 0.3s ease;
-    }
-    nav a:hover,
-    nav a.active {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #000;
+      overflow-x: hidden;
       color: #fff;
     }
-    nav a.active::after,
-    nav a:hover::after {
-      width: 100%;
-    }
 
-    /* Dark mode toggle button */
-    #darkToggle {
+    /* Background & effects */
+    body::before {
+      content: '';
       position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: #330033;
-      border: none;
-      padding: 0.6rem 1.1rem;
-      border-radius: 25px;
-      color: #ff99ff;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ff00ff;
-      user-select: none;
-      transition: background-color 0.4s ease;
-      z-index: 1000;
-    }
-    #darkToggle:hover {
-      background: #990099;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(ellipse at center, #1a001a 0%, #000 100%);
+      z-index: -3;
     }
 
-    main {
-      text-align: center;
-      padding: 4rem 2rem 2rem;
-      animation: fadein 1.5s ease;
-      min-height: 80vh;
-    }
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Glitch effect on SHAMELESS */
-    main h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      color: #ff44ff;
-      position: relative;
-      user-select: none;
-      overflow: visible;
-      animation: glitch-flicker 2s infinite;
-    }
-    main h1::before,
-    main h1::after {
-      content: "SHAMELESS";
-      position: absolute;
+    body::after {
+      content: '';
+      position: fixed;
       top: 0; left: 0;
       width: 100%;
-      overflow: hidden;
-      clip: rect(0, 900px, 0, 0);
-      animation: glitch-anim 2s infinite;
-    }
-    main h1::before {
-      left: 2px;
-      text-shadow: -2px 0 #ff00ff;
-      animation-delay: 0.2s;
-    }
-    main h1::after {
-      left: -2px;
-      text-shadow: -2px 0 #990099;
-      animation-delay: 0.4s;
-    }
-    @keyframes glitch-flicker {
-      0%, 100% { opacity: 1; }
-      20%, 80% { opacity: 0.8; }
-      40%, 60% { opacity: 1; }
-    }
-    @keyframes glitch-anim {
-      0% {
-        clip: rect(42px, 9999px, 44px, 0);
-        transform: translate(0);
-      }
-      10% {
-        clip: rect(12px, 9999px, 14px, 0);
-        transform: translate(-2px, -2px);
-      }
-      20% {
-        clip: rect(82px, 9999px, 85px, 0);
-        transform: translate(2px, 2px);
-      }
-      30% {
-        clip: rect(42px, 9999px, 44px, 0);
-        transform: translate(0);
-      }
-      40% {
-        clip: rect(12px, 9999px, 14px, 0);
-        transform: translate(-2px, 2px);
-      }
-      50% {
-        clip: rect(82px, 9999px, 85px, 0);
-        transform: translate(2px, -2px);
-      }
-      60% {
-        clip: rect(42px, 9999px, 44px, 0);
-        transform: translate(0);
-      }
-      70% {
-        clip: rect(12px, 9999px, 14px, 0);
-        transform: translate(-2px, 2px);
-      }
-      80% {
-        clip: rect(82px, 9999px, 85px, 0);
-        transform: translate(2px, -2px);
-      }
-      90% {
-        clip: rect(42px, 9999px, 44px, 0);
-        transform: translate(0);
-      }
-      100% {
-        clip: rect(12px, 9999px, 14px, 0);
-        transform: translate(-2px, -2px);
-      }
+      height: 100%;
+      background-image: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      background-size: cover;
+      mix-blend-mode: screen;
+      opacity: 0.06;
+      z-index: -2;
+      pointer-events: none;
     }
 
-    main p {
-      font-size: 1.4rem;
-      color: #ccc;
-      max-width: 750px;
-      margin: auto;
-      line-height: 1.7;
-      animation: fadein 1.5s ease 0.5s both;
-      user-select: none;
-    }
-
-    /* Card and trade table */
-    .card {
-      background: #1a001f;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 0 20px #660066;
-      max-width: 1000px;
-      color: #e5ccff;
-      transition: transform 0.3s;
-      user-select: none;
-    }
-    .card:hover {
-      transform: scale(1.01);
-    }
-    table {
-      width: 100%;
-      margin-top: 1rem;
-      border-collapse: collapse;
-      color: #fff;
-      font-size: 1rem;
-    }
-    th, td {
-      padding: 0.8rem;
-      border-bottom: 1px solid #444;
+    h1 {
       text-align: center;
+      margin: 30px 0 10px;
+      font-size: 2.4em;
+      color: #b94dff;
+      text-shadow: 0 0 8px #8000ff;
     }
-    th {
-      background: #330033;
-      color: #ff99ff;
+
+    .camera-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .row {
+      display: grid;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .row.top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .row.bottom {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .camera {
+      background-color: #111;
+      border: 2px solid #8000ff;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(128, 0, 255, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      user-select: none;
-      position: relative;
-    }
-    th .sort-arrow {
-      margin-left: 6px;
-      font-size: 0.8rem;
-      opacity: 0.6;
-      user-select: none;
-      transition: opacity 0.3s ease;
-    }
-    th:hover .sort-arrow {
-      opacity: 1;
     }
 
-    /* Tooltip */
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: help;
-      border-bottom: 1px dotted #ff99ff;
+    .row.top .camera {
+      transform: scale(0.95);
     }
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 180px;
-      background-color: #330033;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 6px;
+
+    .camera:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(185, 77, 255, 0.5);
+    }
+
+    .rec {
       position: absolute;
-      z-index: 100;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -90px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.9rem;
-      user-select: none;
-      box-shadow: 0 0 8px #cc00cc;
+      top: 8px;
+      left: 8px;
+      color: red;
+      font-size: 0.9em;
+      font-weight: bold;
     }
-    .tooltip:hover .tooltiptext {
+
+    .camera-name {
+      margin-top: 10px;
+      color: #ccc;
+      font-size: 0.95em;
+    }
+
+    .desk {
+      width: 100%;
+      background: #0a0a0a;
+      border-top: 2px solid #8000ff;
+      padding: 15px 0;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      box-shadow: 0 -2px 12px #8000ff88;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .social-icons a {
+      color: #b94dff;
+      font-size: 1.5em;
+      transition: transform 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+      color: #fff;
+      text-shadow: 0 0 8px #b94dff;
+    }
+
+    /* Loading Screen */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #120012 0%, #240024 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #b94dff;
+      font-family: 'Orbitron', monospace, sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 10px #b94dff;
+      z-index: 9999;
+      user-select: none;
+    }
+    #loader .spinner {
+      margin-top: 20px;
+      border: 4px solid #b94dff50;
+      border-top: 4px solid #b94dff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      filter: drop-shadow(0 0 5px #b94dff);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    /* Hide main content initially */
+    #main, #main-content {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #main.visible, #main-content.visible {
       visibility: visible;
       opacity: 1;
     }
-
-    /* Input and form */
-    #trade-form {
-      display: none;
-      margin-top: 2rem;
-      user-select: none;
-    }
-    input[type="text"], input[type="number"] {
-      padding: 0.6rem;
-      border: none;
-      border-radius: 6px;
-      margin: 0.4rem;
-      background: #330033;
-      color: #fff;
-      font-size: 1rem;
-      width: 130px;
-      transition: background-color 0.3s;
-    }
-    input[type="text"]:focus, input[type="number"]:focus {
-      background: #440044;
-      outline: none;
-    }
-    input[type="submit"] {
-      background: #990099;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 6px;
-      margin-top: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-      user-select: none;
-      box-shadow: 0 0 12px #cc00cc;
-    }
-    input[type="submit"]:hover {
-      background: #cc00cc;
-      box-shadow: 0 0 18px #ff00ff;
-    }
-    .error {
-      border: 2px solid #ff3333 !important;
-      background-color: #440000 !important;
-      color: #ff6666 !important;
-    }
-
-    /* Section styles */
-    section {
-      padding: 3rem 2rem;
-    }
-    h2 {
-      font-size: 2.3rem;
-      color: #ff66cc;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 15px #ff00ff;
-      user-select: none;
-    }
-
-    /* Social icons */
-    ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 2.5rem;
-      margin-top: 2rem;
-      user-select: none;
-    }
-    ul li a {
-      color: #ffb3ff;
-      font-size: 1.8rem;
-      transition: transform 0.4s, color 0.4s, text-shadow 0.4s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    ul li a:hover {
-      transform: scale(1.3) rotate(-7deg);
-      color: #ffffff;
-      text-shadow: 0 0 18px #ff00ff;
-      animation: pulse-glow 1.2s infinite alternate ease-in-out;
-    }
-    @keyframes pulse-glow {
-      from {
-        text-shadow: 0 0 10px #ff00ff;
-      }
-      to {
-        text-shadow: 0 0 20px #ff66ff;
-      }
-    }
-
-    /* Footer */
-    footer {
-      background: #110011;
-      padding: 2rem;
-      text-align: center;
-      color: #888;
-      border-top: 2px solid #550055;
-      user-select: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-      }
-      main h1 {
-        font-size: 3rem;
-      }
-      input[type="text"], input[type="number"] {
-        width: 100%;
-        max-width: 250px;
-      }
-      ul {
-        gap: 1.5rem;
-      }
-    }
-
-    /* Animated starfield background */
-    #starfield {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
   </style>
 </head>
-<body>
-  <button id="darkToggle" title="Toggle Dark Mode">🖤 Purple Mode</button>
+<body aria-busy="true">
 
-  <nav>
-    <a href="#home" class="nav-link active">Home</a>
-    <a href="#about" class="nav-link">About</a>
-    <a href="#trades" class="nav-link">Trades</a>
-    <a href="#contact" class="nav-link">Contact</a>
-  </nav>
+  <!-- Loading Screen -->
+  <div id="loader" role="alert" aria-busy="true" aria-live="assertive">
+    Booting up the security cams...
+    <div class="spinner" aria-hidden="true"></div>
+  </div>
 
-  <canvas id="starfield"></canvas>
+  <!-- Main content wrapper -->
+  <div id="main" aria-hidden="true" class="hidden">
+    <h1>SHAMELESS Clan Camera Control Room</h1>
 
-  <main id="home">
-    <h1>SHAMELESS</h1>
-    <p>I’m the corrupted save file you can't delete, the nightmare inside your firewall. From code chaos to market slayage — I own it all. I am SHAMELESS — the one your system fears most.</p>
-    
-    <div class="card" id="trades">
-      <h2>Recent Executions</h2>
-      <input type="text" id="searchTrades" placeholder="Search trades..." style="margin-bottom: 10px; padding: 0.5rem 1rem; border-radius: 8px; border: none; max-width: 300px; background: #330033; color: #fff; font-size: 1rem; user-select:none;" title="Search by Asset or Direction" />
-      <table id="trade-table" aria-label="Trades Table">
-        <thead>
-          <tr>
-            <th data-key="asset">Asset <span class="sort-arrow">⇅</span></th>
-            <th data-key="direction">Direction <span class="sort-arrow">⇅</span></th>
-            <th data-key="entry">Entry Price <span class="sort-arrow">⇅</span></th>
-            <th data-key="exit">Exit Price <span class="sort-arrow">⇅</span></th>
-            <th data-key="pnl">PnL <span class="sort-arrow">⇅</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>BTCUSDT</td><td>Long</td><td>27,000</td><td>27,300</td><td>+1.11%</td></tr>
-          <tr><td>ETHUSDT</td><td>Short</td><td>1,800</td><td>1,740</td><td>+3.33%</td></tr>
-          <tr><td>ADAUSDT</td><td>Long</td><td>0.45</td><td>0.48</td><td>+6.66%</td></tr>
-          <tr><td>XRPUSDT</td><td>Short</td><td>0.35</td><td>0.32</td><td>+8.57%</td></tr>
-          <tr><td>DOTUSDT</td><td>Long</td><td>6.5</td><td>6.7</td><td>+3.07%</td></tr>
-        </tbody>
-      </table>
+    <div class="camera-grid" id="main-content" aria-hidden="true" class="hidden">
+      <div class="row top">
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/200x120/111/fff?text=Leader+1" alt="Leader 1" width="100%">
+          <div class="camera-name">Leader 1</div>
+        </div>
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/200x120/111/fff?text=Leader+2" alt="Leader 2" width="100%">
+          <div class="camera-name">Leader 2</div>
+        </div>
+      </div>
+
+      <div class="row bottom">
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/250x150/111/fff?text=Member+1" alt="Member 1" width="100%">
+          <div class="camera-name">Member 1</div>
+        </div>
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/250x150/111/fff?text=Member+2" alt="Member 2" width="100%">
+          <div class="camera-name">Member 2</div>
+        </div>
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/250x150/111/fff?text=Member+3" alt="Member 3" width="100%">
+          <div class="camera-name">Member 3</div>
+        </div>
+        <div class="camera" onclick="window.open('#', '_blank')">
+          <div class="rec">● REC</div>
+          <img src="https://placehold.co/250x150/111/fff?text=Member+4" alt="Member 4" width="100%">
+          <div class="camera-name">Member 4</div>
+        </div>
+      </div>
     </div>
 
-    <section id="about">
-      <h2>About SHAMELESS</h2>
-      <p>Veteran Fortnite pro player, digital demon coder, and fearless trader. I live for the chaos and craft every line of code like a weapon. This site is my digital playground — welcome to my lair.</p>
-    </section>
-
-    <section id="contact">
-      <h2>Contact & Socials</h2>
-      <ul>
-        <li><a href="https://twitter.com/Yung_Joking" target="_blank" rel="noopener" title="Twitter"><i class="fab fa-twitter"></i>Twitter</a></li>
-        <li><a href="https://twitch.tv/yungjoking" target="_blank" rel="noopener" title="Twitch"><i class="fab fa-twitch"></i>Twitch</a></li>
-        <li><a href="https://github.com/YUNGJOKING" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i>GitHub</a></li>
-        <li><a href="https://youtube.com/@yungjoking" target="_blank" rel="noopener" title="YouTube"><i class="fab fa-youtube"></i>YouTube</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2025 SHAMELESS — All Rights Reserved.
-  </footer>
-
-  <!-- Hover sound -->
-  <audio id="hoverSound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="></audio>
+    <div class="desk">
+      <div class="social-icons">
+        <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" title="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" title="Discord"><i class="fab fa-discord"></i></a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://aparat.com" target="_blank" rel="noopener noreferrer" title="Aparat"><i class="fas fa-video"></i></a>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // ScrollSpy for nav active state
-    const navLinks = document.querySelectorAll('nav a.nav-link');
-    const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
-    window.addEventListener('scroll', () => {
-      let fromTop = window.scrollY + 100;
-      navLinks.forEach((link, idx) => {
-        let section = sections[idx];
-        if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
-          navLinks.forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        const main = document.getElementById('main');
+        const mainContent = document.getElementById('main-content');
+
+        loader.style.transition = 'opacity 0.5s ease';
+        loader.style.opacity = 0;
+
+        setTimeout(() => {
+          loader.style.display = 'none';
+          main.classList.remove('hidden');
+          main.classList.add('visible');
+          mainContent.classList.remove('hidden');
+          mainContent.classList.add('visible');
+          main.setAttribute('aria-hidden', 'false');
+          mainContent.setAttribute('aria-hidden', 'false');
+          loader.setAttribute('aria-busy', 'false');
+          document.body.setAttribute('aria-busy', 'false');
+        }, 500);
+      }, 3500); // 3.5 seconds loading time
     });
-
-    // Sorting trades table
-    const table = document.getElementById('trade-table');
-    const tbody = table.querySelector('tbody');
-    const headers = table.querySelectorAll('th');
-    let sortDirection = 1;
-    let sortedColumn = null;
-
-    headers.forEach(header => {
-      header.addEventListener('click', () => {
-        const key = header.getAttribute('data-key');
-        if (sortedColumn === key) {
-          sortDirection = -sortDirection;
-        } else {
-          sortedColumn = key;
-          sortDirection = 1;
-        }
-        sortTableBy(key, sortDirection);
-        updateSortArrows();
-      });
-    });
-
-    function sortTableBy(key, direction) {
-      const rows = [...tbody.rows];
-      rows.sort((a, b) => {
-        let valA = a.querySelector(`td:nth-child(${getColumnIndex(key) + 1})`).textContent.trim();
-        let valB = b.querySelector(`td:nth-child(${getColumnIndex(key) + 1})`).textContent.trim();
-
-        // Normalize for numeric and percentage fields
-        if (key === 'entry' || key === 'exit') {
-          valA = parseFloat(valA.replace(/,/g, '')) || 0;
-          valB = parseFloat(valB.replace(/,/g, '')) || 0;
-        } else if (key === 'pnl') {
-          valA = parseFloat(valA.replace('%', '').replace('+', '')) || 0;
-          valB = parseFloat(valB.replace('%', '').replace('+', '')) || 0;
-        } else {
-          valA = valA.toLowerCase();
-          valB = valB.toLowerCase();
-        }
-
-        if (valA < valB) return -direction;
-        if (valA > valB) return direction;
-        return 0;
-      });
-      rows.forEach(row => tbody.appendChild(row));
-    }
-
-    function getColumnIndex(key) {
-      switch(key) {
-        case 'asset': return 0;
-        case 'direction': return 1;
-        case 'entry': return 2;
-        case 'exit': return 3;
-        case 'pnl': return 4;
-      }
-    }
-
-    function updateSortArrows() {
-      headers.forEach(h => {
-        const arrow = h.querySelector('.sort-arrow');
-        if (h.getAttribute('data-key') === sortedColumn) {
-          arrow.textContent = sortDirection === 1 ? '⬆' : '⬇';
-        } else {
-          arrow.textContent = '⇅';
-        }
-      });
-    }
-
-    // Search trades filter
-    document.getElementById('searchTrades').addEventListener('input', function() {
-      const filter = this.value.toLowerCase();
-      [...tbody.rows].forEach(row => {
-        const asset = row.cells[0].textContent.toLowerCase();
-        const direction = row.cells[1].textContent.toLowerCase();
-        if (asset.includes(filter) || direction.includes(filter)) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
-    });
-
-    // Hover sound effect on nav & buttons
-    const hoverSound = document.getElementById('hoverSound');
-    document.querySelectorAll('nav a, button, input[type="submit"], ul li a').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        hoverSound.currentTime = 0;
-        hoverSound.play();
-      });
-    });
-
-    // Dark mode toggle
-    const darkToggle = document.getElementById('darkToggle');
-    darkToggle.addEventListener('click', () => {
-      document.body.classList.toggle('darkmode');
-      if (document.body.classList.contains('darkmode')) {
-        darkToggle.textContent = '🖤 Classic Mode';
-      } else {
-        darkToggle.textContent = '🖤 Purple Mode';
-      }
-    });
-
-    // Starfield background animation
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let w, h;
-    function initStars() {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
-      stars = [];
-      for (let i = 0; i < 150; i++) {
-        stars.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          radius: Math.random() * 1.2 + 0.3,
-          speed: Math.random() * 0.4 + 0.05,
-          opacity: Math.random(),
-          flicker: Math.random() * 0.05,
-        });
-      }
-    }
-    function drawStars() {
-      ctx.clearRect(0, 0, w, h);
-      stars.forEach(s => {
-        s.opacity += s.flicker;
-        if (s.opacity > 1 || s.opacity < 0.2) s.flicker = -s.flicker;
-        s.x -= s.speed;
-        if (s.x < 0) s.x = w;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 0, 255, ${s.opacity.toFixed(2)})`;
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = '#ff00ff';
-        ctx.fill();
-      });
-      requestAnimationFrame(drawStars);
-    }
-    window.addEventListener('resize', initStars);
-    initStars();
-    drawStars();
-
   </script>
 </body>
 </html>
