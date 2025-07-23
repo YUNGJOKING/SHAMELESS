@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
+    /* --- [styles unchanged from your original] --- */
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
@@ -14,8 +15,6 @@
       overflow-x: hidden;
       color: #fff;
     }
-
-    /* Background & effects */
     body::before {
       content: '';
       position: fixed;
@@ -25,7 +24,6 @@
       background: radial-gradient(ellipse at center, #1a001a 0%, #000 100%);
       z-index: -3;
     }
-
     body::after {
       content: '';
       position: fixed;
@@ -39,7 +37,6 @@
       z-index: -2;
       pointer-events: none;
     }
-
     h1 {
       text-align: center;
       margin: 30px 0 10px;
@@ -47,7 +44,6 @@
       color: #b94dff;
       text-shadow: 0 0 8px #8000ff;
     }
-
     .camera-grid {
       display: flex;
       flex-direction: column;
@@ -56,21 +52,17 @@
       margin: 30px auto;
       padding: 0 20px;
     }
-
     .row {
       display: grid;
       gap: 20px;
       justify-content: center;
     }
-
     .row.top {
       grid-template-columns: repeat(2, 1fr);
     }
-
     .row.bottom {
       grid-template-columns: repeat(4, 1fr);
     }
-
     .camera {
       background-color: #111;
       border: 2px solid #8000ff;
@@ -82,16 +74,13 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
     }
-
     .row.top .camera {
       transform: scale(0.95);
     }
-
     .camera:hover {
       transform: scale(1.05);
       box-shadow: 0 0 18px rgba(185, 77, 255, 0.5);
     }
-
     .rec {
       position: absolute;
       top: 8px;
@@ -100,13 +89,11 @@
       font-size: 0.9em;
       font-weight: bold;
     }
-
     .camera-name {
       margin-top: 10px;
       color: #ccc;
       font-size: 0.95em;
     }
-
     .desk {
       width: 100%;
       background: #0a0a0a;
@@ -119,27 +106,22 @@
       z-index: 10;
       box-shadow: 0 -2px 12px #8000ff88;
     }
-
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 30px;
     }
-
     .social-icons a {
       color: #b94dff;
       font-size: 1.5em;
       transition: transform 0.3s ease, color 0.3s ease;
       text-decoration: none;
     }
-
     .social-icons a:hover {
       transform: scale(1.2);
       color: #fff;
       text-shadow: 0 0 8px #b94dff;
     }
-
-    /* Loading Screen */
     #loader {
       position: fixed;
       top: 0; left: 0;
@@ -168,13 +150,10 @@
       animation: spin 1s linear infinite;
       filter: drop-shadow(0 0 5px #b94dff);
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg);}
       100% { transform: rotate(360deg);}
     }
-
-    /* Hide main content initially */
     #main, #main-content {
       visibility: hidden;
       opacity: 0;
@@ -188,24 +167,22 @@
 </head>
 <body aria-busy="true">
 
-  <!-- Loading Screen -->
   <div id="loader" role="alert" aria-busy="true" aria-live="assertive">
     Booting up the security cams...
     <div class="spinner" aria-hidden="true"></div>
   </div>
 
-  <!-- Main content wrapper -->
   <div id="main" aria-hidden="true" class="hidden">
     <h1>SHAMELESS Clan Camera Control Room</h1>
 
     <div class="camera-grid" id="main-content" aria-hidden="true" class="hidden">
       <div class="row top">
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://leader1-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/200x120/111/fff?text=Leader+1" alt="Leader 1" width="100%">
           <div class="camera-name">Leader 1</div>
         </div>
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://leader2-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/200x120/111/fff?text=Leader+2" alt="Leader 2" width="100%">
           <div class="camera-name">Leader 2</div>
@@ -213,22 +190,22 @@
       </div>
 
       <div class="row bottom">
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://member1-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+1" alt="Member 1" width="100%">
           <div class="camera-name">Member 1</div>
         </div>
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://member2-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+2" alt="Member 2" width="100%">
           <div class="camera-name">Member 2</div>
         </div>
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://member3-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+3" alt="Member 3" width="100%">
           <div class="camera-name">Member 3</div>
         </div>
-        <div class="camera" onclick="window.open('#', '_blank')">
+        <div class="camera" onclick="window.open('https://member4-site.com', '_blank')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+4" alt="Member 4" width="100%">
           <div class="camera-name">Member 4</div>
@@ -268,7 +245,7 @@
           loader.setAttribute('aria-busy', 'false');
           document.body.setAttribute('aria-busy', 'false');
         }, 500);
-      }, 3500); // 3.5 seconds loading time
+      }, 3500); // 3.5 seconds
     });
   </script>
 </body>
