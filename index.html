@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
-    /* --- [styles unchanged from your original] --- */
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
@@ -122,38 +121,52 @@
       color: #fff;
       text-shadow: 0 0 8px #b94dff;
     }
+
     #loader {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(135deg, #120012 0%, #240024 100%);
+      background: #000;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.6rem;
       color: #b94dff;
-      font-family: 'Orbitron', monospace, sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.15em;
-      text-shadow: 0 0 10px #b94dff;
+      text-shadow: 0 0 6px #8000ff;
       z-index: 9999;
-      user-select: none;
+      animation: flicker 0.4s infinite alternate;
     }
-    #loader .spinner {
+    #loader .text {
+      animation: glitch 0.8s infinite;
+    }
+    #loader .bar {
+      width: 140px;
+      height: 4px;
+      background: #b94dff;
+      box-shadow: 0 0 8px #b94dff;
       margin-top: 20px;
-      border: 4px solid #b94dff50;
-      border-top: 4px solid #b94dff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      filter: drop-shadow(0 0 5px #b94dff);
+      animation: pulse 1s infinite alternate;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
+    @keyframes pulse {
+      from { transform: scaleX(0.3); opacity: 0.6; }
+      to   { transform: scaleX(1); opacity: 1; }
     }
+    @keyframes flicker {
+      from { opacity: 0.95; }
+      to   { opacity: 1; }
+    }
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: translateX(1px) skewX(5deg); }
+      40% { transform: translateX(-1px) skewX(-5deg); }
+      60% { transform: none; }
+      80% { transform: translateY(-1px) skewY(3deg); }
+      100% { transform: none; }
+    }
+
     #main, #main-content {
       visibility: hidden;
       opacity: 0;
@@ -167,22 +180,24 @@
 </head>
 <body aria-busy="true">
 
+  <!-- Updated Loading Screen -->
   <div id="loader" role="alert" aria-busy="true" aria-live="assertive">
-    Booting up the security cams...
-    <div class="spinner" aria-hidden="true"></div>
+    <div class="text">Initializing Cameras...</div>
+    <div class="bar"></div>
   </div>
 
-  <div id="main" aria-hidden="true" class="hidden">
+  <!-- Main UI -->
+  <div id="main" aria-hidden="true">
     <h1>SHAMELESS Clan Camera Control Room</h1>
 
-    <div class="camera-grid" id="main-content" aria-hidden="true" class="hidden">
+    <div class="camera-grid" id="main-content" aria-hidden="true">
       <div class="row top">
-        <div class="camera" onclick="window.open('https://leader1-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://leader1-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/200x120/111/fff?text=Leader+1" alt="Leader 1" width="100%">
           <div class="camera-name">Leader 1</div>
         </div>
-        <div class="camera" onclick="window.open('https://leader2-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://leader2-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/200x120/111/fff?text=Leader+2" alt="Leader 2" width="100%">
           <div class="camera-name">Leader 2</div>
@@ -190,22 +205,22 @@
       </div>
 
       <div class="row bottom">
-        <div class="camera" onclick="window.open('https://member1-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://member1-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+1" alt="Member 1" width="100%">
           <div class="camera-name">Member 1</div>
         </div>
-        <div class="camera" onclick="window.open('https://member2-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://member2-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+2" alt="Member 2" width="100%">
           <div class="camera-name">Member 2</div>
         </div>
-        <div class="camera" onclick="window.open('https://member3-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://member3-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+3" alt="Member 3" width="100%">
           <div class="camera-name">Member 3</div>
         </div>
-        <div class="camera" onclick="window.open('https://member4-site.com', '_blank')">
+        <div class="camera" onclick="window.open('https://member4-site.com')">
           <div class="rec">● REC</div>
           <img src="https://placehold.co/250x150/111/fff?text=Member+4" alt="Member 4" width="100%">
           <div class="camera-name">Member 4</div>
@@ -215,11 +230,11 @@
 
     <div class="desk">
       <div class="social-icons">
-        <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" title="Telegram"><i class="fab fa-telegram"></i></a>
-        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" title="Discord"><i class="fab fa-discord"></i></a>
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://aparat.com" target="_blank" rel="noopener noreferrer" title="Aparat"><i class="fas fa-video"></i></a>
+        <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://telegram.org" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
+        <a href="https://discord.com" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+        <a href="https://youtube.com" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://aparat.com" target="_blank" rel="noopener"><i class="fas fa-video"></i></a>
       </div>
     </div>
   </div>
@@ -236,16 +251,13 @@
 
         setTimeout(() => {
           loader.style.display = 'none';
-          main.classList.remove('hidden');
           main.classList.add('visible');
-          mainContent.classList.remove('hidden');
           mainContent.classList.add('visible');
+          loader.setAttribute('aria-busy', 'false');
           main.setAttribute('aria-hidden', 'false');
           mainContent.setAttribute('aria-hidden', 'false');
-          loader.setAttribute('aria-busy', 'false');
-          document.body.setAttribute('aria-busy', 'false');
         }, 500);
-      }, 3000); // 3 seconds
+      }, 3100); // <- 3.1 seconds
     });
   </script>
 </body>
