@@ -207,6 +207,34 @@
       transform: translateX(0);
       pointer-events: auto;
     }
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5em;
+    margin: 20px 0;
+  }
+
+  .row.top {
+    grid-template-columns: 1fr;
+  }
+
+  .row.bottom {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .shop-button {
+    top: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+
+  .social-icons {
+    gap: 20px;
+  }
+
+  .social-icons a {
+    font-size: 1.2em;
+  }
+}
   </style>
 </head>
 <body aria-busy="true">
