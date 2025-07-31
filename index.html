@@ -176,34 +176,42 @@
       visibility: visible;
       opacity: 1;
     }
+
     .shop-button {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  background: #b94dff;
-  color: #000;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
-  box-shadow: 0 0 10px #b94dff, 0 0 20px #8000ff;
-  z-index: 10000;
-  transition: all 0.25s ease;
-}
-.shop-button:hover {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      background: #b94dff;
+      color: #000;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      box-shadow: 0 0 10px #b94dff, 0 0 20px #8000ff;
+      z-index: 10000;
+      transition: all 0.5s ease;
+      opacity: 0;
+      transform: translateX(200%);
+      pointer-events: none;
+    }
+    .shop-button:hover {
   background: #fff;
   color: #8000ff;
   box-shadow: 0 0 15px #fff, 0 0 30px #8000ff;
   transform: scale(1.05);
 }
-
+    .shop-button.visible {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body aria-busy="true">
 
-  <a href="https://yungjoking.github.io/SHAMELESS-SHOP" target="_blank" class="shop-button">SHOP</a>
+  <a href="https://yungjoking.github.io/SHAMELESS-SHOP" target="_blank" class="shop-button" id="shop-button">SHOP</a>
 
   <!-- Updated Loading Screen -->
   <div id="loader" role="alert" aria-busy="true" aria-live="assertive">
@@ -255,11 +263,11 @@
 
     <div class="desk">
       <div class="social-icons">
-        <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-        <a href="https://telegram.org" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
-        <a href="https://discord.com" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-        <a href="https://youtube.com" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-        <a href="https://aparat.com" target="_blank" rel="noopener"><i class="fas fa-video"></i></a>
+        <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://telegram.org" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
+        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://aparat.com" target="_blank"><i class="fas fa-video"></i></a>
       </div>
     </div>
   </div>
@@ -270,6 +278,7 @@
         const loader = document.getElementById('loader');
         const main = document.getElementById('main');
         const mainContent = document.getElementById('main-content');
+        const shopButton = document.getElementById('shop-button');
 
         loader.style.transition = 'opacity 0.5s ease';
         loader.style.opacity = 0;
@@ -278,11 +287,12 @@
           loader.style.display = 'none';
           main.classList.add('visible');
           mainContent.classList.add('visible');
+          shopButton.classList.add('visible');
           loader.setAttribute('aria-busy', 'false');
           main.setAttribute('aria-hidden', 'false');
           mainContent.setAttribute('aria-hidden', 'false');
         }, 500);
-      }, 3100); // <- 3.1 seconds
+      }, 3100); // Loading duration
     });
   </script>
 </body>
