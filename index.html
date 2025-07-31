@@ -176,9 +176,33 @@
       visibility: visible;
       opacity: 1;
     }
+    .shop-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #b94dff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: 'Orbitron', sans-serif;
+  text-decoration: none;
+  z-index: 10000;
+  box-shadow: 0 0 10px #b94dff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shop-button:hover {
+  background: #8c2dcc;
+  box-shadow: 0 0 15px #d96dff;
+}
+
   </style>
 </head>
 <body aria-busy="true">
+
+  <a href="https://yungjoking.github.io/SHAMELESS-SHOP" target="_blank" class="shop-button">SHOP</a>
 
   <!-- Updated Loading Screen -->
   <div id="loader" role="alert" aria-busy="true" aria-live="assertive">
